@@ -82,7 +82,7 @@
                             <h2 class="text-4xl md:text-5xl font-bold mb-4">
                                 <span class="text-white">W</span><span class="text-cyan-500">e</span>
                                 <span class="text-white">Car</span><span class="text-cyan-500">e</span>
-                            </h2>
+                </h2>
                             <p class="text-lg md:text-xl text-white mb-8">Réservez des consultations en quelques clics...</p>
 
                             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">

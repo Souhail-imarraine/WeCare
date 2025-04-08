@@ -22,11 +22,11 @@
 
             <!-- Role Selection Cards -->
             <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <!-- Doctor Button -->
-                <button onclick="window.location.href='/doctor-signup'" class="group">
+                <!-- Doctor Link -->
+                <a href="{{ route('register.doctor') }}" class="group block">
                     <div class="bg-white rounded-2xl p-8 text-center transition duration-300
                         hover:shadow-lg hover:scale-105 transform cursor-pointer border-2 border-transparent
-                        hover:border-cyan-500 focus:outline-none focus:border-cyan-500">
+                        hover:border-cyan-500 focus:outline-none focus:border-cyan-500 ring-offset-2 focus:ring-2 focus:ring-cyan-500">
                         <div class="flex justify-center mb-6">
                             <img src="{{ asset('img/doctor.svg') }}" alt="Doctor"
                                 class="w-32 h-32 object-contain transition-transform duration-300 group-hover:-rotate-6">
@@ -34,13 +34,13 @@
                         <h2 class="text-2xl font-semibold text-gray-800 mb-3">I'm a doctor</h2>
                         <p class="text-gray-600 mb-4">Stay informed about your patients' status anytime, anywhere.</p>
                     </div>
-                </button>
+                </a>
 
-                <!-- Patient Button -->
-                <button onclick="window.location.href='/patient-signup'" class="group">
+                <!-- Patient Link -->
+                <a href="{{ route('register.patient') }}" class="group block">
                     <div class="bg-white rounded-2xl p-8 text-center transition duration-300
                         hover:shadow-lg hover:scale-105 transform cursor-pointer border-2 border-transparent
-                        hover:border-cyan-500 focus:outline-none focus:border-cyan-500">
+                        hover:border-cyan-500 focus:outline-none focus:border-cyan-500 ring-offset-2 focus:ring-2 focus:ring-cyan-500">
                         <div class="flex justify-center mb-6">
                             <img src="{{ asset('img/patient.svg') }}" alt="Patient"
                                 class="w-32 h-32 object-contain transition-transform duration-300 group-hover:-rotate-6">
@@ -48,7 +48,7 @@
                         <h2 class="text-2xl font-semibold text-gray-800 mb-3">I'm a patient</h2>
                         <p class="text-gray-600 mb-4">The most complete solution in your hands</p>
                     </div>
-                </button>
+                </a>
             </div>
 
             <!-- Sign In Link -->

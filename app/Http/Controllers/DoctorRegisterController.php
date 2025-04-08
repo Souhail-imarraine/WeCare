@@ -13,7 +13,7 @@ class DoctorRegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('register_doctor');
+        return view('auth.register_doctor');
     }
 
     public function register(Request $request)
