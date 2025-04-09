@@ -1,18 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Top Bar with User Info -->
+    <!-- Top Bar with Dashboard Title and User Info -->
     <header class="bg-white shadow-sm mb-8 rounded-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-end items-center h-16">
+            <div class="flex justify-between items-center h-16">
+                <!-- Dashboard Title -->
+                <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+
                 <!-- User Avatar and Name -->
                 <div class="flex items-center">
                     <div class="ml-3 relative">
                         <div class="flex items-center">
-                            <span class="text-sm font-medium text-gray-700 mr-2">Charles Deo</span>
+                            <span class="text-sm font-medium text-gray-700 mr-2">{{ Auth::user()->first_name ?? 'Doctor' }} {{ Auth::user()->last_name ?? '' }}</span>
                             <button class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                                {{-- Placeholder Avatar - Replace with actual user avatar if available --}}
+                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User Avatar">
                             </button>
                         </div>
                         {{-- Dropdown menu (hidden for now) --}}
@@ -29,9 +33,6 @@
 
     <!-- Main Dashboard Content -->
     <div class="space-y-8">
-        <!-- Dashboard Title -->
-        <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
-
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Card 1: Consultation Today -->
@@ -81,10 +82,71 @@
             <!-- Today's Appointments (Left Side) -->
             <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Today's Appointments</h2>
-                {{-- Placeholder for appointments list/table --}}
-                <div class="text-center text-gray-500 py-10">
-                    No appointments scheduled for today.
-                    {{-- Or display a table/list of appointments here --}}
+
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Patient</th>
+                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Start Time</th>
+                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">End Time</th>
+                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <!-- Example Row 1 -->
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <img class="h-8 w-8 rounded-full object-cover mr-3" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=48&h=48&q=80" alt="Patient Avatar">
+                                        <span>Emilia Clarke</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">10:15 AM</td>
+                                <td class="py-3 px-4">10:45 AM</td>
+                                <td class="py-3 px-4">
+                                    <button class="bg-cyan-500 text-white py-1 px-4 rounded-md text-sm font-medium hover:bg-cyan-600 transition duration-200 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        Go
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Example Row 2 -->
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <img class="h-8 w-8 rounded-full object-cover mr-3" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=48&h=48&q=80" alt="Patient Avatar">
+                                        <span>Emilia Clarke</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">10:50 AM</td>
+                                <td class="py-3 px-4">11:20 AM</td>
+                                <td class="py-3 px-4">
+                                    <button class="bg-gray-200 text-gray-600 py-1 px-4 rounded-md text-sm font-medium hover:bg-gray-300 transition duration-200 flex items-center cursor-not-allowed">
+                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        Start
+                                    </button>
+                                </td>
+                            </tr>
+                             <!-- Example Row 3 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center">
+                                        <img class="h-8 w-8 rounded-full object-cover mr-3" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=48&h=48&q=80" alt="Patient Avatar">
+                                        <span>Emilia Clarke</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">10:50 AM</td>
+                                <td class="py-3 px-4">11:20 AM</td>
+                                <td class="py-3 px-4">
+                                    <button class="bg-gray-200 text-gray-600 py-1 px-4 rounded-md text-sm font-medium hover:bg-gray-300 transition duration-200 flex items-center cursor-not-allowed">
+                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        Start
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

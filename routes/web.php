@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\DoctorRegisterController;
 use App\Http\Controllers\PatientRegisterController;
-use App\Http\Controllers\Doctor\DoctorDashboardController;
 use App\Http\Controllers\DoctorRegisterController;
+use App\Http\Controllers\Auth\loginController;
+use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,9 +27,7 @@ Route::get('/register_patient', function(){
     return view('auth.patient_register');
 });
 
-Route::get('/login', function(){
-    return view('auth.login');
-});
+Route::get('/login', [loginController::class, 'login'])->name('login');
 
 
 Route::get('/register-doctor', [DoctorRegisterController::class, 'showRegistrationForm'])->name('register.doctor');
@@ -38,6 +37,9 @@ Route::get('/register-patient', [PatientRegisterController::class, 'showRegistra
 Route::post('/register-patient', [PatientRegisterController::class, 'register'])->name('register.patient.submit');
 
 
-Route::get('/doctor/dashboard', [DoctorDashboardController::class, 'index'])
-->middleware(['auth', 'role:doctor'])
-->name('doctor.dashboard');
+// Route::get('/doctor/dashboard', [App\Http\Controllers\DoctorDashboardController::class, 'index'])->name('doctor.dashboard');
+
+Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DoctorDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/requests', [App\Http\Controllers\DoctorDashboardController::class, 'showRequests'])->name('requests');
+});

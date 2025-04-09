@@ -1,5 +1,7 @@
 <!-- Sidebar -->
-<div class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 lg:static lg:translate-x-0 transform -translate-x-full transition-transform duration-200 ease-in-out">
+<div id="sidebar"
+    class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 lg:static lg:translate-x-0 transform -translate-x-full transition-transform duration-200 ease-in-out"
+>
     <!-- Sidebar header -->
     <div class="h-16 px-4 flex items-center justify-between border-b border-gray-200">
         <a href="/" class="flex items-center">
@@ -8,12 +10,23 @@
                 <span class="text-gray-800 ml-0.5">Car</span><span class="text-cyan-500">e</span>
             </h1>
         </a>
+        <!-- Close button (visible on mobile) -->
+        <button
+            class="text-gray-500 hover:text-gray-600 lg:hidden"
+            id="sidebar-close"
+        >
+            <span class="sr-only">Close sidebar</span>
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.707 4.293a.999.999 0 10-1.414 1.414L11.414 12l6.879 6.879a.999.999 0 101.414-1.414L12.828 12l6.879-6.293a.999.999 0 000-1.414z" />
+                <path d="M4.293 4.293a.999.999 0 00-1.414 1.414L9.464 12 2.586 18.879a.999.999 0 101.414 1.414L11.172 12 4.293 5.707a.999.999 0 00-1.414-1.414z" />
+            </svg>
+        </button>
     </div>
 
     <!-- Navigation -->
     <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
-        <a href="#" class="flex items-center px-2 py-2 text-sm font-medium rounded-md text-white bg-cyan-600 group">
-            <svg class="w-6 h-6 mr-3 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <a href="{{ route('doctor.dashboard') }}" class="flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('doctor.dashboard') ? 'text-white bg-cyan-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }} group">
+            <svg class="w-6 h-6 mr-3 {{ request()->routeIs('doctor.dashboard') ? 'text-cyan-300' : 'text-gray-400 group-hover:text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
             </svg>
             Dashboard
@@ -26,8 +39,8 @@
             Appointments
         </a>
 
-        <a href="#" class="flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 group">
-             <svg class="w-6 h-6 mr-3 text-gray-400 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <a href="{{ route('doctor.requests') }}" class="flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('doctor.requests') ? 'text-white bg-cyan-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' }} group">
+             <svg class="w-6 h-6 mr-3 {{ request()->routeIs('doctor.requests') ? 'text-cyan-300' : 'text-gray-400 group-hover:text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             Requests

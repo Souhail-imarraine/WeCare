@@ -54,7 +54,7 @@ class DoctorRegisterController extends Controller
             DB::commit();
             Auth::login($user);
 
-            return redirect('/dashboard')->with('success', 'Registration successful! Your account is pending verification.');
+            return redirect()->route('doctor.dashboard')->with('success', 'Registration successful! Welcome to your dashboard.');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withErrors(['error' => 'Registration failed. Please try again.'])->withInput();
