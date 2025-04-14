@@ -4,58 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - WeCare</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen flex flex-col md:flex-row m-5">
+<body>
+    <div class="login-container">
         <!-- Left Side - Form -->
-        <div class="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
+        <div class="form-section">
             <!-- Logo -->
-            <div class="mb-12">
-                <h1 class="text-2xl font-bold flex items-center space-x-0">
-                    <span class="text-gray-800">W</span>
-                    <span class="text-cyan-500">e</span>
-                    <span class="text-gray-800 ml-1">Car</span>
-                    <span class="text-cyan-500">e</span>
+            <div class="logo">
+                <h1>
+                    <span>W</span>
+                    <span class="cyan">e</span>
+                    <span class="ml-1">Car</span>
+                    <span class="cyan">e</span>
                 </h1>
             </div>
 
             <!-- Form Container -->
-            <div class="max-w-md w-full mx-auto">
-                <div class="mb-10">
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">Login to your account</h2>
-                    <p class="text-gray-600 text-sm">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h2>Login to your account</h2>
+                    <p>
                         Don't have account?
-                        <a href="/register" class="text-cyan-500 hover:text-cyan-600">Sign up</a>
+                        <a href="/register">Sign up</a>
                     </p>
                 </div>
 
                 <!-- Login Form -->
-                <form action="/login" method="POST" class="space-y-6">
+                <form action="/login" method="POST">
                     @csrf
                     <!-- Email -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <div class="form-group">
+                        <label for="email">Email</label>
                         <input type="email"
                             id="email"
                             name="email"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500"
                             placeholder="••••••••••">
                     </div>
-                    
+
                     <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="form-group">
+                        <label for="password">Password</label>
                         <input type="password"
                             id="password"
                             name="password"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500"
                             placeholder="••••••••">
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit"
-                        class="w-full bg-cyan-500 text-white py-2 px-4 rounded-md hover:bg-cyan-600 transition duration-300">
+                    <button type="submit" class="submit-btn">
                         Login
                     </button>
                 </form>
@@ -63,11 +60,9 @@
         </div>
 
         <!-- Right Side - Image -->
-        <div class="hidden md:block md:w-1/2 bg-white m-5">
+        <div class="image-section">
             <img src="{{ asset('img/register.svg') }}"
-                alt="Login illustration"
-                class="w-full h-full object-cover"
-                style="max-height: 100vh;">
+                alt="Login illustration">
         </div>
     </div>
 </body>

@@ -1,0 +1,161 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9fafb;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Logo */
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.logo span {
+    color: #1f2937;
+}
+
+.logo span.cyan {
+    color: #06b6d4;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.main-content h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .main-content h2 {
+        font-size: 1.875rem;
+    }
+}
+
+/* Role Selection Cards */
+.role-grid {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .role-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.role-card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-decoration: none;
+    display: block;
+}
+
+.role-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: #06b6d4;
+}
+
+.role-card:focus {
+    outline: none;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 2px #06b6d4;
+}
+
+.role-card .image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.role-card img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
+
+.role-card:hover img {
+    transform: rotate(-6deg);
+}
+
+.role-card h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+}
+
+.role-card p {
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+/* Sign In Link */
+.sign-in {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sign-in p {
+    color: #4b5563;
+}
+
+.sign-in a {
+    color: #06b6d4;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sign-in a:hover {
+    color: #0891b2;
+}
+
+/* Terms and Privacy */
+.terms {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.terms a {
+    color: #06b6d4;
+    text-decoration: none;
+}
+
+.terms a:hover {
+    color: #0891b2;
+}
