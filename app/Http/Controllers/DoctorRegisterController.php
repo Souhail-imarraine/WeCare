@@ -26,6 +26,7 @@ class DoctorRegisterController extends Controller
             'consultation_price' => 'required|numeric|min:0',
             'years_experience' => 'required|numeric|min:0',
             'license_number' => 'required|string|unique:doctors',
+            'city' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -48,6 +49,7 @@ class DoctorRegisterController extends Controller
                 'consultation_price' => $request->consultation_price,
                 'years_experience' => $request->years_experience,
                 'license_number' => $request->license_number,
+                'city' => $request->city,
                 'is_verified' => false
             ]);
 

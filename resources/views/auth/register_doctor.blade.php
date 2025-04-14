@@ -105,6 +105,13 @@
                             placeholder="••••••••" required>
                     </div>
 
+                    <!-- City -->
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" value="{{ old('city') }}"
+                            placeholder="e.g New York" required>
+                    </div>
+
                     <!-- Submit Button -->
                     <button type="submit" class="submit-btn">
                         Create an account

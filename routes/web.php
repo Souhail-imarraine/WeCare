@@ -6,6 +6,7 @@ use App\Http\Controllers\PatientRegisterController;
 use App\Http\Controllers\DoctorRegisterController;
 use App\Http\Controllers\DoctorDashboardController;
 use App\Http\Controllers\Auth\loginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
@@ -43,4 +44,10 @@ Route::post('/register-patient', [PatientRegisterController::class, 'register'])
 Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->group(function () {
     Route::get('/dashboard', [DoctorDashboardController::class, 'index'])->name('dashboard');
     Route::get('/requests', [DoctorDashboardController::class, 'showRequests'])->name('requests');
+    Route::get('/profile', [DoctorDashboardController::class, 'showProfile'])->name('profile');
+    Route::get('/settings', [DoctorDashboardController::class, 'showSettings'])->name('settings');
+    Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
 });
+
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::get('/logout', [LogoutController::class, 'showLogoutPage'])->name('auth.logout');

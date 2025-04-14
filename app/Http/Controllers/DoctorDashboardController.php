@@ -15,6 +15,22 @@ class DoctorDashboardController extends Controller
         return view('doctor.dashboard', compact('doctor'));
     }
 
+    public function showProfile()
+    {
+        $doctor = Doctor::where('user_id', Auth::id())->first();
+        return view('doctor.profile', compact('doctor'));
+    }
+    public function showSettings()
+    {
+        $doctor = Doctor::where('user_id', Auth::id())->first();
+        return view('doctor.settings', compact('doctor'));
+    }
+    public function showAppointments()
+    {
+        $doctor = Doctor::where('user_id', Auth::id())->first();
+        return view('doctor.appointments', compact('doctor'));
+    }
+
     public function showRequests()
     {
         // Fetch pending appointment requests for the logged-in doctor
@@ -27,8 +43,4 @@ class DoctorDashboardController extends Controller
 
         return view('doctor.requests', compact('requests'));
     }
-
-    // You would add methods here to accept/reject requests
-    // public function acceptRequest(Request $request, AppointmentRequest $appointmentRequest) { ... }
-    // public function rejectRequest(Request $request, AppointmentRequest $appointmentRequest) { ... }
 }
