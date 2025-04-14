@@ -12,12 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('appointment_requests', function (Blueprint $table) {
-            $table->id(); // Primary Key (unsigned big integer)
-
-            // Foreign Keys
+            $table->id();
             $table->foreignId('patient_id')->constrained('users')->onDelete('cascade'); // Assuming patients are in the 'users' table
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade'); // Assuming doctors are in the 'doctors' table
-
             // Request Details
             $table->string('status')->default('pending')->index(); // e.g., pending, accepted, rejected, cancelled
             $table->text('reason')->nullable();
@@ -25,7 +22,7 @@ return new class extends Migration
             $table->string('preferred_time_range')->nullable(); // e.g., morning, afternoon, end_of_week
             $table->string('appointment_type')->nullable()->default('online'); // e.g., online, in_person
 
-            $table->timestamps(); // created_at and updated_at
+            $table->timestamps();
         });
     }
 

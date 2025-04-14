@@ -30,11 +30,11 @@
     <!-- Requests Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        @forelse ($requests as $request)
+        {{-- @forelse ($requests as $request) --}}
             <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col justify-between">
                 <div>
                     <!-- Request Date -->
-                    <p class="text-sm text-gray-500 mb-1">{{ $request->created_at->format('d-m-Y') }}</p>
+                    <p class="text-sm text-gray-500 mb-1">{{--  --}}</p>
 
                     <!-- Appointment Type -->
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Online Appointment</h3>
@@ -42,26 +42,26 @@
                     <!-- Patient Info -->
                     <div class="flex items-center mb-3">
                         <img class="h-6 w-6 rounded-full object-cover mr-2"
-                             src="{{ $request->patient->user->profile_photo_url ?? 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=48&h=48&q=80' }}"
+                             src="{{--  --}}"
                              alt="Patient Avatar">
-                        <span class="text-sm font-medium text-gray-700">{{ $request->patient->user->first_name ?? 'Patient' }} {{ $request->patient->user->last_name ?? '' }}</span>
+                        <span class="text-sm font-medium text-gray-700">{{--  --}} {{--  --}}</span>
                     </div>
 
                     <!-- Description/Reason (Optional - from image) -->
                     <p class="text-sm text-gray-600 mb-4 leading-relaxed">
-                        {{ $request->reason ?? 'I diagnose and treat allergies and immune system disorders, helping patients manage symptoms and improve their quality of life.' }}
+                        {{--  --}}
                     </p>
 
                     <!-- Consultation Duration -->
                     <div class="flex items-center text-sm text-gray-600 mb-2">
                         <svg class="w-4 h-4 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Consult Duration: <span class="font-medium text-gray-800 ml-1">{{ $request->consult_duration ?? '6 min' }}</span>
+                        Consult Duration: <span class="font-medium text-gray-800 ml-1">{{--  --}}</span>
                     </div>
 
                     <!-- Preferred Time Range -->
                     <div class="flex items-center text-sm text-gray-600 mb-4">
                          <svg class="w-4 h-4 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        Preferred Time Range: <span class="font-medium text-gray-800 ml-1">{{ $request->preferred_time_range ?? 'end_of_week' }}</span>
+                        Preferred Time Range: <span class="font-medium text-gray-800 ml-1">{{--  --}}</span>
                     </div>
                 </div>
 
@@ -85,11 +85,11 @@
                     </form>
                 </div>
             </div>
-        @empty
+        {{-- @empty
             <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center text-gray-500">
                 No pending requests found.
             </div>
-        @endforelse
+        @endforelse --}}
 
     </div>
 @endsection

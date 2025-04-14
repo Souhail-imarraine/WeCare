@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\DoctorRegisterController;
 use App\Http\Controllers\PatientRegisterController;
 use App\Http\Controllers\DoctorRegisterController;
+use App\Http\Controllers\DoctorDashboardController;
 use App\Http\Controllers\Auth\loginController;
 use App\Http\Middleware\RoleMiddleware;
 
@@ -40,6 +41,6 @@ Route::post('/register-patient', [PatientRegisterController::class, 'register'])
 // Route::get('/doctor/dashboard', [App\Http\Controllers\DoctorDashboardController::class, 'index'])->name('doctor.dashboard');
 
 Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\DoctorDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/requests', [App\Http\Controllers\DoctorDashboardController::class, 'showRequests'])->name('requests');
+    Route::get('/dashboard', [DoctorDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/requests', [DoctorDashboardController::class, 'showRequests'])->name('requests');
 });

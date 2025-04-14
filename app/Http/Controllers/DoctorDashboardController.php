@@ -9,19 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class DoctorDashboardController extends Controller
 {
-    public function __construct()
-    {
-        // Middleware applied in routes/web.php now
-        // $this->middleware(['auth', 'role:doctor']);
-    }
-
     public function index()
     {
         $doctor = Doctor::where('user_id', Auth::id())->first();
         return view('doctor.dashboard', compact('doctor'));
     }
 
-    // New method to show appointment requests
     public function showRequests()
     {
         // Fetch pending appointment requests for the logged-in doctor
