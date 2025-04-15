@@ -19,7 +19,7 @@ Route::get('/home', function () {
 
 Route::get('/chose', function () {
     return view('auth.chose');
-});
+})->name('chose');
 
 Route::get('/register', function(){
     return view('auth.register_doctor');

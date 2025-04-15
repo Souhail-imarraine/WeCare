@@ -29,13 +29,12 @@
 
             <!-- Auth Buttons -->
             <div class="hidden md:flex space-x-4">
-                <button class="px-6 py-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition duration-300">
+                <a href="{{ route('chose') }}" class="px-6 py-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition duration-300">
                     Signup
-                </button>
-                <button
-                    class="px-6 py-2 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100 transition duration-300">
+                </a>
+                <a href="{{ route('login') }}" class="px-6 py-2 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100 transition duration-300">
                     Login
-                </button>
+                </a>
             </div>
 
             <!-- Mobile Menu Button -->
