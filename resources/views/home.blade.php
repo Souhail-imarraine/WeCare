@@ -1,4 +1,4 @@
-@extends('layouts.app-welcome')
+@extends('layouts.app')
 
 @section('title', 'WeCare | Home')
 
