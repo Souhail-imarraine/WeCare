@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('gender', ['male', 'female', 'other']);
-            $table->integer('height')->nullable(); // Height in cm
-            $table->integer('weight')->nullable(); // Weight in kg
+            $table->integer('height')->nullable();
+            $table->integer('weight')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'other', 'unknown'])->nullable();
             $table->timestamps();

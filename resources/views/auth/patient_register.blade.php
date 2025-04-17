@@ -29,7 +29,7 @@
                 </div>
 
                 <!-- Registration Form -->
-                <form action="/patient-register" method="POST">
+                <form action="{{ route('register.patient') }}" method="POST">
                     @csrf
                     <!-- Name Fields Row -->
                     <div class="form-grid">

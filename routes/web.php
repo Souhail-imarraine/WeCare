@@ -7,6 +7,8 @@ use App\Http\Controllers\DoctorRegisterController;
 use App\Http\Controllers\DoctorDashboardController;
 use App\Http\Controllers\Auth\loginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PatientDashboardController;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
@@ -46,7 +48,7 @@ Route::get('/register-doctor', [DoctorRegisterController::class, 'showRegistrati
 Route::post('/register-doctor', [DoctorRegisterController::class, 'register'])->name('register.doctor.submit');
 
 Route::get('/register-patient', [PatientRegisterController::class, 'showRegistrationForm'])->name('register.patient');
-Route::post('/register-patient', [PatientRegisterController::class, 'register'])->name('register.patient.submit');
+Route::post('/register-patient', [PatientController::class, 'register'])->name('register.patient');
 
 
 // Route::get('/doctor/dashboard', [App\Http\Controllers\DoctorDashboardController::class, 'index'])->name('doctor.dashboard');
@@ -58,5 +60,10 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::get('/settings', [DoctorDashboardController::class, 'showSettings'])->name('settings');
     Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
 });
+
+Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
+    // Route::get('/dashboard', [PatientDashboardController::class, 'index'])->name('dashboard');
+});
+
 
 
