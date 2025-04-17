@@ -8,7 +8,7 @@
 
         <!-- Navigation Links -->
         <div class="hidden md:flex space-x-8 border border-gray-200 rounded-lg px-6 py-2 shadow-sm">
-            <a href="{{ route('home') }}" class="text-black font-medium hover:text-cyan-600">Home</a>
+            <a href="{{ route('welcome') }}" class="text-black font-medium hover:text-cyan-600">Home</a>
             <a href="{{ route('about') }}" class="text-black font-medium hover:text-cyan-500">About us</a>
             <a href="{{ route('contact') }}" class="text-black font-medium hover:text-cyan-500">Contact</a>
         </div>

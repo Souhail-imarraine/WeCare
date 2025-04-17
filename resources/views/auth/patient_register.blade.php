@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Registration - WeCare</title>
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+
 </head>
 <body>
     <div class="register-container">
@@ -52,14 +53,6 @@
                         <input type="email" id="email" name="email"
                             placeholder="e.g jhondo@gmail.com">
                     </div>
-
-                    <!-- Display Name -->
-                    <div class="form-group">
-                        <label for="display_name">Display Name</label>
-                        <input type="text" id="display_name" name="display_name"
-                            placeholder="e.g Bonnie">
-                    </div>
-
                     <!-- Gender Selection -->
                     <div class="form-group">
                         <label>Gender</label>
@@ -72,6 +65,78 @@
                                 <input type="radio" name="gender" value="female">
                                 Female
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Physical Information -->
+                    <div class="form-grid">
+                        <!-- Height -->
+                        <div class="form-group">
+                            <label for="height">Height (cm) <span class="text-cyan-500 text-sm">(Enter 0 if unknown)</span></label>
+                            <input type="number" id="height" name="height"
+                                placeholder="e.g 175" min="0" max="250">
+                        </div>
+                        <!-- Weight -->
+                        <div class="form-group">
+                            <label for="weight">Weight (kg) <span class="text-gray-500 text-sm">(Enter 0 if unknown)</span></label>
+                            <input type="number" id="weight" name="weight"
+                                placeholder="e.g 70" min="0" max="300">
+                        </div>
+                    </div>
+
+                    <!-- Birthday -->
+                    <div class="form-group">
+                        <label for="birthday">Birthday</label>
+                        <input type="date" id="birthday" name="birthday"
+                            max="{{ date('Y-m-d') }}">
+                    </div>
+
+                    <!-- Blood Type -->
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <div class="blood-type-section">
+                            <div class="blood-type-grid">
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('A+')">
+                                    <input type="radio" name="blood_type" value="A+">
+                                    A+
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('A-')">
+                                    <input type="radio" name="blood_type" value="A-">
+                                    A-
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('B+')">
+                                    <input type="radio" name="blood_type" value="B+">
+                                    B+
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('B-')">
+                                    <input type="radio" name="blood_type" value="B-">
+                                    B-
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('AB+')">
+                                    <input type="radio" name="blood_type" value="AB+">
+                                    AB+
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('AB-')">
+                                    <input type="radio" name="blood_type" value="AB-">
+                                    AB-
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('O+')">
+                                    <input type="radio" name="blood_type" value="O+">
+                                    O+
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('O-')">
+                                    <input type="radio" name="blood_type" value="O-">
+                                    O-
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('other')">
+                                    <input type="radio" name="blood_type" value="other">
+                                    Other
+                                </button>
+                                <button type="button" class="blood-type-btn" onclick="setBloodType('unknown')">
+                                    <input type="radio" name="blood_type" value="unknown">
+                                    Don't know
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -111,6 +176,20 @@
 
             // Update button styles
             const buttons = document.querySelectorAll('.gender-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add active style to selected button
+            event.currentTarget.classList.add('active');
+        }
+
+        function setBloodType(type) {
+            // Set the radio button
+            document.querySelector(`input[value="${type}"]`).checked = true;
+
+            // Update button styles
+            const buttons = document.querySelectorAll('.blood-type-btn');
             buttons.forEach(button => {
                 button.classList.remove('active');
             });

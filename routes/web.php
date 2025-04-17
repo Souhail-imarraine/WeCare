@@ -11,11 +11,11 @@ use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-Route::get('/home', function () {
-    return view('index');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('index');
+// })->name('home');
 
 Route::get('/about', function () {
     return view('about');
@@ -28,6 +28,12 @@ Route::get('/chose', function () {
     return view('auth.chose');
 })->name('chose');
 
+Route::get('/login', [loginController::class, 'login'])->name('login');
+
+// Logout Routes
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::post('/logout', [LogoutController::class, 'logout'])->name('auth.logout');
+
 Route::get('/register', function(){
     return view('auth.register_doctor');
 });
@@ -35,9 +41,6 @@ Route::get('/register', function(){
 Route::get('/register_patient', function(){
     return view('auth.patient_register');
 });
-
-Route::get('/login', [loginController::class, 'login'])->name('login');
-
 
 Route::get('/register-doctor', [DoctorRegisterController::class, 'showRegistrationForm'])->name('register.doctor');
 Route::post('/register-doctor', [DoctorRegisterController::class, 'register'])->name('register.doctor.submit');
@@ -56,5 +59,4 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
 });
 
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-Route::get('/logout', [LogoutController::class, 'showLogoutPage'])->name('auth.logout');
+
