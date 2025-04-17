@@ -27,131 +27,129 @@
                         <a href="/login">Login</a>
                     </p>
                 </div>
-
                 <!-- Registration Form -->
-                <form action="{{ route('register.patient') }}" method="POST">
+                <form action="{{ route('patient.register') }}" method="POST">
                     @csrf
                     <!-- Name Fields Row -->
                     <div class="form-grid">
                         <!-- First Name -->
-                        <div class="form-group">
+                        <div class="form-group @error('first_name') has-error @enderror">
                             <label for="first_name">First name</label>
                             <input type="text" id="first_name" name="first_name"
-                                placeholder="e.g John">
+                                placeholder="e.g John" required value="{{ old('first_name') }}">
+                            @error('first_name')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!-- Last Name -->
-                        <div class="form-group">
+                        <div class="form-group @error('last_name') has-error @enderror">
                             <label for="last_name">Last name</label>
                             <input type="text" id="last_name" name="last_name"
-                                placeholder="e.g Doe">
+                                placeholder="e.g Doe" required value="{{ old('last_name') }}">
+                            @error('last_name')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- Email -->
-                    <div class="form-group">
+                    <div class="form-group @error('email') has-error @enderror">
                         <label for="email">Email address</label>
                         <input type="email" id="email" name="email"
-                            placeholder="e.g jhondo@gmail.com">
+                            placeholder="e.g jhondo@gmail.com" required value="{{ old('email') }}">
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
                     <!-- Gender Selection -->
-                    <div class="form-group">
+                    <div class="form-group @error('gender') has-error @enderror">
                         <label>Gender</label>
                         <div class="gender-buttons">
-                            <button type="button" class="gender-btn" onclick="setGender('male')">
-                                <input type="radio" name="gender" value="male">
+                            <button type="button" class="gender-btn @if(old('gender') == 'male') active @endif" onclick="setGender('male')">
+                                <input type="radio" name="gender" value="male" @if(old('gender') == 'male') checked @endif>
                                 Male
                             </button>
-                            <button type="button" class="gender-btn" onclick="setGender('female')">
-                                <input type="radio" name="gender" value="female">
+                            <button type="button" class="gender-btn @if(old('gender') == 'female') active @endif" onclick="setGender('female')">
+                                <input type="radio" name="gender" value="female" @if(old('gender') == 'female') checked @endif>
                                 Female
                             </button>
                         </div>
+                        @error('gender')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Physical Information -->
                     <div class="form-grid">
                         <!-- Height -->
-                        <div class="form-group">
+                        <div class="form-group @error('height') has-error @enderror">
                             <label for="height">Height (cm) <span class="text-cyan-500 text-sm">(Enter 0 if unknown)</span></label>
                             <input type="number" id="height" name="height"
-                                placeholder="e.g 175" min="0" max="250">
+                                placeholder="e.g 175" min="0" max="250" value="{{ old('height') }}">
+                            @error('height')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
                         </div>
                         <!-- Weight -->
-                        <div class="form-group">
-                            <label for="weight">Weight (kg) <span class="text-gray-500 text-sm">(Enter 0 if unknown)</span></label>
+                        <div class="form-group @error('weight') has-error @enderror">
+                            <label for="weight">Weight (kg) <span class="text-cyan-500 text-sm">(Enter 0 if unknown)</span></label>
                             <input type="number" id="weight" name="weight"
-                                placeholder="e.g 70" min="0" max="300">
+                                placeholder="e.g 70" min="0" max="300" value="{{ old('weight') }}">
+                            @error('weight')
+                                <span class="error-message">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- Birthday -->
-                    <div class="form-group">
+                    <div class="form-group @error('birthday') has-error @enderror">
                         <label for="birthday">Birthday</label>
                         <input type="date" id="birthday" name="birthday"
-                            max="{{ date('Y-m-d') }}">
+                            max="{{ date('Y-m-d') }}" value="{{ old('birthday') }}">
+                        @error('birthday')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Blood Type -->
-                    <div class="form-group">
+                    <div class="form-group @error('blood_type') has-error @enderror">
                         <label>Blood Type</label>
                         <div class="blood-type-section">
                             <div class="blood-type-grid">
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('A+')">
-                                    <input type="radio" name="blood_type" value="A+">
-                                    A+
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('A-')">
-                                    <input type="radio" name="blood_type" value="A-">
-                                    A-
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('B+')">
-                                    <input type="radio" name="blood_type" value="B+">
-                                    B+
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('B-')">
-                                    <input type="radio" name="blood_type" value="B-">
-                                    B-
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('AB+')">
-                                    <input type="radio" name="blood_type" value="AB+">
-                                    AB+
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('AB-')">
-                                    <input type="radio" name="blood_type" value="AB-">
-                                    AB-
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('O+')">
-                                    <input type="radio" name="blood_type" value="O+">
-                                    O+
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('O-')">
-                                    <input type="radio" name="blood_type" value="O-">
-                                    O-
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('other')">
-                                    <input type="radio" name="blood_type" value="other">
-                                    Other
-                                </button>
-                                <button type="button" class="blood-type-btn" onclick="setBloodType('unknown')">
-                                    <input type="radio" name="blood_type" value="unknown">
-                                    Don't know
-                                </button>
+                                @php
+                                    $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'other', 'unknown'];
+                                @endphp
+                                @foreach($bloodTypes as $type)
+                                    <button type="button" class="blood-type-btn @if(old('blood_type') == $type) active @endif" onclick="setBloodType('{{ $type }}')">
+                                        <input type="radio" name="blood_type" value="{{ $type }}" @if(old('blood_type') == $type) checked @endif>
+                                        {{ $type }}
+                                    </button>
+                                @endforeach
                             </div>
                         </div>
+                        @error('blood_type')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Password -->
-                    <div class="form-group">
+                    <div class="form-group @error('password') has-error @enderror">
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password"
-                            placeholder="••••••••">
+                            placeholder="••••••••" required>
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Confirm Password -->
-                    <div class="form-group">
+                    <div class="form-group @error('password_confirmation') has-error @enderror">
                         <label for="password_confirmation">Confirm Password</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
-                            placeholder="••••••••">
+                            placeholder="••••••••" required>
+                        @error('password_confirmation')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Submit Button -->

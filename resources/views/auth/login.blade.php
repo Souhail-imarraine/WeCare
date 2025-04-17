@@ -8,52 +8,86 @@
 </head>
 <body>
     <div class="login-container">
-        <!-- Left Side - Form -->
         <div class="form-section">
             <!-- Logo -->
             <div class="logo">
                 <h1>
-                    <span>W</span>
-                    <span class="cyan">e</span>
-                    <span class="ml-1">Car</span>
-                    <span class="cyan">e</span>
+                    <span>W</span><span class="cyan">e</span>
+                    <span>Car</span><span class="cyan">e</span>
                 </h1>
             </div>
 
             <!-- Form Container -->
             <div class="form-wrapper">
                 <div class="form-header">
-                    <h2>Login to your account</h2>
+                    <h2>Welcome Back</h2>
                     <p>
-                        Don't have account?
-                        <a href="/register">Sign up</a>
+                        Don't have an account?
+                        <a href="{{ route('chose') }}">Register</a>
                     </p>
                 </div>
 
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <!-- Login Form -->
-                <form action="/login" method="POST">
+                <form action="{{ route('login') }}" method="POST">
                     @csrf
+
+                    <!-- Role Selection -->
+                    <div class="form-group @error('role') has-error @enderror">
+                        <label for="role">I am a</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select your role</option>
+                            <option value="doctor" @if(old('role') == 'doctor') selected @endif>Doctor</option>
+                            <option value="patient" @if(old('role') == 'patient') selected @endif>Patient</option>
+                        </select>
+                        @error('role')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email"
-                            id="email"
-                            name="email"
-                            placeholder="••••••••••">
+                    <div class="form-group @error('email') has-error @enderror">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" name="email"
+                            placeholder="e.g john@example.com" required value="{{ old('email') }}">
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Password -->
-                    <div class="form-group">
+                    <div class="form-group @error('password') has-error @enderror">
                         <label for="password">Password</label>
-                        <input type="password"
-                            id="password"
-                            name="password"
-                            placeholder="••••••••">
+                        <input type="password" id="password" name="password"
+                            placeholder="••••••••" required>
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember" id="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" class="submit-btn">
-                        Login
+                        Sign In
                     </button>
                 </form>
             </div>
@@ -61,8 +95,8 @@
 
         <!-- Right Side - Image -->
         <div class="image-section">
-            <img src="{{ asset('img/register.svg') }}"
-                alt="Login illustration">
+            <img src="{{ asset('public/img/login.svg') }}"
+                alt="Medical illustration">
         </div>
     </div>
 </body>

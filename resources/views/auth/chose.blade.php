@@ -32,7 +32,7 @@
                 </a>
 
                 <!-- Patient Link -->
-                <a href="{{ route('register.patient') }}" class="role-card">
+                <a href="{{ route('patient.register.form') }}" class="role-card">
                     <div class="image-container">
                         <img src="{{ asset('img/patient.svg') }}" alt="Patient">
                     </div>
