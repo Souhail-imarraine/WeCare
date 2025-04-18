@@ -13,8 +13,6 @@
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    {{-- Include Chart.js if you plan to use it --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
 
     <style>
         /* Custom scrollbar (optional) */

@@ -62,5 +62,5 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
 });
 
 Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
-    // Route::get('/dashboard', [PatientDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [PatientDashboardController::class, 'index'])->name('dashboard');
 });

@@ -20,7 +20,7 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required|in:doctor,patient'
+            'role' => 'required|in:doctor,patient',
         ]);
 
         if ($validator->fails()) {
@@ -29,29 +29,46 @@ class LoginController extends Controller
                 ->withInput();
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->back()
-                ->with('error', 'Invalid login credentials')
-                ->withInput();
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            // Check if the user's role matches the selected role
+            if ($user->role !== $request->role) {
+                Auth::logout();
+                return redirect()->back()
+                    ->with('error', 'Invalid role selected.')
+                    ->withInput();
+            }
+
+            // If the user is a doctor, check their status
+            if ($user->role === 'doctor') {
+                $doctor = $user->doctor;
+
+                if ($doctor->status === 'pending') {
+                    Auth::logout();
+                    return redirect()->back()
+                        ->with('error', 'Your account is still pending approval. Please wait for admin verification.')
+                        ->withInput();
+                } elseif ($doctor->status === 'rejected') {
+                    Auth::logout();
+                    return redirect()->back()
+                        ->with('error', 'Your account has been rejected. Please contact support for more information.')
+                        ->withInput();
+                }
+            }
+
+            // Redirect based on role
+            if ($user->role === 'doctor') {
+                return redirect()->route('doctor.dashboard');
+            } else {
+                return redirect()->route('patient.dashboard');
+            }
         }
 
-        $user = Auth::user();
-
-        // Check if user role matches selected role
-        if ($user->role !== $request->role) {
-            Auth::logout();
-            return redirect()->back()
-                ->with('error', 'Access denied. This account is not a ' . $request->role . ' account.')
-                ->withInput();
-        }
-
-        // Redirect based on role
-        if ($user->role === 'doctor') {
-            return redirect()->route('doctor.dashboard')
-                ->with('success', 'Welcome back, Doctor!');
-        } else {
-            return redirect()->route('patient.dashboard')
-                ->with('success', 'Welcome back!');
-        }
+        return redirect()->back()
+            ->with('error', 'Invalid credentials.')
+            ->withInput();
     }
 }

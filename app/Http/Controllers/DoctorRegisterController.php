@@ -14,7 +14,7 @@ class DoctorRegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('auth.register_doctor');
+        return view('auth.doctor-register');
     }
 
     public function register(Request $request)
@@ -25,8 +25,8 @@ class DoctorRegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'specialty' => 'required|string|max:255',
             'consultation_price' => 'required|numeric|min:0',
-            'years_experience' => 'required|numeric|min:0|max:50',
-            'license_number' => 'required|string|unique:doctors',
+            'years_experience' => 'required|integer|min:0',
+            'license_number' => 'required|string|max:255|unique:doctors',
             'city' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ], [
@@ -42,9 +42,8 @@ class DoctorRegisterController extends Controller
             'consultation_price.numeric' => 'Consultation price must be a number.',
             'consultation_price.min' => 'Consultation price cannot be negative.',
             'years_experience.required' => 'Please enter your years of experience.',
-            'years_experience.numeric' => 'Years of experience must be a number.',
+            'years_experience.integer' => 'Years of experience must be a whole number.',
             'years_experience.min' => 'Years of experience cannot be negative.',
-            'years_experience.max' => 'Years of experience cannot be more than 50.',
             'license_number.required' => 'Please enter your license number.',
             'license_number.unique' => 'This license number is already registered.',
             'city.required' => 'Please enter your city.',
@@ -79,13 +78,13 @@ class DoctorRegisterController extends Controller
                 'years_experience' => $request->years_experience,
                 'license_number' => $request->license_number,
                 'city' => $request->city,
-                'is_verified' => false
+                'status' => 'pending'
             ]);
 
             DB::commit();
             Auth::login($user);
 
-            return redirect()->route('doctor.dashboard')->with('success', 'Registration successful! Welcome to your dashboard.');
+            return redirect()->route('login')->with('success', 'Thank you for your request. We will review your application and get back to you soon.');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withErrors(['error' => 'Registration failed. Please try again.'])->withInput();

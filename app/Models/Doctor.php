@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Appointment;
 
 class Doctor extends Model
 {
@@ -17,15 +18,15 @@ class Doctor extends Model
         'bio',
         'profile_image',
         'license_number',
-        'is_verified',
+        'city',
+        'status',
         'available_days',
         'available_hours'
     ];
 
     protected $casts = [
         'available_days' => 'array',
-        'available_hours' => 'array',
-        'is_verified' => 'boolean',
+        'available_hours' => 'array'
     ];
 
     /**
@@ -35,4 +36,9 @@ class Doctor extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // public function appointments()
+    // {
+    //     return $this->hasMany(Appointment::class);
+    // }
 }

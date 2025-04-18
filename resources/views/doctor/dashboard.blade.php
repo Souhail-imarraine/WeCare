@@ -13,6 +13,9 @@
                     <div class="ml-3 relative">
                         <div class="flex items-center">
                             <span class="text-sm font-medium text-gray-700 mr-2">{{ Auth::user()->first_name ?? 'Doctor' }} {{ Auth::user()->last_name ?? '' }}</span>
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full {{ Auth::user()->doctor->status === 'approved' ? 'bg-green-100 text-green-800' : (Auth::user()->doctor->status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
+                                {{ ucfirst(Auth::user()->doctor->status) }}
+                            </span>
                             <button class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span class="sr-only">Open user menu</span>
                                 {{-- Placeholder Avatar - Replace with actual user avatar if available --}}
@@ -38,7 +41,7 @@
             <!-- Card 1: Consultation Today -->
             <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
                 <div>
-                    <div class="text-3xl font-bold text-gray-800">02</div>
+                    <div class="text-3xl font-bold text-gray-800">{{ $consultationsToday ?? '0' }}</div>
                     <div class="text-sm text-gray-500">Consultation Today</div>
                 </div>
                 <div class="text-cyan-500">
@@ -48,7 +51,7 @@
             <!-- Card 2: Pending -->
             <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
                 <div>
-                    <div class="text-3xl font-bold text-gray-800">01</div>
+                    <div class="text-3xl font-bold text-gray-800"></div>
                     <div class="text-sm text-gray-500">Pending</div>
                 </div>
                  <div class="text-cyan-500">
@@ -58,7 +61,7 @@
             <!-- Card 3: Total Consultation -->
             <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
                 <div>
-                    <div class="text-3xl font-bold text-gray-800">05</div>
+                    <div class="text-3xl font-bold text-gray-800">{{ $totalConsultations ?? '0' }}</div>
                     <div class="text-sm text-gray-500">Total Consultation</div>
                 </div>
                 <div class="text-cyan-500">
@@ -68,7 +71,7 @@
              <!-- Card 4: Total Patients -->
             <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
                 <div>
-                    <div class="text-3xl font-bold text-gray-800">04</div>
+                    <div class="text-3xl font-bold text-gray-800">{{ $totalPatients ?? '0' }}</div>
                     <div class="text-sm text-gray-500">Total Patients</div>
                 </div>
                  <div class="text-cyan-500">
@@ -90,7 +93,7 @@
                                 <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Patient</th>
                                 <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Start Time</th>
                                 <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">End Time</th>
-                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Action</th>
+                                <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600 uppercase">Status</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-700">
@@ -162,12 +165,12 @@
                     <div class="flex items-center">
                         <span class="w-3 h-3 bg-cyan-500 rounded-full mr-2"></span>
                         <span>Male</span>
-                        <span class="ml-2 font-medium text-gray-800">60%</span>
+                        <span class="ml-2 font-medium text-gray-800">{{ $malePercentage ?? '0' }}%</span>
                     </div>
                     <div class="flex items-center">
                         <span class="w-3 h-3 bg-pink-500 rounded-full mr-2"></span>
                         <span>Female</span>
-                        <span class="ml-2 font-medium text-gray-800">40%</span>
+                        <span class="ml-2 font-medium text-gray-800">{{ $femalePercentage ?? '0' }}%</span>
                     </div>
                 </div>
             </div>
@@ -182,16 +185,15 @@
     const genderChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            // labels: ['Male', 'Female'], // Hidden in the image
             datasets: [{
                 label: 'Patients Gender',
-                data: [60, 40],
+                data: [{{ $malePercentage ?? 0 }}, {{ $femalePercentage ?? 0 }}],
                 backgroundColor: [
-                    '#06b6d4', // cyan-500
-                    '#ec4899'  // pink-500
+                    '#06b6d4',
+                    '#ec4899'
                 ],
                 borderColor: [
-                    '#ffffff', // white border for separation
+                    '#ffffff',
                     '#ffffff'
                 ],
                 borderWidth: 2,
@@ -201,13 +203,13 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '65%', // Makes it a doughnut chart
+            cutout: '65%',
             plugins: {
                 legend: {
-                    display: false // Legend is custom below the chart
+                    display: false
                 },
                 tooltip: {
-                    enabled: true // Enable tooltips on hover
+                    enabled: true
                 }
             }
         }
