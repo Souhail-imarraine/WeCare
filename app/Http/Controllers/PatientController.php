@@ -29,6 +29,7 @@ class PatientController extends Controller
             'weight' => 'required|integer|min:0|max:300',
             'birthday' => 'required|date|before:today',
             'blood_type' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-,other,unknown',
+            'phone_number' => 'nullable|string|max:20',
         ], [
             'height.required' => 'The height field is required. Please enter 0 if unknown.',
             'height.integer' => 'Height must be a number.',
@@ -43,6 +44,7 @@ class PatientController extends Controller
             'birthday.before' => 'Birthday must be before today.',
             'blood_type.required' => 'Please select your blood type.',
             'blood_type.in' => 'Please select a valid blood type.',
+            'phone_number.max' => 'Phone number cannot be longer than 20 characters.',
         ]);
 
         if ($validator->fails()) {
@@ -68,6 +70,7 @@ class PatientController extends Controller
             'weight' => $request->weight,
             'birthday' => $request->birthday,
             'blood_type' => $request->blood_type,
+            'phone_number' => $request->phone_number,
         ]);
 
         // Log the user in

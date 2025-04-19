@@ -70,6 +70,10 @@ Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->g
     Route::get('/profile', [PatientProfileController::class, 'show'])->name('profile');
     Route::get('/settings', [PatientProfileController::class, 'edit'])->name('settings');
     Route::put('/profile', [PatientProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/settings', [PatientProfileController::class, 'settings'])->name('settings');
+    Route::put('/profile/update', [PatientProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/password/update', [PatientProfileController::class, 'updatePassword'])->name('password.update');
 });
 
 // Specialty Routes
@@ -82,8 +86,12 @@ Route::prefix('specialties')->name('specialties.')->group(function () {
     Route::get('/optometrist', [SpecialtyController::class, 'optometrist'])->name('optometrist');
     Route::get('/chiropractor', [SpecialtyController::class, 'chiropractor'])->name('chiropractor');
     Route::get('/podiatrist', [SpecialtyController::class, 'podiatrist'])->name('podiatrist');
-    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('specialties.general-practitioner');
+    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
+
 
 });
+
+// Patient Profile Routes
+
 
 // Patient routes

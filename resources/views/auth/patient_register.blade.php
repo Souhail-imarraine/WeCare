@@ -61,6 +61,17 @@
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group @error('phone_number') has-error @enderror">
+                        <label for="phone_number">Phone Number</label>
+                        <input type="tel" id="phone_number" name="phone_number"
+                            placeholder="e.g +212 6XX-XXXXXX" value="{{ old('phone_number') }}">
+                        @error('phone_number')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <!-- Gender Selection -->
                     <div class="form-group @error('gender') has-error @enderror">
                         <label>Gender</label>
