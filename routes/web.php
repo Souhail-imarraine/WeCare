@@ -9,7 +9,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PatientDashboardController;
+use App\Http\Controllers\PatientProfileController;
+use App\Http\Controllers\PatientDoctorController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\SpecialtyController;
 
 // Public Routes
 Route::get('/', function () {
@@ -63,4 +66,24 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
 
 Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
     Route::get('/dashboard', [PatientDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/doctors', [PatientDoctorController::class, 'index'])->name('doctors');
+    Route::get('/profile', [PatientProfileController::class, 'show'])->name('profile');
+    Route::get('/settings', [PatientProfileController::class, 'edit'])->name('settings');
+    Route::put('/profile', [PatientProfileController::class, 'update'])->name('profile.update');
 });
+
+// Specialty Routes
+Route::prefix('specialties')->name('specialties.')->group(function () {
+    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
+    Route::get('/telehealth', [SpecialtyController::class, 'telehealth'])->name('telehealth');
+    Route::get('/physiotherapist', [SpecialtyController::class, 'physiotherapist'])->name('physiotherapist');
+    Route::get('/dentist', [SpecialtyController::class, 'dentist'])->name('dentist');
+    Route::get('/psychologist', [SpecialtyController::class, 'psychologist'])->name('psychologist');
+    Route::get('/optometrist', [SpecialtyController::class, 'optometrist'])->name('optometrist');
+    Route::get('/chiropractor', [SpecialtyController::class, 'chiropractor'])->name('chiropractor');
+    Route::get('/podiatrist', [SpecialtyController::class, 'podiatrist'])->name('podiatrist');
+    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('specialties.general-practitioner');
+
+});
+
+// Patient routes

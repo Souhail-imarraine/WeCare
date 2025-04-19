@@ -3,8 +3,6 @@
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
     <h1 class="text-xl font-medium mb-6 lg:mb-8">Profile</h1>
-
-    <!-- Profile and General Information -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
         <!-- Left Column - Profile Info -->
         <div class="md:col-span-4 lg:col-span-4">

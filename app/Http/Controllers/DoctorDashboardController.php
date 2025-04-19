@@ -33,10 +33,8 @@ class DoctorDashboardController extends Controller
 
     public function showRequests()
     {
-        // Fetch pending appointment requests for the logged-in doctor
-        // This is just an example query, adjust based on your relationships and logic
-        $requests = AppointmentRequest::where('doctor_id', Auth::user()->doctor->id) // Assuming a doctor relationship on User model
-                                    ->where('status', 'pending') // Example status
+        $requests = AppointmentRequest::where('doctor_id', Auth::user()->doctor->id)
+                                    ->where('status', 'pending')
                                     ->with('patient.user')
                                     ->orderBy('created_at', 'desc')
                                     ->get();
