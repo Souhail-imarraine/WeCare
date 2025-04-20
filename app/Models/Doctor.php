@@ -12,21 +12,19 @@ class Doctor extends Model
 
     protected $fillable = [
         'user_id',
-        'specialty',
-        'consultation_price',
-        'years_experience',
+        'specialty_id',
+        'phone_number',
+        'city',
         'bio',
         'profile_image',
-        'license_number',
-        'city',
-        'status',
-        'available_days',
-        'available_hours'
+        'facebook_url',
+        'linkedin_url',
+        'instagram_url',
+        'status'
     ];
 
     protected $casts = [
-        'available_days' => 'array',
-        'available_hours' => 'array'
+        'birthday' => 'date',
     ];
 
     /**

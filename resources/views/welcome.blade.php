@@ -10,7 +10,7 @@
             <div class="relative w-full h-screen bg-[url('{{ asset('img/background.svg') }}')]
                 bg-cover bg-center bg-no-repeat bg-fixed">
                 <div class="absolute inset-0 bg-black/30"></div>
-            </div>
+            </div>9
         </div>
 
         <!-- Content Container -->

@@ -13,6 +13,7 @@ use App\Http\Controllers\PatientProfileController;
 use App\Http\Controllers\PatientDoctorController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\DoctorProfileController;
 
 // Public Routes
 Route::get('/', function () {
@@ -60,7 +61,9 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::get('/dashboard', [DoctorDashboardController::class, 'index'])->name('dashboard');
     Route::get('/requests', [DoctorDashboardController::class, 'showRequests'])->name('requests');
     Route::get('/profile', [DoctorDashboardController::class, 'showProfile'])->name('profile');
-    Route::get('/settings', [DoctorDashboardController::class, 'showSettings'])->name('settings');
+    Route::get('/settings', [DoctorProfileController::class, 'settings'])->name('settings');
+    Route::put('/profile/update', [DoctorProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/password/update', [DoctorProfileController::class, 'updatePassword'])->name('password.update');
     Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
 });
 
