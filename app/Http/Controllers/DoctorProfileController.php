@@ -21,6 +21,45 @@ class DoctorProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
+        // Check if this is a general information update
+        if ($request->has(['first_name', 'last_name', 'email'])) {
+            $user = Auth::user();
+            $doctor = Doctor::where('user_id', $user->id)->first();
+
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+                'phone_number' => 'nullable|string|max:20',
+                'city' => 'nullable|string|max:100',
+                'bio' => 'nullable|string|max:1000',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $validated = $validator->validated();
+
+            // Update user information
+            User::where('id', $user->id)->update([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'email' => $validated['email'],
+            ]);
+
+            // Update doctor information
+            Doctor::where('id', $doctor->id)->update([
+                'phone_number' => $validated['phone_number'],
+                'city' => $validated['city'],
+                'bio' => $validated['bio'],
+            ]);
+
+            return redirect()->back()->with('success', 'Profile updated successfully');
+        }
+
         // Handle profile photo deletion
         if ($request->input('action') === 'delete_photo') {
             $doctor = Doctor::where('user_id', Auth::id())->first();
@@ -39,6 +78,27 @@ class DoctorProfileController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Profile photo deleted successfully');
+        }
+
+        // Handle social media update
+        if ($request->has(['facebook', 'linkedin', 'instagram'])) {
+            $doctor = Doctor::where('user_id', Auth::id())->first();
+
+            // Validate social media URLs (all optional)
+            $validated = $request->validate([
+                'facebook' => 'nullable|url|max:255',
+                'linkedin' => 'nullable|url|max:255',
+                'instagram' => 'nullable|url|max:255',
+            ]);
+
+            // Update only the social media fields
+            $doctor->update([
+                'facebook' => $validated['facebook'] ?: null,
+                'linkedin' => $validated['linkedin'] ?: null,
+                'instagram' => $validated['instagram'] ?: null,
+            ]);
+
+            return redirect()->back()->with('success', 'Social media links updated successfully');
         }
 
         // Check if this is only a profile photo update
@@ -74,45 +134,7 @@ class DoctorProfileController extends Controller
             }
         }
 
-        $user = Auth::user();
-        $doctor = Doctor::where('user_id', $user->id)->first();
-
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone_number' => 'nullable|string|max:20',
-            'city' => 'nullable|string|max:100',
-            'bio' => 'nullable|string|max:1000',
-            'facebook_url' => 'nullable|url|max:255',
-            'linkedin_url' => 'nullable|url|max:255',
-            'instagram_url' => 'nullable|url|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $validated = $validator->validated();
-
-        // Update user information
-        User::where('id', $user->id)->update([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-        ]);
-
-        // Update doctor information
-        $doctorData = array_intersect_key($validated, array_flip([
-            'phone_number', 'city', 'bio',
-            'facebook_url', 'linkedin_url', 'instagram_url'
-        ]));
-
-        Doctor::where('id', $doctor->id)->update($doctorData);
-
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return redirect()->back()->with('error', 'Invalid request');
     }
 
     public function updatePassword(Request $request)

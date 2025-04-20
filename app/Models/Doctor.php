@@ -17,9 +17,9 @@ class Doctor extends Model
         'city',
         'bio',
         'profile_image',
-        'facebook_url',
-        'linkedin_url',
-        'instagram_url',
+        'facebook',
+        'linkedin',
+        'instagram',
         'status'
     ];
 

@@ -51,12 +51,12 @@
                         <label class="block text-sm text-gray-600 mb-1">Facebook</label>
                         <input
                             type="url"
-                            name="facebook_url"
+                            name="facebook"
                             placeholder="https://facebook.com/username"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                            value="{{ old('facebook_url', $doctor->facebook_url) }}"
+                            value="{{ old('facebook', $doctor->facebook) }}"
                         >
-                        @error('facebook_url')
+                        @error('facebook')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -64,12 +64,12 @@
                         <label class="block text-sm text-gray-600 mb-1">LinkedIn</label>
                         <input
                             type="url"
-                            name="linkedin_url"
+                            name="linkedin"
                             placeholder="https://linkedin.com/in/username"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                            value="{{ old('linkedin_url', $doctor->linkedin_url) }}"
+                            value="{{ old('linkedin', $doctor->linkedin) }}"
                         >
-                        @error('linkedin_url')
+                        @error('linkedin')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -77,12 +77,12 @@
                         <label class="block text-sm text-gray-600 mb-1">Instagram</label>
                         <input
                             type="url"
-                            name="instagram_url"
+                            name="instagram"
                             placeholder="https://instagram.com/username"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                            value="{{ old('instagram_url', $doctor->instagram_url) }}"
+                            value="{{ old('instagram', $doctor->instagram) }}"
                         >
-                        @error('instagram_url')
+                        @error('instagram')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
