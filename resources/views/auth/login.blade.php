@@ -95,7 +95,7 @@
 
         <!-- Right Side - Image -->
         <div class="image-section">
-            <img src="{{ asset('public/img/login.svg') }}"
+            <img src="{{ asset('img/register.svg') }}"
                 alt="Medical illustration">
         </div>
     </div>

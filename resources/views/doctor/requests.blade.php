@@ -1,95 +1,222 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Top Bar -->
-    <header class="bg-white shadow-sm mb-8 rounded-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Page Title & Count -->
-                <div class="flex items-center">
-                    <h1 class="text-2xl font-semibold text-gray-800">Requests</h1>
-                    <span class="ml-3 bg-gray-200 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ $requests->count() }}</span>
-                </div>
-
-                <!-- User Avatar and Name -->
-                <div class="flex items-center">
-                     <div class="ml-3 relative">
-                        <div class="flex items-center">
-                            <span class="text-sm font-medium text-gray-700 mr-2">{{ Auth::user()->first_name ?? 'Doctor' }} {{ Auth::user()->last_name ?? '' }}</span>
-                            <button class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User Avatar">
-                            </button>
+<div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-semibold text-gray-900">Appointment Requests</h1>
+                        <span class="ml-3 inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-cyan-50 text-cyan-700">
+                            3 Pending
+                        </span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm font-medium text-gray-700 mr-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
+                        <div class="h-10 w-10 rounded-full ring-4 ring-gray-50 overflow-hidden">
+                            <img
+                                class="h-full w-full object-cover"
+                                src="{{ asset(Auth::user()->doctor->profile_image ?? 'doctor_profile/default-avatar.png') }}"
+                                alt="{{ Auth::user()->first_name }}'s Avatar">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- Requests Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {{-- @forelse ($requests as $request) --}}
-            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col justify-between">
-                <div>
-                    <!-- Request Date -->
-                    <p class="text-sm text-gray-500 mb-1">{{--  --}}</p>
-
-                    <!-- Appointment Type -->
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Online Appointment</h3>
-
-                    <!-- Patient Info -->
-                    <div class="flex items-center mb-3">
-                        <img class="h-6 w-6 rounded-full object-cover mr-2"
-                             src="{{--  --}}"
-                             alt="Patient Avatar">
-                        <span class="text-sm font-medium text-gray-700">{{--  --}} {{--  --}}</span>
+        <!-- Requests Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Request 1: Urgent Case -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                <div class="border-b border-gray-100 bg-gray-50/50 px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-800">
+                            <svg class="mr-1 h-1.5 w-1.5 text-red-600" fill="currentColor" viewBox="0 0 8 8">
+                                <circle cx="4" cy="4" r="3" />
+                            </svg>
+                            Urgent
+                        </span>
                     </div>
-
-                    <!-- Description/Reason (Optional - from image) -->
-                    <p class="text-sm text-gray-600 mb-4 leading-relaxed">
-                        {{--  --}}
-                    </p>
-
-                    <!-- Consultation Duration -->
-                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                        <svg class="w-4 h-4 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Consult Duration: <span class="font-medium text-gray-800 ml-1">{{--  --}}</span>
-                    </div>
-
-                    <!-- Preferred Time Range -->
-                    <div class="flex items-center text-sm text-gray-600 mb-4">
-                         <svg class="w-4 h-4 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        Preferred Time Range: <span class="font-medium text-gray-800 ml-1">{{--  --}}</span>
-                    </div>
+                    <time class="text-xs text-gray-500">5 minutes ago</time>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                    <form action="{{-- route('doctor.requests.accept', $request) --}}" method="POST" class="flex-1 mr-2">
-                        @csrf
-                        @method('PATCH') {{-- Or POST depending on your route --}}
-                        <button type="submit" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-cyan-700 bg-cyan-100 hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition duration-150 ease-in-out">
-                             <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <div class="p-4">
+                    <div class="flex items-center mb-4">
+                        <div class="relative">
+                            <div class="h-10 w-10 rounded-full ring-2 ring-gray-50 overflow-hidden">
+                                <img src="{{ asset('patient_profile/default-avatar.png') }}" alt="Sarah Johnson" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Sarah Johnson</p>
+                            <p class="text-xs text-gray-500">Female, 32 years</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">Today, 2:00 PM</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">30 minutes</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 bg-red-50 rounded px-3 py-2 text-xs text-red-800">
+                        <p class="line-clamp-2">Severe migraine with visual disturbances. Previous history of similar episodes.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
                             Accept
                         </button>
-                    </form>
-                    <form action="{{-- route('doctor.requests.reject', $request) --}}" method="POST" class="flex-1 ml-2">
-                        @csrf
-                        @method('PATCH') {{-- Or DELETE/POST --}}
-                        <button type="submit" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">
-                             <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            Reject
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Decline
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
-        {{-- @empty
-            <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center text-gray-500">
-                No pending requests found.
-            </div>
-        @endforelse --}}
 
+            <!-- Request 2: Regular Checkup -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                <div class="border-b border-gray-100 bg-gray-50/50 px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-800">
+                            <svg class="mr-1 h-1.5 w-1.5 text-yellow-600" fill="currentColor" viewBox="0 0 8 8">
+                                <circle cx="4" cy="4" r="3" />
+                            </svg>
+                            Pending
+                        </span>
+                    </div>
+                    <time class="text-xs text-gray-500">1 hour ago</time>
+                </div>
+
+                <div class="p-4">
+                    <div class="flex items-center mb-4">
+                        <div class="relative">
+                            <div class="h-10 w-10 rounded-full ring-2 ring-gray-50 overflow-hidden">
+                                <img src="{{ asset('patient_profile/default-avatar.png') }}" alt="Michael Chen" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Michael Chen</p>
+                            <p class="text-xs text-gray-500">Male, 45 years</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">Tomorrow, 10:00 AM</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">45 minutes</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 bg-yellow-50 rounded px-3 py-2 text-xs text-yellow-800">
+                        <p class="line-clamp-2">Regular checkup and blood pressure monitoring. Last visit was 6 months ago.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Accept
+                        </button>
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request 3: Follow-up -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                <div class="border-b border-gray-100 bg-gray-50/50 px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-800">
+                            <svg class="mr-1 h-1.5 w-1.5 text-green-600" fill="currentColor" viewBox="0 0 8 8">
+                                <circle cx="4" cy="4" r="3" />
+                            </svg>
+                            Follow-up
+                        </span>
+                    </div>
+                    <time class="text-xs text-gray-500">2 hours ago</time>
+                </div>
+
+                <div class="p-4">
+                    <div class="flex items-center mb-4">
+                        <div class="relative">
+                            <div class="h-10 w-10 rounded-full ring-2 ring-gray-50 overflow-hidden">
+                                <img src="{{ asset('patient_profile/default-avatar.png') }}" alt="Emma Wilson" class="h-full w-full object-cover">
+                            </div>
+                        </div>
+                        <div class="ml-3 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Emma Wilson</p>
+                            <p class="text-xs text-gray-500">Female, 28 years</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">Friday, 3:30 PM</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-xs text-gray-600">20 minutes</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 bg-green-50 rounded px-3 py-2 text-xs text-green-800">
+                        <p class="line-clamp-2">Follow-up visit for medication adjustment. Previous visit showed good progress.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Accept
+                        </button>
+                        <button class="w-full inline-flex justify-center items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 @endsection
