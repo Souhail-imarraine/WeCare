@@ -12,15 +12,18 @@ class Doctor extends Model
 
     protected $fillable = [
         'user_id',
-        'specialty_id',
-        'phone_number',
+        'specialty',
+        'consultation_price',
+        'years_experience',
+        'license_number',
         'city',
+        'phone_number',
         'bio',
         'profile_image',
+        'status',
         'facebook',
-        'linkedin',
         'instagram',
-        'status'
+        'linkedin'
     ];
 
     protected $casts = [

@@ -26,12 +26,12 @@
                     </div>
                     <div class="flex items-center space-x-4">
                         <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            New Appointment
-                        </button>
-                    </div>
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    New Appointment
+                </button>
+            </div>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div class="bg-white rounded-lg shadow-sm p-4">
-                <div class="flex items-center">
+                    <div class="flex items-center">
                     <div class="flex-shrink-0 bg-cyan-50 rounded-lg p-3">
                         <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -52,18 +52,18 @@
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-sm p-4">
-                <div class="flex items-center">
+                    <div class="flex items-center">
                     <div class="flex-shrink-0 bg-green-50 rounded-lg p-3">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                    </div>
+                        </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Completed</p>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $completedAppointments ?? 128 }}</h3>
                     </div>
                 </div>
-            </div>
+                    </div>
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 bg-yellow-50 rounded-lg p-3">
@@ -78,12 +78,12 @@
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-sm p-4">
-                <div class="flex items-center">
+                    <div class="flex items-center">
                     <div class="flex-shrink-0 bg-red-50 rounded-lg p-3">
                         <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
-                    </div>
+                        </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-500">Cancelled</p>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $cancelledAppointments ?? 3 }}</h3>
@@ -120,7 +120,7 @@
                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
+                        </svg>
                             </div>
                             <input type="text" class="block w-full rounded-md border-gray-300 pl-10 focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm" placeholder="Search by name, email or phone...">
                         </div>
@@ -256,12 +256,12 @@
                         </button>
                     </div>
                     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div>
-                            <p class="text-sm text-gray-700">
+                <div>
+                    <p class="text-sm text-gray-700">
                                 Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">12</span> results
-                            </p>
-                        </div>
-                        <div>
+                    </p>
+                </div>
+                <div>
                             <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                                 <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                     Previous
@@ -278,7 +278,7 @@
                                 <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                     Next
                                 </button>
-                            </nav>
+                    </nav>
                         </div>
                     </div>
                 </div>

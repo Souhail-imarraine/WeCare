@@ -10,9 +10,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
-
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <style>
         /* Custom scrollbar (optional) */
@@ -60,9 +62,6 @@
                                 </svg>
                             </button>
                         </div>
-
-                        <!-- Header: Right side (optional) -->
-                        {{-- <div class="flex items-center"> ... </div> --}}
 
                     </div>
                 </div>
@@ -115,7 +114,6 @@
         if (sidebar && sidebarToggle && sidebarClose && sidebarOverlay) {
             sidebarToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Check current state to decide whether to open or close
                 if (sidebar.classList.contains('-translate-x-full')) {
                     openSidebar();
                 } else {
@@ -132,7 +130,6 @@
                 closeSidebar();
             });
 
-            // Close sidebar on escape key press
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && sidebar.classList.contains('translate-x-0')) {
                     closeSidebar();
@@ -141,7 +138,8 @@
         }
     </script>
 
-    {{-- Add any other scripts before closing body --}}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @stack('scripts')
 </body>
 </html>

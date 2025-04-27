@@ -2,17 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
+use App\Models\AppointmentRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PatientDoctorController extends Controller
 {
     public function index()
     {
-        $doctors = User::where('role', 'doctor')
-            ->with('doctor') // Assuming you have a doctor relationship
-            ->get();
-
+        $doctors = Doctor::all();
         return view('patient.doctors', compact('doctors'));
+    }
+
+    public function bookAppointment(Doctor $doctor)
+    {
+        return view('patient.book-appointment', compact('doctor'));
+    }
+
+    public function bookFollowUp(Doctor $doctor)
+    {
+        // Get the patient's last appointment with this doctor
+        $lastAppointment = AppointmentRequest::where('patient_id', Auth::id())
+            ->where('doctor_id', $doctor->id)
+            ->where('status', 'confirmed')
+            ->latest()
+            ->first();
+
+        if (!$lastAppointment) {
+            return redirect()->route('patient.appointments')
+                           ->with('error', 'No previous confirmed appointment found with this doctor.');
+        }
+
+        return view('patient.book-followup', compact('doctor', 'lastAppointment'));
     }
 }

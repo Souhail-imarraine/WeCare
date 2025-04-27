@@ -58,7 +58,7 @@ class LoginController extends Controller
                         ->withInput();
                 }
             }
-
+            
             // Redirect based on role
             if ($user->role === 'doctor') {
                 return redirect()->route('doctor.dashboard');

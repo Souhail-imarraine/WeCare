@@ -17,8 +17,13 @@ class AppointmentRequest extends Model
         'status',
         'reason',
         'consult_duration',
-        'preferred_time_range',
-        'appointment_type',
+        'date_appointment',
+        'time_appointment',
+    ];
+
+    protected $casts = [
+        'date_appointment' => 'date',
+        'time_appointment' => 'datetime',
     ];
 
     public function patient()

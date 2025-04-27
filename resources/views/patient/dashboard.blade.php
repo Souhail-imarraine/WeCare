@@ -38,7 +38,7 @@
         <h2 class="text-xl font-semibold text-gray-900">Top searches</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- General Practitioner -->
-            <a href="{{ route('specialties.general-practitioner') }}" class="block group">
+            <a href="{{ route('patient.doctors') }}" class="block group">
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
                     <div class="h-48 bg-gray-200">
                         <img src="{{ asset('images/specialties/general-practitioner.jpg') }}" alt="General Practitioner" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200">

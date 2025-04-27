@@ -48,16 +48,17 @@
         </div>
     </div>
 
-    <!-- Doctors grid -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @foreach($doctors as $doctor)
         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <!-- Doctor Header with Gradient -->
             <div class="relative h-32 bg-gradient-to-r from-cyan-600 to-cyan-400">
                 <div class="absolute -bottom-10 left-6">
-                    <img class="h-24 w-24 rounded-xl border-4 border-white shadow-md"
-                         src="https://ui-avatars.com/api/?name={{ urlencode($doctor->user->first_name . ' ' . $doctor->user->last_name) }}&background=0D9488&color=fff"
-                         alt="{{ $doctor->user->first_name }} {{ $doctor->user->last_name }}">
+                    <div class="h-24 w-24 rounded-xl border-4 border-white shadow-md overflow-hidden">
+                        <img class="w-full h-full object-cover"
+                             src="{{ asset($doctor->profile_image ?? 'doctor_profile/default-avatar.png') }}"
+                             alt="{{ $doctor->user->first_name }} {{ $doctor->user->last_name }}">
+                    </div>
                 </div>
             </div>
 
@@ -68,7 +69,6 @@
                     <p class="text-cyan-600 font-medium">{{ $doctor->specialty }}</p>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div class="bg-gray-50 rounded-lg p-3">
                         <div class="flex items-center text-sm">
@@ -88,28 +88,42 @@
                             </svg>
                             <div>
                                 <p class="text-gray-500">Consultation</p>
-                                <p class="font-semibold">${{ $doctor->consultation_price }}</p>
+                                <p class="font-semibold">${{ number_format($doctor->consultation_price, 2) }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Available Times -->
                 <div class="mb-6">
-                    <h4 class="text-sm font-medium text-gray-700 mb-2">Next Available</h4>
-                    <div class="flex space-x-2">
-                        <span class="px-2 py-1 bg-cyan-50 text-cyan-700 text-sm rounded-md">Today 3:00 PM</span>
-                        <span class="px-2 py-1 bg-cyan-50 text-cyan-700 text-sm rounded-md">Tomorrow 10:00 AM</span>
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span>{{ $doctor->city ?? 'Location not specified' }}</span>
+                    </div>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        <span>{{ $doctor->phone_number ?? 'Contact not specified' }}</span>
                     </div>
                 </div>
 
                 <!-- Action Button -->
-                <button class="w-full bg-cyan-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300">
-                    Book Appointment
-                </button>
+                <a href="{{ route('patient.doctor_profile', $doctor->id) }}" class="block w-full bg-cyan-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300 text-center">
+                    View Profile
+                </a>
             </div>
         </div>
         @endforeach
     </div>
+
+    <!-- Pagination -->
+    @if(method_exists($doctors, 'links'))
+    <div class="mt-8">
+        {{ $doctors->links() }}
+    </div>
+    @endif
 </div>
 @endsection
