@@ -81,20 +81,12 @@ class My_appointments extends Controller
 
     public function cancelAppointment(AppointmentRequest $appointment)
     {
-        // Check if the appointment belongs to the authenticated user
         if ($appointment->patient_id !== Auth::id()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You are not authorized to cancel this appointment.'
-            ], 403);
+            return redirect()->back()->with('error', 'You are not authorized to cancel this appointment.');
         }
 
-        // Check if the appointment is in the past
         if (Carbon::parse($appointment->date_appointment)->isPast()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot cancel past appointments.'
-            ], 400);
+            return redirect()->back()->with('error', 'Cannot cancel past appointments.');
         }
 
         try {
@@ -104,15 +96,9 @@ class My_appointments extends Controller
                 'updated_at' => now(),
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Appointment cancelled successfully.'
-            ]);
+            return redirect()->route('patient.appointments')->with('success', 'Appointment cancelled successfully.');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to cancel appointment. Please try again.'
-            ], 500);
+            return redirect()->back()->with('error', 'Failed to cancel appointment. Please try again.');
         }
     }
 
