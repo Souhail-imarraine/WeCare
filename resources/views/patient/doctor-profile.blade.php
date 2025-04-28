@@ -269,7 +269,6 @@
 
                         <form action="{{ route('patient.book_appointment.store', $doctor->id) }}" method="POST" id="bookingForm">
                             @csrf
-                            <!-- Date Selection -->
                             <div class="mb-6">
                                 <label for="appointment_date" class="block text-sm font-medium text-gray-700 mb-2">Select Date</label>
                                 <div class="bg-white rounded-xl shadow-sm p-4">
@@ -277,19 +276,26 @@
                                         <input type="text"
                                                id="appointment_date"
                                                name="appointment_date"
-                                               class="w-full border-gray-300 rounded-lg shadow-sm focus:border-cyan-500 focus:ring-cyan-500"
+                                               class="w-full border-gray-300 rounded-lg shadow-sm focus:border-cyan-500 focus:ring-cyan-500 @error('appointment_date') border-red-500 @enderror"
                                                placeholder="Select date"
+                                               value="{{ old('appointment_date') }}"
                                                required>
                                     </div>
+                                    @error('appointment_date')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
                             <!-- Time Slots -->
                             <div class="mb-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Select Time</label>
-                                <div id="timeSlots" class="grid grid-cols-4 gap-2">
+                                <div id="timeSlots" class="grid grid-cols-4 gap-2 @error('appointment_time') border-red-500 @enderror">
                                     <!-- Time slots will be loaded here -->
                                 </div>
+                                @error('appointment_time')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                                 <div id="loadingSlots" class="hidden">
                                     <div class="flex items-center justify-center py-4">
                                         <svg class="animate-spin h-5 w-5 text-cyan-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -297,17 +303,16 @@
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                         <span class="ml-2">Loading available time slots...</span>
-                                            </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Appointment Type -->
                             <div class="mb-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Type</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
-
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 @error('appointment_type') border-red-500 @enderror">
                                     <label class="relative">
-                                        <input type="radio" name="appointment_type" value="in_person" class="peer sr-only" required>
+                                        <input type="radio" name="appointment_type" value="in_person" class="peer sr-only" required {{ old('appointment_type') == 'in_person' ? 'checked' : '' }}>
                                         <div class="flex items-center p-4 border rounded-lg cursor-pointer peer-checked:border-cyan-500 peer-checked:bg-cyan-50 hover:bg-gray-50">
                                             <div class="flex-shrink-0 w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
                                                 <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -320,12 +325,30 @@
                                             </div>
                                         </div>
                                     </label>
+                                    <label class="relative opacity-50 cursor-not-allowed">
+                                        <input type="radio" name="appointment_type" value="online" class="peer sr-only" disabled>
+                                        <div class="flex items-center p-4 border rounded-lg peer-checked:border-cyan-500 peer-checked:bg-cyan-50">
+                                            <div class="flex-shrink-0 w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                </svg>
+                                            </div>
+                                            <div class="ml-4">
+                                                <h5 class="text-base font-medium text-gray-900">Online Consultation</h5>
+                                                <p class="text-sm text-gray-500">Video call appointment</p>
+                                                <p class="text-xs text-red-500 mt-1">(Not available at this time)</p>
+                                            </div>
+                                        </div>
+                                    </label>
                                 </div>
+                                @error('appointment_type')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <!-- Book Now Button -->
                             <div class="mt-8 pt-8 border-t border-gray-100">
-                                <button type="submit" class="w-full bg-cyan-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300 flex items-center justify-center">
+                                <button type="submit" id="submitBtn" class="w-full bg-cyan-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300 flex items-center justify-center">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
@@ -349,7 +372,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const flatpickrInstance = flatpickr("#appointment_date", {
             minDate: "today",
-            maxDate: new Date().fp_incr(30),
+            maxDate: new Date().fp_incr(60),
             disable: [
                 function(date) {
                     return (date.getDay() === 0 || date.getDay() === 6);
@@ -367,6 +390,8 @@
             },
             onChange: function(selectedDates, dateStr) {
                 loadTimeSlots(dateStr);
+                const dateError = document.querySelector('[data-error="appointment_date"]');
+                if (dateError) dateError.remove();
             }
         });
 
@@ -405,6 +430,16 @@
                     }).join('');
 
                     timeSlotsContainer.innerHTML = html;
+
+                    // Add change event listener to time slots
+                    const timeInputs = timeSlotsContainer.querySelectorAll('input[name="appointment_time"]');
+                    timeInputs.forEach(input => {
+                        input.addEventListener('change', function() {
+                            // Remove error message if exists
+                            const timeError = document.querySelector('[data-error="appointment_time"]');
+                            if (timeError) timeError.remove();
+                        });
+                    });
                 })
                 .catch(error => {
                     loadingElement.classList.add('hidden');
@@ -415,17 +450,70 @@
                     `;
                 });
         }
-    });
 
-    // Form validation
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        const date = document.getElementById('appointment_date').value;
-        const time = document.querySelector('input[name="appointment_time"]:checked');
-        const type = document.querySelector('input[name="appointment_type"]:checked');
+        // Form validation
+        const bookingForm = document.getElementById('bookingForm');
+        const submitBtn = document.getElementById('submitBtn');
 
-        if (!date || !time || !type) {
+        bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Please fill in all required fields');
+
+            // Clear previous error messages
+            document.querySelectorAll('[data-error]').forEach(el => el.remove());
+
+            const date = document.getElementById('appointment_date').value;
+            const time = document.querySelector('input[name="appointment_time"]:checked');
+            const type = document.querySelector('input[name="appointment_type"]:checked');
+
+            let hasErrors = false;
+
+            if (!date) {
+                showError('appointment_date', 'Please select an appointment date');
+                hasErrors = true;
+            }
+
+            if (!time) {
+                showError('appointment_time', 'Please select an appointment time');
+                hasErrors = true;
+            }
+
+            if (!type) {
+                showError('appointment_type', 'Please select an appointment type');
+                hasErrors = true;
+            }
+
+            if (!hasErrors) {
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                `;
+
+                // Submit the form
+                this.submit();
+            }
+        });
+
+        function showError(field, message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.setAttribute('data-error', field);
+            errorDiv.className = 'mt-1 text-sm text-red-600 flex items-center';
+            errorDiv.innerHTML = `
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                ${message}
+            `;
+
+            const inputElement = document.querySelector(`[name="${field}"]`);
+            if (inputElement) {
+                const container = inputElement.closest('.mb-6');
+                container.appendChild(errorDiv);
+            }
         }
     });
 </script>

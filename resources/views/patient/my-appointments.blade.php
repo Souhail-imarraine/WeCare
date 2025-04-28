@@ -3,7 +3,6 @@
 @section('content')
 <div class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <!-- Flash Messages -->
         @if(session('success'))
             <div class="mb-4 rounded-md bg-green-50 p-4">
                 <div class="flex">
@@ -34,7 +33,6 @@
             </div>
         @endif
 
-        <!-- Page Header -->
         <div class="md:flex md:items-center md:justify-between mb-8">
             <div class="flex-1 min-w-0">
                 <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">My Appointments</h2>
@@ -51,7 +49,6 @@
             </div>
         </div>
 
-        <!-- Table Section -->
         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">

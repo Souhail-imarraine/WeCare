@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('consult_duration')->default(30);
             $table->date('date_appointment');
             $table->time('time_appointment')->format('H:i');
+            $table->enum('appointment_type', ['Person_Visit', 'Online_Consultation'])->default('Person_Visit');
             $table->timestamps();
         });
     }

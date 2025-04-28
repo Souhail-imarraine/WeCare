@@ -19,6 +19,7 @@ class AppointmentRequest extends Model
         'consult_duration',
         'date_appointment',
         'time_appointment',
+        'appointment_type',
     ];
 
     protected $casts = [

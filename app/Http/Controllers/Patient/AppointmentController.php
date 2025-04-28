@@ -12,9 +12,19 @@ class AppointmentController extends Controller
 {
     public function store(Request $request, Doctor $doctor)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'appointment_date' => 'required|date|after_or_equal:today',
             'appointment_time' => 'required|date_format:H:i',
+            'appointment_type' => 'required|in:in_person',
+        ], [
+            'appointment_date.required' => 'Please select an appointment date.',
+            'appointment_date.date' => 'Please select a valid date.',
+            'appointment_date.after_or_equal' => 'Appointment date must be today or later.',
+            'appointment_time.required' => 'Please select an appointment time.',
+            'appointment_time.date_format' => 'Please select a valid time slot.',
+            'appointment_type.required' => 'Please select an appointment type.',
+            'appointment_type.in' => 'Please select a valid appointment type.',
         ]);
 
         try {
@@ -28,7 +38,6 @@ class AppointmentController extends Controller
                 return redirect()->back()->with('error', 'This time slot is already booked. Please select another time.');
             }
 
-            // Create the appointment request
             $appointment = AppointmentRequest::create([
                 'patient_id' => Auth::id(),
                 'doctor_id' => $doctor->id,
@@ -36,6 +45,7 @@ class AppointmentController extends Controller
                 'date_appointment' => $validated['appointment_date'],
                 'time_appointment' => $validated['appointment_time'] . ':00',
                 'consult_duration' => 30,
+                'appointment_type' => $validated['appointment_type'] == 'in_person' ? 'Person_Visit' : 'Online_Consultation',
             ]);
 
             return redirect()->back()->with('success', 'Your appointment request has been sent. We will notify you once the doctor confirms the appointment.');
