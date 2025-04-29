@@ -113,11 +113,11 @@ Route::post('/admin/login', [LoginControllerAdmin::class, 'login']);
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+    // Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::get('/doctors', [AdminDashboardController::class, 'doctors'])->name('doctors');
     Route::get('/patients', [AdminDashboardController::class, 'patients'])->name('patients');
     Route::get('/appointments', [AdminDashboardController::class, 'appointments'])->name('appointments');
-    
+
     // Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('settings');
     // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
     // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
