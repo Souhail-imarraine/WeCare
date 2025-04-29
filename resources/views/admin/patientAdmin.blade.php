@@ -5,7 +5,29 @@
 @section('content')
     <div class="min-h-screen bg-gray-100 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Section -->
+            
+            @if(session('success'))
+                <div class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="font-medium">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="font-medium">{{ session('error') }}</p>
+                    </div>
+                </div>
+            @endif
+
             <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div class="mb-4 md:mb-0">
@@ -26,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Patients Table -->
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -66,9 +87,9 @@
                                         <span
                                             class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                                     @if ($patient->status == 'active') bg-green-100 text-green-800
-                                    @elseif($patient->status == 'blocked') bg-red-100 text-red-800
+                                    @elseif($patient->status == 'desactive') bg-red-100 text-red-800
                                     @else bg-yellow-100 text-yellow-800 @endif">
-                                            {{ ucfirst($patient->status) }}
+                                            {{ $patient->status }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
@@ -112,8 +133,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Pagination -->
                 <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                     {{ $patients->links() }}
                 </div>
@@ -121,70 +140,94 @@
         </div>
     </div>
 
-    <!-- Edit Patient Modal -->
-    <div id="editPatientModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title"
+    <div id="editPatientModal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title"
         role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm" aria-hidden="true">
+            </div>
+
             <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <form id="editPatientForm" method="POST">
+                class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-6 py-5">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-semibold text-gray-900" id="modal-title">
+                            Edit Patient Information
+                        </h3>
+                        <button type="button" onclick="closeEditModal()"
+                            class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="editPatientForm" method="POST" action="{{ route('admin.patients.update', $patient->id) }}"
+                    class="bg-white px-6 pb-6">
                     @csrf
                     @method('PUT')
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                    Edit Patient Information
-                                </h3>
-                                <div class="mt-4 space-y-4">
-                                    <div>
-                                        <label for="first_name" class="block text-sm font-medium text-gray-700">First
-                                            Name</label>
-                                        <input type="text" name="first_name" id="first_name"
-                                            class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                    <div>
-                                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last
-                                            Name</label>
-                                        <input type="text" name="last_name" id="last_name"
-                                            class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                    <div>
-                                        <label for="email"
-                                            class="block text-sm font-medium text-gray-700">Email</label>
-                                        <input type="email" name="email" id="email"
-                                            class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                    <div>
-                                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone
-                                            Number</label>
-                                        <input type="tel" name="phone_number" id="phone_number"
-                                            class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-                                    <div>
-                                        <label for="status"
-                                            class="block text-sm font-medium text-gray-700">Status</label>
-                                        <select name="status" id="status"
-                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-md">
-                                            <option value="active">Active</option>
-                                            <option value="blocked">Blocked</option>
-                                            <option value="pending">Pending</option>
-                                        </select>
-                                    </div>
-                                </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">First
+                                Name</label>
+                            <div class="mt-1">
+                                <input type="text" name="first_name" id="first_name"
+                                    value="{{ $patient->user->first_name }}"
+                                    class="block w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <div class="mt-1">
+                                <input type="text" name="last_name" id="last_name"
+                                    value="{{ $patient->user->last_name }}"
+                                    class="block w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <div class="mt-1">
+                                <input type="email" name="email" id="email" value="{{ $patient->user->email }}"
+                                    class="block w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Phone
+                                Number</label>
+                            <div class="mt-1">
+                                <input type="tel" name="phone_number" id="phone_number"
+                                    value="{{ $patient->phone_number }}"
+                                    class="block w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <div class="mt-1">
+                                <select name="status" id="status"
+                                    class="block w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm focus:outline-none focus:ring-0 focus:border-gray-300">
+                                    <option value="active" {{ $patient->status == 'active' ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="desactive" {{ $patient->status == 'desactive' ? 'selected' : '' }}>
+                                        Desactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button type="submit"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-600 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:ml-3 sm:w-auto sm:text-sm">
-                            Save Changes
-                        </button>
+
+                    <div class="mt-8 flex justify-end space-x-3">
                         <button type="button" onclick="closeEditModal()"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:text-sm transition duration-150 ease-in-out">
                             Cancel
+                        </button>
+                        <button type="submit"
+                            class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-600 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:text-sm transition duration-150 ease-in-out">
+                            Save Changes
                         </button>
                     </div>
                 </form>
@@ -195,31 +238,27 @@
     @push('scripts')
         <script>
             function openEditModal(patientId) {
-                // Fetch patient data
-                fetch(`/admin/patients/${patientId}`)
-                    .then(response => response.json())
-                    .then(patient => {
-                        document.getElementById('first_name').value = patient.user.first_name;
-                        document.getElementById('last_name').value = patient.user.last_name;
-                        document.getElementById('email').value = patient.user.email;
-                        document.getElementById('phone_number').value = patient.phone_number;
-                        document.getElementById('status').value = patient.status;
-                        document.getElementById('editPatientForm').action = `/admin/patients/${patientId}`;
-
-                        document.getElementById('editPatientModal').classList.remove('hidden');
-                    })
-                    .catch(error => console.error('Error:', error));
+                document.getElementById('editPatientModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
             }
 
             function closeEditModal() {
                 document.getElementById('editPatientModal').classList.add('hidden');
+                document.body.style.overflow = '';
             }
-            // Close modal when clicking outside
+
             document.getElementById('editPatientModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeEditModal();
                 }
             });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeEditModal();
+                }
+            });
         </script>
     @endpush
+
 @endsection

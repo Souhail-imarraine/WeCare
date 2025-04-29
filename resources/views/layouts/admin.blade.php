@@ -137,20 +137,12 @@
             <!-- Page Content -->
             <main class="pt-16">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    @if(session('success'))
-                        <div class="mb-4 bg-green-50 border border-green-200 rounded-md p-4 flex items-center">
-                            <i class="fas fa-check-circle text-green-400 mr-3"></i>
-                            <span class="text-green-700">{{ session('success') }}</span>
-                        </div>
-                    @endif
-
                     @if(session('error'))
                         <div class="mb-4 bg-red-50 border border-red-200 rounded-md p-4 flex items-center">
                             <i class="fas fa-exclamation-circle text-red-400 mr-3"></i>
                             <span class="text-red-700">{{ session('error') }}</span>
                         </div>
                     @endif
-
                     @yield('content')
                 </div>
             </main>

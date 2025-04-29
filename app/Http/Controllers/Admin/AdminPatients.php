@@ -16,39 +16,35 @@ class AdminPatients extends Controller
 
     public function show(Patient $patient)
     {
-        if (request()->ajax()) {
-            return response()->json($patient->load('user'));
-        }
-
-        return view('admin.patients.show', compact('patient'));
+        return view('admin.patientAdmin', compact('patient'));
     }
 
     public function update(Request $request, Patient $patient)
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $patient->user_id,
-            'phone_number' => 'required|string|max:20',
-            'status' => 'required|in:active,blocked,pending',
-        ]);
+        try {
+            $validated = $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $patient->user_id,
+                'phone_number' => 'required|string|max:20',
+                'status' => 'required|in:active,desactive',
+            ]);
 
-        $patient->user->update([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-        ]);
+            $patient->user->update([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'email' => $validated['email'],
+            ]);
 
-        $patient->update([
-            'phone_number' => $validated['phone_number'],
-            'status' => $validated['status'],
-        ]);
+            $patient->update([
+                'phone_number' => $validated['phone_number'],
+                'status' => $validated['status'],
+            ]);
 
-        if ($request->ajax()) {
-            return response()->json(['success' => true, 'message' => 'Patient information updated successfully']);
+            return redirect()->route('admin.patients')->with('success', 'Patient information updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update patient information. Please try again.');
         }
-
-        return redirect()->back()->with('success', 'Patient information updated successfully');
     }
 
     public function block(Patient $patient)
