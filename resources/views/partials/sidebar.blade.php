@@ -2,7 +2,6 @@
 <div id="sidebar"
     class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 lg:static lg:translate-x-0 transform -translate-x-full transition-transform duration-200 ease-in-out"
 >
-    <!-- Sidebar header -->
     <div class="h-16 px-4 flex items-center justify-between border-b border-gray-200">
         <a href="/" class="flex items-center">
             <h1 class="text-xl font-bold">
@@ -10,7 +9,6 @@
                 <span class="text-gray-800 ml-0.5">Car</span><span class="text-cyan-500">e</span>
             </h1>
         </a>
-        <!-- Close button (visible on mobile) -->
         <button
             class="text-gray-500 hover:text-gray-600 lg:hidden"
             id="sidebar-close"

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\DoctorRegisterController;
 use App\Http\Controllers\Auth\PatientRegisterController;
@@ -17,7 +16,8 @@ use App\Http\Controllers\DoctorProfileController;
 use App\Http\Controllers\PatientDoctorProfileController;
 use App\Http\Controllers\Patient\AppointmentController;
 use App\Http\Controllers\Patient\My_appointments;
-// Public Routes
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\LoginControllerAdmin;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -89,22 +89,37 @@ Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->g
     Route::delete('/appointments/{appointment}/delete', [My_appointments::class, 'deleteAppointment'])->name('appointments.delete');
     Route::get('/appointments/{appointment}/reschedule', [My_appointments::class, 'redirectToDoctorProfile'])->name('appointments.reschedule');
     Route::post('/appointments/{appointment}/reschedule', [My_appointments::class, 'reschedule'])->name('appointments.reschedule.submit');
-});
-
-
-Route::prefix('specialties')->name('specialties.')->group(function () {
-    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
-    Route::get('/telehealth', [SpecialtyController::class, 'telehealth'])->name('telehealth');
-    Route::get('/physiotherapist', [SpecialtyController::class, 'physiotherapist'])->name('physiotherapist');
-    Route::get('/dentist', [SpecialtyController::class, 'dentist'])->name('dentist');
-    Route::get('/psychologist', [SpecialtyController::class, 'psychologist'])->name('psychologist');
-    Route::get('/optometrist', [SpecialtyController::class, 'optometrist'])->name('optometrist');
-    Route::get('/chiropractor', [SpecialtyController::class, 'chiropractor'])->name('chiropractor');
-    Route::get('/podiatrist', [SpecialtyController::class, 'podiatrist'])->name('podiatrist');
-    Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
-});
-
-Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::post('/doctors/{doctor}/book-appointment', [AppointmentController::class, 'store'])
-        ->name('patient.book_appointment');
+    ->name('patient.book_appointment');
 });
+
+
+// Route::prefix('specialties')->name('specialties.')->group(function () {
+//     Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
+//     Route::get('/telehealth', [SpecialtyController::class, 'telehealth'])->name('telehealth');
+//     Route::get('/physiotherapist', [SpecialtyController::class, 'physiotherapist'])->name('physiotherapist');
+//     Route::get('/dentist', [SpecialtyController::class, 'dentist'])->name('dentist');
+//     Route::get('/psychologist', [SpecialtyController::class, 'psychologist'])->name('psychologist');
+//     Route::get('/optometrist', [SpecialtyController::class, 'optometrist'])->name('optometrist');
+//     Route::get('/chiropractor', [SpecialtyController::class, 'chiropractor'])->name('chiropractor');
+//     Route::get('/podiatrist', [SpecialtyController::class, 'podiatrist'])->name('podiatrist');
+//     Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
+// });
+
+
+// admin controllers *******************************************************************************
+Route::get('/admin/login', [LoginControllerAdmin::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [LoginControllerAdmin::class, 'login']);
+
+Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+    Route::get('/doctors', [AdminDashboardController::class, 'doctors'])->name('doctors');
+    Route::get('/patients', [AdminDashboardController::class, 'patients'])->name('patients');
+    Route::get('/appointments', [AdminDashboardController::class, 'appointments'])->name('appointments');
+    
+    // Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('settings');
+    // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
+    // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
+});
+

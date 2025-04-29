@@ -114,21 +114,18 @@
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <!-- Success Message -->
         @if (session('success'))
         <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg relative" role="alert">
             <p class="font-medium">{{ session('success') }}</p>
         </div>
         @endif
 
-        <!-- Error Message -->
         @if (session('error'))
         <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
             <p class="font-medium">{{ session('error') }}</p>
         </div>
         @endif
 
-        <!-- Validation Errors -->
         @if ($errors->any())
         <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
             <ul class="list-disc list-inside">
@@ -139,27 +136,7 @@
         </div>
         @endif
 
-        <div class="flex items-center justify-between mb-6 lg:mb-8">
-            <h1 class="text-2xl font-semibold text-gray-900">Doctor Profile</h1>
-            @if($canBookAppointment)
-            <a href="{{ route('patient.book_appointment', $doctor->id) }}" class="inline-flex items-center px-6 py-3 bg-cyan-600 text-white rounded-lg font-semibold text-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Book Appointment
-            </a>
-            @else
-            <a href="{{ route('login') }}" class="inline-flex items-center px-6 py-3 bg-cyan-600 text-white rounded-lg font-semibold text-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                </svg>
-                Login to Book
-            </a>
-            @endif
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
-            <!-- Left Column - Profile Info -->
             <div class="md:col-span-4">
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                     <div class="p-6 lg:p-8">
@@ -179,7 +156,6 @@
                             <p class="mt-2 text-gray-500 text-sm">{{ $doctor->city }}</p>
                         </div>
 
-                        <!-- Quick Stats -->
                         <div class="mt-8 grid grid-cols-2 gap-4">
                             <div class="bg-gray-50 rounded-lg p-4">
                                 <div class="flex items-center">

@@ -31,9 +31,8 @@ class PatientDoctorController extends Controller
 
         if (!$lastAppointment) {
             return redirect()->route('patient.appointments')
-                           ->with('error', 'No previous confirmed appointment found with this doctor.');
+                                ->with('error', 'No previous confirmed appointment found with this doctor.');
         }
-
         return view('patient.book-followup', compact('doctor', 'lastAppointment'));
     }
 }

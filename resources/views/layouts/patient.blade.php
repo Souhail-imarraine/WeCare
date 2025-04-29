@@ -4,16 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'WeCare') }} - Patient Dashboard</title>
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <style>
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -35,12 +30,9 @@
 </head>
 <body class="font-sans antialiased bg-gray-100">
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
         @include('partials.patient-sidebar')
 
-        <!-- Content area -->
         <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            <!-- Site header -->
             <header class="sticky top-0 bg-white border-b border-gray-200 z-30 lg:hidden">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-16 -mb-px">
@@ -58,19 +50,14 @@
                 </div>
             </header>
 
-            <!-- Main content -->
             <main class="flex-1">
                 <div class="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
                     @yield('content')
                 </div>
             </main>
         </div>
-
-        <!-- Sidebar Overlay -->
         <div class="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden transition-opacity duration-200 opacity-0 pointer-events-none" aria-hidden="true" id="sidebar-overlay"></div>
     </div>
-
-    <!-- Sidebar Toggle Script -->
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebar-toggle');

@@ -137,7 +137,6 @@
                         @enderror
                     </div>
 
-                    <!-- Submit Button -->
                     <button type="submit" class="submit-btn">
                         Create an account
                     </button>

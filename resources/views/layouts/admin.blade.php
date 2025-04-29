@@ -62,12 +62,12 @@
                         <span>Appointments</span>
                     </a>
 
-                    <a href="{{ route('admin.specialties') }}" class="flex items-center px-4 py-3 text-white hover:bg-cyan-700 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.specialties') ? 'bg-cyan-700' : '' }}">
+                    <a href="" class="flex items-center px-4 py-3 text-white hover:bg-cyan-700 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.specialties') ? 'bg-cyan-700' : '' }}">
                         <i class="fas fa-stethoscope w-5 h-5 mr-3"></i>
                         <span>Specialties</span>
                     </a>
 
-                    <a href="{{ route('admin.reports') }}" class="flex items-center px-4 py-3 text-white hover:bg-cyan-700 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.reports') ? 'bg-cyan-700' : '' }}">
+                    <a href="" class="flex items-center px-4 py-3 text-white hover:bg-cyan-700 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.reports') ? 'bg-cyan-700' : '' }}">
                         <i class="fas fa-chart-bar w-5 h-5 mr-3"></i>
                         <span>Reports</span>
                     </a>
@@ -83,7 +83,7 @@
                     <div class="ml-3">
                         <p class="text-sm font-medium text-white">{{ Auth::user()->name }}</p>
                         <div class="flex space-x-3 text-xs text-gray-300">
-                            <a href="{{ route('admin.profile') }}" class="hover:text-white">Profile</a>
+                            <a href="" class="hover:text-white">Profile</a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit" class="hover:text-white">Sign out</button>
@@ -120,7 +120,7 @@
                         </button>
 
                         <!-- Settings -->
-                        <a href="{{ route('admin.settings') }}" class="text-gray-500 hover:text-gray-600">
+                        {{-- <a href="{{ route('admin.settings') }}" class="text-gray-500 hover:text-gray-600"> --}}
                             <span class="sr-only">Settings</span>
                             <i class="fas fa-cog w-6 h-6"></i>
                         </a>
