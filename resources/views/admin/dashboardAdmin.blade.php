@@ -1,16 +1,13 @@
 @extends('layouts.admin')
 
-@section('content')
-<div class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
-    <div class="max-w-7xl mx-auto">
-        <div class="md:flex md:items-center md:justify-between mb-8">
-            <div class="flex-1 min-w-0">
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Admin Dashboard</h2>
-                <p class="mt-1 text-sm text-gray-500">Manage doctors, patients, and appointments</p>
-            </div>
-        </div>
+@section('title', 'Dashboard')
 
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+@section('content')
+<div class="py-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <!-- Total Doctors Card -->
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -31,6 +28,7 @@
                 </div>
             </div>
 
+            <!-- Total Patients Card -->
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -51,6 +49,7 @@
                 </div>
             </div>
 
+            <!-- Total Appointments Card -->
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -71,6 +70,7 @@
                 </div>
             </div>
 
+            <!-- Pending Approvals Card -->
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -92,26 +92,36 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Activity Grid -->
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Doctors -->
             <div class="bg-white shadow-sm rounded-lg">
                 <div class="p-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Recent Doctors</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Doctors</h3>
+                        <a href="{{ route('admin.doctors') }}" class="text-sm text-cyan-600 hover:text-cyan-700">View all</a>
+                    </div>
                     <div class="flow-root">
                         <ul class="-my-5 divide-y divide-gray-200">
                             @forelse($recentDoctors ?? [] as $doctor)
                             <li class="py-4">
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-shrink-0">
-                                        <img class="h-8 w-8 rounded-full" src="{{ $doctor->profile_image ?? 'https://ui-avatars.com/api/?name=' . urlencode($doctor->name) }}" alt="{{ $doctor->name }}">
+                                        <img class="h-8 w-8 rounded-full"
+                                             src="{{ $doctor['profile_image'] ?? 'https://ui-avatars.com/api/?name=' . urlencode($doctor['name']) }}"
+                                             alt="{{ $doctor['name'] }}">
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate">Dr. {{ $doctor->name }}</p>
-                                        <p class="text-sm text-gray-500 truncate">{{ $doctor->specialty }}</p>
+                                        <p class="text-sm font-medium text-gray-900 truncate">Dr. {{ $doctor['name'] }}</p>
+                                        <p class="text-sm text-gray-500 truncate">{{ $doctor['specialty'] }}</p>
                                     </div>
                                     <div>
-                                        <a href="#" class="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50">
-                                            View
-                                        </a>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                            @if($doctor['status'] == 'approved') bg-green-100 text-green-800
+                                            @elseif($doctor['status'] == 'pending') bg-yellow-100 text-yellow-800
+                                            @else bg-red-100 text-red-800 @endif">
+                                            {{ ucfirst($doctor['status']) }}
+                                        </span>
                                     </div>
                                 </div>
                             </li>
@@ -122,17 +132,16 @@
                             @endforelse
                         </ul>
                     </div>
-                    <div class="mt-6">
-                        <a href="#" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            View all
-                        </a>
-                    </div>
                 </div>
             </div>
 
+            <!-- Recent Appointments -->
             <div class="bg-white shadow-sm rounded-lg">
                 <div class="p-6">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Recent Appointments</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Appointments</h3>
+                        <a href="{{ route('admin.appointments') }}" class="text-sm text-cyan-600 hover:text-cyan-700">View all</a>
+                    </div>
                     <div class="flow-root">
                         <ul class="-my-5 divide-y divide-gray-200">
                             @forelse($recentAppointments ?? [] as $appointment)
@@ -140,18 +149,18 @@
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{ $appointment->patient_name }} with Dr. {{ $appointment->doctor_name }}
+                                            {{ $appointment['patient_name'] }} with Dr. {{ $appointment['doctor_name'] }}
                                         </p>
                                         <p class="text-sm text-gray-500 truncate">
-                                            {{ \Carbon\Carbon::parse($appointment->date)->format('M d, Y') }} at {{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}
+                                            {{ \Carbon\Carbon::parse($appointment['date'])->format('M d, Y') }} at {{ \Carbon\Carbon::parse($appointment['time'])->format('h:i A') }}
                                         </p>
                                     </div>
                                     <div>
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                            @if($appointment->status == 'completed') bg-green-100 text-green-800
-                                            @elseif($appointment->status == 'pending') bg-yellow-100 text-yellow-800
+                                            @if($appointment['status'] == 'completed') bg-green-100 text-green-800
+                                            @elseif($appointment['status'] == 'pending') bg-yellow-100 text-yellow-800
                                             @else bg-red-100 text-red-800 @endif">
-                                            {{ ucfirst($appointment->status) }}
+                                            {{ ucfirst($appointment['status']) }}
                                         </span>
                                     </div>
                                 </div>
@@ -162,11 +171,6 @@
                             </li>
                             @endforelse
                         </ul>
-                    </div>
-                    <div class="mt-6">
-                        <a href="#" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            View all
-                        </a>
                     </div>
                 </div>
             </div>
