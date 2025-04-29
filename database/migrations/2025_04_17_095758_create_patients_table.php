@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('weight')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'other', 'unknown'])->nullable();
+            $table->enum('status', ['active', 'desactive'])->default('active');
             $table->timestamps();
         });
     }

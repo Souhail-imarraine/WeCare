@@ -12,32 +12,11 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $totalDoctors = Doctor::count();
+        $totalDoctors = Doctor::where('status', 'approved')->count();
         $totalPatients = Patient::count();
         $totalAppointments = AppointmentRequest::count();
         $pendingApprovals = Doctor::where('status', 'pending')->count();
-
-        $recentDoctors = Doctor::with('user')
-            ->latest()
-            ->take(5)
-            ->get();
-
-        // Get recent appointments with doctor and patient information
-        // $recentAppointments = AppointmentRequest::with(['doctor.user', 'patient.user'])
-        //     ->latest()
-        //     ->take(5)
-        //     ->get()
-        //     ->map(function ($appointment) {
-        //         return [
-        //             'patient_name' => $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name,
-        //             'doctor_name' => $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name,
-        //             'date' => $appointment->appointment_date,
-        //             'time' => $appointment->appointment_time,
-        //             'status' => $appointment->status
-        //         ];
-        //     });
-
-        return view('admin.dashboardAdmin');
+        return view('admin.dashboardAdmin', compact('totalDoctors', 'totalPatients', 'totalAppointments', 'pendingApprovals'));
     }
 
 

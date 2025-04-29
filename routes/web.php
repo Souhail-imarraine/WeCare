@@ -18,6 +18,7 @@ use App\Http\Controllers\Patient\AppointmentController;
 use App\Http\Controllers\Patient\My_appointments;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\LoginControllerAdmin;
+use App\Http\Controllers\Admin\AdminPatients;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -118,8 +119,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/patients', [AdminDashboardController::class, 'patients'])->name('patients');
     Route::get('/appointments', [AdminDashboardController::class, 'appointments'])->name('appointments');
 
-    // Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('settings');
-    // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
-    // Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
+
+    // Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+    Route::get('/patients/{patient}', [PatientController::class, 'show'])->name('patients.show');
+    Route::put('/patients/{patient}', [PatientController::class, 'update'])->name('patients.update');
 });
 
