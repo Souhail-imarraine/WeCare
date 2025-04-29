@@ -7,15 +7,12 @@
 
     <title>{{ config('app.name', 'WeCare') }} - Admin</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -36,7 +33,6 @@
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-50">
-        <!-- Mobile Menu Button -->
         <div class="fixed top-0 left-0 z-40 lg:hidden">
             <button id="mobile-menu-button" class="p-4 text-gray-500 hover:text-gray-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,10 +41,8 @@
             </button>
         </div>
 
-        <!-- Sidebar -->
         <div class="fixed inset-y-0 left-0 w-64 bg-cyan-800 transition-transform duration-300 ease-in-out z-30 sidebar"
              id="sidebar">
-            <!-- Logo -->
             <div class="flex items-center justify-between px-4 py-6">
                 <div class="flex items-center">
                     <span class="text-white text-xl font-bold">WeCare Admin</span>
@@ -60,7 +54,6 @@
                 </button>
             </div>
 
-            <!-- Navigation -->
             <nav class="mt-4 px-2">
                 <div class="space-y-1">
                     <a href="{{ route('admin.dashboard') }}"
@@ -81,10 +74,10 @@
                         <span>Patients</span>
                     </a>
 
-                    <a href="{{ route('admin.appointments') }}"
+                    <a href="{{ route('admin.requests') }}"
                        class="flex items-center px-3 py-2 text-sm text-white hover:bg-cyan-700 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.appointments') ? 'bg-cyan-700' : '' }}">
                         <i class="fas fa-calendar-alt w-5 h-5 mr-3"></i>
-                        <span>Appointments</span>
+                        <span>Requests</span>
                     </a>
 
                     <a href="#"
