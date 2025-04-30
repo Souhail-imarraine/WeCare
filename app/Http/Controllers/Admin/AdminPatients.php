@@ -47,6 +47,18 @@ class AdminPatients extends Controller
         }
     }
 
+    public function destroy(Patient $patient)
+    {
+        try {
+            $patient->user->delete();
+            $patient->delete();
+
+            return redirect()->route('admin.patients')->with('success', 'Patient deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete patient. Please try again.');
+        }
+    }
+
     public function block(Patient $patient)
     {
         $patient->update(['status' => 'blocked']);
