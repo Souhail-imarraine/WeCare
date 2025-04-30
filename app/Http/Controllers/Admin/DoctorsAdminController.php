@@ -59,4 +59,19 @@ class DoctorsAdminController extends Controller
             return redirect()->route('admin.doctors')->with('error', 'Failed to update doctor information. Please try again.');
         }
     }
+
+    public function destroy(Doctor $doctor)
+    {
+        try {
+            // Delete the associated user
+            $doctor->user->delete();
+
+            // Delete the doctor record
+            $doctor->delete();
+
+            return redirect()->route('admin.doctors')->with('success', 'Doctor deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.doctors')->with('error', 'Failed to delete doctor. Please try again.');
+        }
+    }
 }

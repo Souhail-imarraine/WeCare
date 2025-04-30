@@ -166,8 +166,8 @@
                                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
                                             </button>
-                                            <button class="text-red-600 hover:text-red-900 focus:outline-none"
-                                                title="Delete">
+                                            <button onclick="showDeleteModal('{{ $doctor->id }}', '{{ $doctor->user->first_name }} {{ $doctor->user->last_name }}')"
+                                                class="text-red-600 hover:text-red-900 focus:outline-none" title="Delete">
                                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -186,9 +186,20 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
-                                            <p class="mt-2 text-sm font-medium text-gray-900">No doctors found</p>
-                                            <p class="mt-1 text-sm text-gray-500">Try adjusting your search or filter to
-                                                find what you're looking for.</p>
+                                            <p class="mt-2 text-sm font-medium text-gray-900">
+                                                @if(request('search'))
+                                                    No doctors found matching your search criteria
+                                                @else
+                                                    No doctors found
+                                                @endif
+                                            </p>
+                                            <p class="mt-1 text-sm text-gray-500">
+                                                @if(request('search'))
+                                                    Try adjusting your search or filter to find what you're looking for.
+                                                @else
+                                                    New doctor registrations will appear here once they are approved.
+                                                @endif
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
@@ -245,9 +256,9 @@
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
                                 <select id="editStatus" name="status"
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                                    <option value="pending" {{ $doctor->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="approved" {{ $doctor->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                                    <option value="rejected" {{ $doctor->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
                                 </select>
                             </div>
                         </div>
@@ -265,29 +276,42 @@
                 </div>
             </div>
         </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md transform transition-all">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900">Delete Doctor</h3>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Are you sure you want to delete <span id="deleteDoctorName" class="font-semibold"></span>? This action cannot be undone.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <button onclick="closeDeleteModal()"
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Cancel
+                        </button>
+                        <form id="deleteForm" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-
-
     <script>
-        function closeAlert(alertId) {
-            document.getElementById(alertId).style.display = 'none';
-        }
-
-        // Auto-hide alerts after 2 seconds
-        if (document.getElementById('successAlert')) {
-            setTimeout(function() {
-                document.getElementById('successAlert').style.display = 'none';
-            }, 2000);
-        }
-
-        if (document.getElementById('errorAlert')) {
-            setTimeout(function() {
-                document.getElementById('errorAlert').style.display = 'none';
-            }, 2000);
-        }
-
         let currentDoctorId = null;
+        let deleteDoctorId = null;
 
         function showEditModal(doctorId, firstName, lastName, email, phone, status) {
             currentDoctorId = doctorId;
@@ -306,9 +330,21 @@
             document.body.style.overflow = 'auto';
         }
 
+        function showDeleteModal(doctorId, doctorName) {
+            deleteDoctorId = doctorId;
+            document.getElementById('deleteDoctorName').textContent = doctorName;
+            document.getElementById('deleteForm').action = `/admin/doctors/${doctorId}`;
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
         function saveChanges() {
             const form = document.getElementById('editForm');
-
             form.action = `/admin/doctors/${currentDoctorId}`;
             form.method = 'POST';
 
@@ -317,14 +353,39 @@
             methodInput.name = '_method';
             methodInput.value = 'PUT';
             form.appendChild(methodInput);
+
             form.submit();
             closeEditModal();
         }
 
+        // Close modals when clicking outside
         document.getElementById('editModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeEditModal();
             }
         });
+
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        function closeAlert(alertId) {
+            document.getElementById(alertId).style.display = 'none';
+        }
+
+        // Auto-hide alerts after 2 seconds
+        if (document.getElementById('successAlert')) {
+            setTimeout(function() {
+                document.getElementById('successAlert').style.display = 'none';
+            }, 2000);
+        }
+
+        if (document.getElementById('errorAlert')) {
+            setTimeout(function() {
+                document.getElementById('errorAlert').style.display = 'none';
+            }, 2000);
+        }
     </script>
 @endsection

@@ -130,6 +130,7 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::delete('/patients/{patient}', [AdminPatients::class, 'destroy'])->name('patients.destroy');
 
     Route::put('/doctors/{doctor}', [DoctorsAdminController::class, 'update'])->name('admin.doctors.update');
+    Route::delete('/doctors/{doctor}', [DoctorsAdminController::class, 'destroy'])->name('admin.doctors.destroy');
 
 });
 

@@ -34,7 +34,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // Check if the user's role matches the selected role
             if ($user->role !== $request->role) {
                 Auth::logout();
                 return redirect()->back()
@@ -42,7 +41,6 @@ class LoginController extends Controller
                     ->withInput();
             }
 
-            // If the user is a doctor, check their status
             if ($user->role === 'doctor') {
                 $doctor = $user->doctor;
 
@@ -59,7 +57,6 @@ class LoginController extends Controller
                 }
             }
 
-            // If the user is a patient, check their status
             if ($user->role === 'patient') {
                 $patient = $user->patient;
 
@@ -71,7 +68,6 @@ class LoginController extends Controller
                 }
             }
 
-            // Redirect based on role
             if ($user->role === 'doctor') {
                 return redirect()->route('doctor.dashboard');
             } else {
