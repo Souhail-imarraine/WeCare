@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Doctor;
-use App\Models\Patient;
+// use App\Models\Doctor;
+// use App\Models\Patient;
 use App\Models\AppointmentRequest;
 use App\Models\User;
 
@@ -12,11 +12,57 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $totalDoctors = Doctor::where('status', 'approved')->count();
-        $totalPatients = Patient::count();
+        $totalPatients = User::where('role', 'patient')->count();
+        $totalDoctors = User::where('role', 'doctor')->count();
         $totalAppointments = AppointmentRequest::count();
-        $pendingApprovals = Doctor::where('status', 'pending')->count();
-        return view('admin.dashboardAdmin', compact('totalDoctors', 'totalPatients', 'totalAppointments', 'pendingApprovals'));
+        // $totalRevenue = AppointmentRequest::where('status', 'completed')->sum('price');
+
+        // Get appointment status counts
+        $completedAppointments = AppointmentRequest::where('status', 'completed')->count();
+        $pendingAppointments = AppointmentRequest::where('status', 'pending')->count();
+        $cancelledAppointments = AppointmentRequest::where('status', 'cancelled')->count();
+
+        // Get recent doctors with their specialties
+        $recentDoctors = User::where('role', 'doctor')
+            ->with('doctor')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name' => $user->first_name . ' ' . $user->last_name,
+                    'specialty' => $user->doctor->specialty,
+                    'status' => $user->doctor->status,
+                    'profile_image' => $user->profile_image
+                ];
+            });
+
+        $recentAppointments = AppointmentRequest::with(['patient', 'doctor.user'])
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'patient_name' => $appointment->patient->first_name . ' ' . $appointment->patient->last_name,
+                    'doctor_name' => 'Dr. ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name,
+                    'date' => $appointment->appointment_date,
+                    'time' => $appointment->appointment_time,
+                    'status' => $appointment->status,
+                    'price' => $appointment->price
+                ];
+            });
+
+        return view('admin.dashboardAdmin', compact(
+            'totalPatients',
+            'totalDoctors',
+            'totalAppointments',
+            'completedAppointments',
+            'pendingAppointments',
+            'cancelledAppointments',
+            'recentDoctors',
+            'recentAppointments'
+        ));
     }
 
 
