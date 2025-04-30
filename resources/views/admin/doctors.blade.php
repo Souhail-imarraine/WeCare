@@ -24,30 +24,39 @@
         </div>
 
         <!-- Search and Filter Section -->
-        {{-- <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="col-span-2">
                     <label for="search" class="block text-sm font-medium text-gray-700">Search Doctors</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                        <input type="text" name="search" id="search" class="focus:ring-cyan-500 focus:border-cyan-500 block w-full pl-10 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Search by name, specialty, email...">
+                    <div class="mt-1 relative rounded-md shadow-sm flex">
+                        <form action="{{ route('admin.doctors') }}" method="GET" class="flex w-full">
+                            <div class="relative flex-grow">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="search" id="search"
+                                    value="{{ request('search') }}"
+                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                                    placeholder="Search by name, specialty, email...">
+                            </div>
+                            <div class="ml-2">
+                                <select name="status" id="status" class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-md">
+                                    <option value="">All Status</option>
+                                    <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                                Search
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700">Filter by Status</label>
-                    <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm rounded-md">
-                        <option value="">All Status</option>
-                        <option value="approved">Approved</option>
-                        <option value="pending">Pending</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
             </div>
-        </div> --}}
+        </div>
 
         <!-- Doctors Table -->
         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
@@ -93,7 +102,7 @@
                                     @if($doctor->status == 'approved') bg-green-100 text-green-800
                                     @elseif($doctor->status == 'pending') bg-yellow-100 text-yellow-800
                                     @else bg-red-100 text-red-800 @endif">
-                                    {{ ucfirst($doctor->status) }}
+                                    {{ $doctor->status }}
                                 </span>
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">

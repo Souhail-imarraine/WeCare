@@ -20,25 +20,6 @@ class AdminDashboardController extends Controller
     }
 
 
-
-    public function doctors()
-    {
-        $doctors = Doctor::with('user')
-            ->latest()
-            ->paginate(10);
-        return view('admin.doctors', compact('doctors'));
-    }
-
-        public function patients()
-    {
-        $patients = Patient::with('user')
-            ->latest()
-            ->paginate(10);
-
-        return view('admin.patientAdmin', compact('patients'));
-    }
-
-
     public function appointments()
     {
         $appointments = AppointmentRequest::with(['doctor.user', 'patient.user'])

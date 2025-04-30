@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\LoginControllerAdmin;
 use App\Http\Controllers\Admin\AdminPatients;
 use App\Http\Controllers\Admin\RequestAdminController;
-
+use App\Http\Controllers\Admin\DoctorsAdminController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -116,8 +116,8 @@ Route::post('/admin/login', [LoginControllerAdmin::class, 'login']);
 
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/doctors', [AdminDashboardController::class, 'doctors'])->name('doctors');
-    Route::get('/patients', [AdminPatients::class, 'index'])->name('patients');
+    Route::get('/doctors', [DoctorsAdminController::class, 'doctors'])->name('doctors');
+    Route::get('/patients', [AdminPatients::class, 'patients'])->name('patients');
     Route::get('/appointments', [AdminDashboardController::class, 'appointments'])->name('appointments');
     Route::get('request', [RequestAdminController::class, 'index'])->name('requests');
     Route::get('request/{id}', [RequestAdminController::class, 'show'])->name('requests.show');

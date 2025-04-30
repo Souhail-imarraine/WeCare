@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 
 class AdminPatients extends Controller
 {
-    public function index()
+    public function patients()
     {
-        $patients = Patient::with('user')->paginate(10);
+        $patients = Patient::with('user')
+            ->latest()
+            ->paginate(10);
+
         return view('admin.patientAdmin', compact('patients'));
     }
 
@@ -40,7 +43,6 @@ class AdminPatients extends Controller
                 'phone_number' => $validated['phone_number'],
                 'status' => $validated['status'],
             ]);
-
             return redirect()->route('admin.patients')->with('success', 'Patient information updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to update patient information. Please try again.');
