@@ -128,5 +128,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/patients/{patient}', [AdminPatients::class, 'show'])->name('patients.show');
     Route::put('/patients/{patient}', [AdminPatients::class, 'update'])->name('patients.update');
     Route::delete('/patients/{patient}', [AdminPatients::class, 'destroy'])->name('patients.destroy');
+
+    Route::put('/doctors/{doctor}', [DoctorsAdminController::class, 'update'])->name('admin.doctors.update');
+
 });
 
