@@ -48,9 +48,9 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Stats Section -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 mb-8">
                 <div class="bg-white overflow-hidden shadow-sm rounded-xl p-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 bg-cyan-100 rounded-lg p-3">
@@ -74,32 +74,6 @@
                         <div class="ml-5">
                             <p class="text-sm font-medium text-gray-500 truncate">Pending Requests</p>
                             <p class="text-2xl font-semibold text-gray-900">{{ $requests->where('status', 'pending')->count() }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white overflow-hidden shadow-sm rounded-xl p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-emerald-100 rounded-lg p-3">
-                            <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <div class="ml-5">
-                            <p class="text-sm font-medium text-gray-500 truncate">Approved Requests</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ $requests->where('status', 'approved')->count() }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white overflow-hidden shadow-sm rounded-xl p-6">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-rose-100 rounded-lg p-3">
-                            <svg class="h-6 w-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </div>
-                        <div class="ml-5">
-                            <p class="text-sm font-medium text-gray-500 truncate">Rejected Requests</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ $requests->where('status', 'rejected')->count() }}</p>
                         </div>
                     </div>
                 </div>

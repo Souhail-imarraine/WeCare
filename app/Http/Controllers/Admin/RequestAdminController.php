@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctor;
+use App\Mail\DoctorApprovalMail;
+use Illuminate\Support\Facades\Mail;
 
 class RequestAdminController extends Controller
 {
@@ -17,10 +19,17 @@ class RequestAdminController extends Controller
 
     public function approve($id)
     {
-        $doctor = Doctor::find($id);
-        $doctor->status = 'approved';
-        $doctor->save();
-        return redirect()->back()->with('success', 'Doctor approved successfully');
+        try {
+            $doctor = Doctor::findOrFail($id);
+            $doctor->status = 'approved';
+            $doctor->save();
+
+            Mail::to($doctor->user->email)->send(new DoctorApprovalMail($doctor));
+
+            return redirect()->back()->with('success', 'Doctor approved successfully and notification email sent.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to approve doctor. Please try again.');
+        }
     }
 
     public function reject($id)

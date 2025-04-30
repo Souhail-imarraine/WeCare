@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 // use App\Models\Patient;
 use App\Models\AppointmentRequest;
 use App\Models\User;
+use App\Models\Doctor;
 
 class AdminDashboardController extends Controller
 {
@@ -21,6 +22,11 @@ class AdminDashboardController extends Controller
         $completedAppointments = AppointmentRequest::where('status', 'completed')->count();
         $pendingAppointments = AppointmentRequest::where('status', 'pending')->count();
         $cancelledAppointments = AppointmentRequest::where('status', 'cancelled')->count();
+
+        // Get doctor status counts
+        $rejectedDoctors = Doctor::where('status', 'rejected')->count();
+
+
 
         // Get recent doctors with their specialties
         $recentDoctors = User::where('role', 'doctor')
@@ -61,7 +67,7 @@ class AdminDashboardController extends Controller
             'pendingAppointments',
             'cancelledAppointments',
             'recentDoctors',
-            'recentAppointments'
+            'rejectedDoctors',
         ));
     }
 
