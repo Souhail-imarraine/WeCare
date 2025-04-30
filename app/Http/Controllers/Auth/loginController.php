@@ -58,7 +58,19 @@ class LoginController extends Controller
                         ->withInput();
                 }
             }
-            
+
+            // If the user is a patient, check their status
+            if ($user->role === 'patient') {
+                $patient = $user->patient;
+
+                if ($patient->status === 'desactive') {
+                    Auth::logout();
+                    return redirect()->back()
+                        ->with('error', 'Your account is deactivated. Please contact support for more information.')
+                        ->withInput();
+                }
+            }
+
             // Redirect based on role
             if ($user->role === 'doctor') {
                 return redirect()->route('doctor.dashboard');

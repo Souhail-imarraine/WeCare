@@ -12,7 +12,6 @@ class RequestAdminController extends Controller
         $requests = Doctor::where('status', 'pending')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
         return view('admin.requestsAdmin', compact('requests'));
     }
 
