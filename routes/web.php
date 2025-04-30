@@ -130,8 +130,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::put('/patients/{patient}', [AdminPatients::class, 'update'])->name('patients.update');
     Route::delete('/patients/{patient}', [AdminPatients::class, 'destroy'])->name('patients.destroy');
 
-    Route::put('/doctors/{doctor}', [DoctorsAdminController::class, 'update'])->name('admin.doctors.update');
-    Route::delete('/doctors/{doctor}', [DoctorsAdminController::class, 'destroy'])->name('admin.doctors.destroy');
+    Route::put('/doctors/{doctor}', [DoctorsAdminController::class, 'update'])->name('doctors.update');
+    Route::delete('/doctors/{doctor}', [DoctorsAdminController::class, 'destroy'])->name('doctors.destroy');
 
     // Doctor Requests Routes
     Route::get('/doctor-requests', [DoctorRequestsController::class, 'index'])->name('doctor.requests');

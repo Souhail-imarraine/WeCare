@@ -229,45 +229,46 @@
                             </svg>
                         </button>
                     </div>
-                    <form id="editForm" class="space-y-6">
+                    <form id="editForm" method="POST" class="space-y-6">
                         @csrf
+                        @method('PUT')
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
-                                <input type="text" id="editFirstName" name="first_name"
+                                <input type="text" id="editFirstName" name="first_name" required
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Last Name</label>
-                                <input type="text" id="editLastName" name="last_name"
+                                <input type="text" id="editLastName" name="last_name" required
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                                <input type="email" id="editEmail" name="email"
+                                <input type="email" id="editEmail" name="email" required
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
-                                <input type="text" id="editPhone" name="phone_number"
+                                <input type="text" id="editPhone" name="phone_number" required
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             </div>
-                            {{-- <div>
+                            <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
-                                <select id="editStatus" name="status"
+                                <select id="editStatus" name="status" required
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                                     <option value="pending">Pending</option>
                                     <option value="approved">Approved</option>
                                     <option value="rejected">Rejected</option>
                                 </select>
-                            </div> --}}
+                            </div>
                         </div>
                         <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
                             <button type="button" onclick="closeEditModal()"
                                 class="px-6 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200">
                                 Cancel
                             </button>
-                            <button type="button" onclick="saveChanges()"
+                            <button type="submit"
                                 class="px-6 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
                                 Save Changes
                             </button>
@@ -313,13 +314,16 @@
         let currentDoctorId = null;
         let deleteDoctorId = null;
 
-        function showEditModal(doctorId, firstName, lastName, email, phone) {
+        function showEditModal(doctorId, firstName, lastName, email, phone, status) {
             currentDoctorId = doctorId;
             document.getElementById('editFirstName').value = firstName;
             document.getElementById('editLastName').value = lastName;
             document.getElementById('editEmail').value = email;
             document.getElementById('editPhone').value = phone;
-            // document.getElementById('editStatus').value = status;
+            document.getElementById('editStatus').value = status;
+
+            const form = document.getElementById('editForm');
+            form.action = `/admin/doctors/${doctorId}`;
 
             document.getElementById('editModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -345,15 +349,6 @@
 
         function saveChanges() {
             const form = document.getElementById('editForm');
-            form.action = `/admin/doctors/${currentDoctorId}`;
-            form.method = 'POST';
-
-            const methodInput = document.createElement('input');
-            methodInput.type = 'hidden';
-            methodInput.name = '_method';
-            methodInput.value = 'PUT';
-            form.appendChild(methodInput);
-
             form.submit();
             closeEditModal();
         }
@@ -375,7 +370,6 @@
             document.getElementById(alertId).style.display = 'none';
         }
 
-        // Auto-hide alerts after 2 seconds
         if (document.getElementById('successAlert')) {
             setTimeout(function() {
                 document.getElementById('successAlert').style.display = 'none';

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Mail\DoctorApprovalMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\DoctorRejectionMail;
 
 class RequestAdminController extends Controller
 {
@@ -34,10 +35,17 @@ class RequestAdminController extends Controller
 
     public function reject($id)
     {
-        $doctor = Doctor::find($id);
-        $doctor->status = 'rejected';
-        $doctor->save();
-        return redirect()->back()->with('success', 'Doctor rejected successfully');
+        try {
+            $doctor = Doctor::findOrFail($id);
+            $doctor->status = 'rejected';
+            $doctor->save();
+
+            Mail::to($doctor->user->email)->send(new DoctorRejectionMail($doctor));
+
+            return redirect()->back()->with('success', 'Doctor rejected successfully and notification email sent.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to reject doctor. Please try again.');
+        }
     }
 
     public function show($id)
