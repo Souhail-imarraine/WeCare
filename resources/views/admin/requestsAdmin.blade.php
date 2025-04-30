@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Stats Section -->
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
                 <div class="bg-white overflow-hidden shadow-sm rounded-xl p-6">

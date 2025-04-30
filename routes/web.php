@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\LoginControllerAdmin;
 use App\Http\Controllers\Admin\AdminPatients;
 use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DoctorsAdminController;
+use App\Http\Controllers\Admin\DoctorRequestsController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -132,5 +133,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::put('/doctors/{doctor}', [DoctorsAdminController::class, 'update'])->name('admin.doctors.update');
     Route::delete('/doctors/{doctor}', [DoctorsAdminController::class, 'destroy'])->name('admin.doctors.destroy');
 
+    // Doctor Requests Routes
+    Route::get('/doctor-requests', [DoctorRequestsController::class, 'index'])->name('doctor.requests');
+    Route::post('/doctor/{doctor}/approve', [DoctorRequestsController::class, 'approve'])->name('doctor.approve');
+    Route::post('/doctor/{doctor}/reject', [DoctorRequestsController::class, 'reject'])->name('doctor.reject');
 });
 
