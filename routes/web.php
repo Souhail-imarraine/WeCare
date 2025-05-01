@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DoctorsAdminController;
 use App\Http\Controllers\Admin\DoctorRequestsController;
 use App\Http\Controllers\Doctor\RequestController;
+use App\Http\Controllers\PatientBookFollowupContoller;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -88,7 +90,7 @@ Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->g
     // Doctor profile and appointment routes
     Route::get('/doctor/{doctor}', [PatientDoctorProfileController::class, 'show'])->name('doctor_profile');
     Route::get('/book-appointment/{doctor}', [PatientDoctorController::class, 'bookAppointment'])->name('book_appointment');
-    Route::get('/book-followup/{doctor}', [PatientDoctorController::class, 'bookFollowUp'])->name('book_followup');
+    Route::get('/book-followup/{doctor}', [PatientBookFollowupContoller::class, 'bookFollowUp'])->name('book_followup');
     Route::post('/book-appointment/{doctor}', [AppointmentController::class, 'store'])->name('book_appointment.store');
     Route::get('/check-slots/{doctor}', [AppointmentController::class, 'checkAvailableSlots'])->name('check.slots');
 

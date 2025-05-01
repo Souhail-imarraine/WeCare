@@ -1,7 +1,7 @@
 @extends('layouts.patient')
 
 @push('head')
-    <!-- Add Flatpickr CSS -->
+     {{-- Add Flatpickr CSS --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
@@ -19,12 +19,10 @@
             left: 0 !important;
         }
 
-        /* Prevent scroll behavior */
         html {
             scroll-behavior: auto !important;
         }
 
-        /* Month Navigation */
         .flatpickr-months {
             background-color: #0891b2;
             border-radius: 0.5rem 0.5rem 0 0;
@@ -57,7 +55,6 @@
             padding: 0.5rem 0;
         }
 
-        /* Calendar Days */
         .flatpickr-weekdays {
             background: transparent;
             margin-top: 0.5rem;
@@ -184,9 +181,7 @@
                 </div>
             </div>
 
-            <!-- Right Column -->
             <div class="md:col-span-8">
-                <!-- About Section -->
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
                     <div class="p-6 lg:p-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-6">About Me</h3>
@@ -263,11 +258,9 @@
                                 </div>
                             </div>
 
-                            <!-- Time Slots -->
                             <div class="mb-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Select Time</label>
                                 <div id="timeSlots" class="grid grid-cols-4 gap-2 @error('appointment_time') border-red-500 @enderror">
-                                    <!-- Time slots will be loaded here -->
                                 </div>
                                 @error('appointment_time')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -283,7 +276,6 @@
                                 </div>
                             </div>
 
-                            <!-- Appointment Type -->
                             <div class="mb-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Type</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 @error('appointment_type') border-red-500 @enderror">
@@ -322,7 +314,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Book Now Button -->
                             <div class="mt-8 pt-8 border-t border-gray-100">
                                 <button type="submit" id="submitBtn" class="w-full bg-cyan-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-300 flex items-center justify-center">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,152 +336,115 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const flatpickrInstance = flatpickr("#appointment_date", {
-            minDate: "today",
-            maxDate: new Date().fp_incr(60),
-            disable: [
-                function(date) {
-                    return (date.getDay() === 0 || date.getDay() === 6);
-                }
-            ],
-            dateFormat: "Y-m-d",
-            enableTime: false,
-            altInput: true,
-            altFormat: "F j, Y",
-            inline: true,
-            static: true,
-            monthSelectorType: "static",
-            locale: {
-                firstDayOfWeek: 1
-            },
-            onChange: function(selectedDates, dateStr) {
-                loadTimeSlots(dateStr);
-                const dateError = document.querySelector('[data-error="appointment_date"]');
-                if (dateError) dateError.remove();
-            }
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.querySelector("#appointment_date");
+    const timeSlotsContainer = document.getElementById('timeSlots');
+    const loading = document.getElementById('loadingSlots');
+    const bookingForm = document.getElementById('bookingForm');
+    const submitBtn = document.getElementById('submitBtn');
 
-        function loadTimeSlots(date) {
-            const timeSlotsContainer = document.getElementById('timeSlots');
-            const loadingElement = document.getElementById('loadingSlots');
-
-            // Show loading
-            timeSlotsContainer.innerHTML = '';
-            loadingElement.classList.remove('hidden');
-
-            // Make AJAX request
-            fetch(`/patient/check-slots/{{ $doctor->id }}?date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    loadingElement.classList.add('hidden');
-
-                    const allTimeSlots = [
-                        '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-                        '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'
-                    ];
-
-                    const html = allTimeSlots.map(time => {
-                        const isBooked = data.bookedSlots.includes(time);
-                        return `
-                            <label class="relative flex items-center justify-center">
-                                <input type="radio" name="appointment_time" value="${time}"
-                                       class="peer sr-only" ${isBooked ? 'disabled' : ''}>
-                                <div class="w-full py-2 text-center text-sm border rounded-lg cursor-pointer
-                                            ${isBooked ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'peer-checked:border-cyan-500 peer-checked:bg-cyan-50 hover:bg-gray-50'}">
-                                    ${time}
-                                    ${isBooked ? '<br><span class="text-xs text-red-500">(Already Booked)</span>' : ''}
-                                </div>
-                            </label>
-                        `;
-                    }).join('');
-
-                    timeSlotsContainer.innerHTML = html;
-
-                    // Add change event listener to time slots
-                    const timeInputs = timeSlotsContainer.querySelectorAll('input[name="appointment_time"]');
-                    timeInputs.forEach(input => {
-                        input.addEventListener('change', function() {
-                            // Remove error message if exists
-                            const timeError = document.querySelector('[data-error="appointment_time"]');
-                            if (timeError) timeError.remove();
-                        });
-                    });
-                })
-                .catch(error => {
-                    loadingElement.classList.add('hidden');
-                    timeSlotsContainer.innerHTML = `
-                        <div class="col-span-4 text-center py-4 text-red-500">
-                            Error loading time slots. Please try again.
-                        </div>
-                    `;
-                });
-        }
-
-        // Form validation
-        const bookingForm = document.getElementById('bookingForm');
-        const submitBtn = document.getElementById('submitBtn');
-
-        bookingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Clear previous error messages
-            document.querySelectorAll('[data-error]').forEach(el => el.remove());
-
-            const date = document.getElementById('appointment_date').value;
-            const time = document.querySelector('input[name="appointment_time"]:checked');
-            const type = document.querySelector('input[name="appointment_type"]:checked');
-
-            let hasErrors = false;
-
-            if (!date) {
-                showError('appointment_date', 'Please select an appointment date');
-                hasErrors = true;
-            }
-
-            if (!time) {
-                showError('appointment_time', 'Please select an appointment time');
-                hasErrors = true;
-            }
-
-            if (!type) {
-                showError('appointment_type', 'Please select an appointment type');
-                hasErrors = true;
-            }
-
-            if (!hasErrors) {
-                // Show loading state
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                `;
-
-                // Submit the form
-                this.submit();
-            }
-        });
-
-        function showError(field, message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.setAttribute('data-error', field);
-            errorDiv.className = 'mt-1 text-sm text-red-600 flex items-center';
-            errorDiv.innerHTML = `
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                ${message}
-            `;
-
-            const inputElement = document.querySelector(`[name="${field}"]`);
-            if (inputElement) {
-                const container = inputElement.closest('.mb-6');
-                container.appendChild(errorDiv);
-            }
+    // Flatpickr
+    flatpickr(dateInput, {
+        minDate: "today",
+        maxDate: new Date().fp_incr(60),
+        disable: [date => [0, 6].includes(date.getDay())],
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "F j, Y",
+        inline: true,
+        static: true,
+        monthSelectorType: "static",
+        locale: { firstDayOfWeek: 1 },
+        onChange: ([selectedDate], dateStr) => {
+            loadTimeSlots(dateStr);
+            removeError('appointment_date');
         }
     });
+
+    function loadTimeSlots(date) {
+        timeSlotsContainer.innerHTML = '';
+        loading.classList.remove('hidden');
+
+        fetch(`/patient/check-slots/{{ $doctor->id }}?date=${date}`)
+            .then(res => res.json())
+            .then(data => {
+                loading.classList.add('hidden');
+
+                const allSlots = [
+                    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+                    '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'
+                ];
+
+                timeSlotsContainer.innerHTML = allSlots.map(time => `
+                    <label class="relative flex justify-center items-center">
+                        <input type="radio" name="appointment_time" value="${time}" class="peer sr-only" ${data.bookedSlots.includes(time) ? 'disabled' : ''}>
+                        <div class="w-full py-2 text-center text-sm border rounded-lg cursor-pointer
+                            ${data.bookedSlots.includes(time)
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'peer-checked:border-cyan-500 peer-checked:bg-cyan-50 hover:bg-gray-50'}">
+                            ${time}
+                            ${data.bookedSlots.includes(time) ? '<br><span class="text-xs text-red-500">(Already Booked)</span>' : ''}
+                        </div>
+                    </label>
+                `).join('');
+
+                timeSlotsContainer.querySelectorAll('input[name="appointment_time"]').forEach(input => {
+                    input.addEventListener('change', () => removeError('appointment_time'));
+                });
+            })
+            .catch(() => {
+                loading.classList.add('hidden');
+                timeSlotsContainer.innerHTML = `<div class="col-span-4 text-center py-4 text-red-500">
+                    Error loading time slots. Please try again.
+                </div>`;
+            });
+    }
+
+    bookingForm.addEventListener('submit', e => {
+        e.preventDefault();
+        document.querySelectorAll('[data-error]').forEach(el => el.remove());
+
+        const date = dateInput.value;
+        const time = document.querySelector('input[name="appointment_time"]:checked');
+        const type = document.querySelector('input[name="appointment_type"]:checked');
+
+        let hasErrors = false;
+
+        if (!date) { showError('appointment_date', 'Please select an appointment date'); hasErrors = true; }
+        if (!time) { showError('appointment_time', 'Please select an appointment time'); hasErrors = true; }
+        if (!type) { showError('appointment_type', 'Please select an appointment type'); hasErrors = true; }
+
+        if (!hasErrors) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+            `;
+            bookingForm.submit();
+        }
+    });
+
+    function showError(field, message) {
+        const error = document.createElement('div');
+        error.setAttribute('data-error', field);
+        error.className = 'mt-1 text-sm text-red-600 flex items-center';
+        error.innerHTML = `
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg> ${message}`;
+
+        const input = document.querySelector(`[name="${field}"]`);
+        if (input) input.closest('.mb-6')?.appendChild(error);
+    }
+
+    function removeError(field) {
+        document.querySelector(`[data-error="${field}"]`)?.remove();
+    }
+});
+
 </script>
 @endpush
