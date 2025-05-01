@@ -12,45 +12,44 @@
         </div>
     </div>
 
-    <!-- Filters Section -->
+    <!-- Search Section -->
     <div class="bg-white shadow-sm rounded-lg p-4">
-        <div class="flex flex-col sm:flex-row gap-4">
-            <div class="flex-1">
-                <label for="sort" class="block text-sm font-medium text-gray-700">Sort by</label>
-                <select id="sort" name="sort" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm">
-                    <option>Most Relevant</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                    <option>Experience</option>
-                    <option>Availability</option>
-                </select>
+        <form action="{{ route('patient.doctors') }}" method="GET">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                    <label for="search" class="block text-sm font-medium text-gray-700">Search Doctors</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <input type="text" name="search" id="search" value="{{ request('search') }}" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm" placeholder="Search by name, specialty, or location">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        Search
+                    </button>
+                </div>
             </div>
-            <div class="flex-1">
-                <label for="price" class="block text-sm font-medium text-gray-700">Price Range</label>
-                <select id="price" name="price" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm">
-                    <option>Any Price</option>
-                    <option>$0 - $50</option>
-                    <option>$51 - $100</option>
-                    <option>$101 - $150</option>
-                    <option>$151+</option>
-                </select>
-            </div>
-            <div class="flex-1">
-                <label for="availability" class="block text-sm font-medium text-gray-700">Availability</label>
-                <select id="availability" name="availability" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm">
-                    <option>Any Time</option>
-                    <option>Today</option>
-                    <option>Tomorrow</option>
-                    <option>This Week</option>
-                    <option>Next Week</option>
-                </select>
-            </div>
-        </div>
+        </form>
     </div>
+
+    @if(request('search'))
+        <div class="bg-white shadow-sm rounded-lg p-4">
+            <p class="text-sm text-gray-600">
+                Showing results for: <span class="font-medium">{{ request('search') }}</span>
+            </p>
+        </div>
+    @endif
 
     <!-- Doctors Grid -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        @foreach($doctors as $doctor)
+        @forelse($doctors as $doctor)
         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div class="relative h-32 bg-gradient-to-r from-cyan-600 to-cyan-400">
                 <div class="absolute -bottom-10 left-6">
@@ -115,7 +114,15 @@
                 </a>
             </div>
         </div>
-        @endforeach
+        @empty
+            <div class="col-span-full">
+                <div class="text-center py-12">
+                    <i class="fas fa-user-md text-gray-400 text-5xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900">No doctors found</h3>
+                    <p class="mt-1 text-sm text-gray-500">No doctors match your search criteria.</p>
+                </div>
+            </div>
+        @endforelse
     </div>
 
     @if(method_exists($doctors, 'links'))

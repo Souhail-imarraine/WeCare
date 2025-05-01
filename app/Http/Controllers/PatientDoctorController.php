@@ -9,16 +9,28 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientDoctorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Doctor::all();
+        $query = Doctor::query();
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%");
+            })
+            ->orWhere('specialty', 'like', "%{$search}%")
+            ->orWhere('city', 'like', "%{$search}%");
+        }
+
+        $doctors = $query->paginate(9);
         return view('patient.doctors', compact('doctors'));
     }
 
-    public function bookAppointment(Doctor $doctor)
-    {
-        return view('patient.book-appointment', compact('doctor'));
-    }
+    // public function bookAppointment(Doctor $doctor)
+    // {
+    //     return view('patient.book-appointment', compact('doctor'));
+    // }
 
     public function bookFollowUp(Doctor $doctor)
     {
