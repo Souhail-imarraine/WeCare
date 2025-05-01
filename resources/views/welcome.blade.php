@@ -3,9 +3,7 @@
 @section('title', 'WeCare | Home')
 
 @section('content')
-    {{-- Hero Section --}}
     <section class="relative min-h-screen w-full overflow-hidden">
-        <!-- Background Container -->
         <div class="absolute inset-0">
             <div class="relative w-full h-full bg-[url('{{ asset('img/background.svg') }}')]
                 bg-cover bg-center bg-no-repeat">
@@ -13,7 +11,6 @@
             </div>
         </div>
 
-        <!-- Content Container -->
         <div class="relative h-full flex items-center justify-center mt-32">
             <div class="container mx-auto px-6 lg:px-8">
                 <div class="flex justify-end items-center">
@@ -59,23 +56,20 @@
                 <p class="mt-4 text-xl text-gray-600">Find and book appointments with the best doctors in your area</p>
             </div>
 
-            <!-- Doctors Cards Container -->
             <div class="relative px-4">
-                <!-- Scrollable Container -->
                 <div class="flex overflow-x-auto gap-6 pb-8 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory">
-                    <!-- Doctor Cards -->
-                    @foreach(range(1, 6) as $index)
+                    @foreach($doctors as $doctor)
                     <div class="flex-none w-[300px] md:w-[320px] snap-start">
                         <div class="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
                             <div class="relative mb-6">
-                                <img src="{{ asset('img/doctore.png') }}" alt="Doctor"
+                                <img src="{{ asset('storage/' . $doctor->profile_image) }}" alt="Doctor"
                                     class="w-full h-[220px] object-cover rounded-xl">
                                 <div class="absolute top-4 right-4 bg-green-500 text-white text-sm px-3 py-1 rounded-full">Available</div>
                             </div>
                             <div class="space-y-4">
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-800">Dr. {{ ['Y K Mishra', 'Sandeep Vaishya', 'Rajeev Verma', 'Ajay Kaul', 'Naresh Terhan', 'Vinod Raina'][$index-1] }}</h3>
-                                    <p class="text-cyan-600 font-medium">{{ ['Cardiac Surgeon', 'Neurosurgeon', 'Orthopaedic Surgeon', 'Cardiac Surgeon', 'Cardiac Surgeon', 'Medical Oncologist'][$index-1] }}</p>
+                                    <h3 class="text-xl font-bold text-gray-800">Dr. {{ $doctor->user->name }}</h3>
+                                    <p class="text-cyan-600 font-medium">{{ $doctor->specialty }}</p>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <div class="flex text-yellow-400">
@@ -83,12 +77,12 @@
                                             <i class="fas fa-star"></i>
                                         @endfor
                                     </div>
-                                    <span class="text-gray-600">(120+ reviews)</span>
+                                    <span class="text-gray-600">({{ $doctor->city }})</span>
                                 </div>
                                 <div class="pt-4">
-                                    <button class="w-full py-3 text-white bg-cyan-500 rounded-xl hover:bg-cyan-600 transform hover:scale-105 transition duration-300 font-semibold">
+                                    <a href="{{ route('doctor.profile', $doctor->id) }}" class="w-full py-3 text-white bg-cyan-500 rounded-xl hover:bg-cyan-600 transform hover:scale-105 transition duration-300 font-semibold block text-center">
                                         Book Consultation
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -107,16 +101,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
-            </div>
-
-            <!-- View All Link -->
-            <div class="mt-12 text-center">
-                <a href="#" class="inline-flex items-center px-6 py-3 text-lg font-semibold text-cyan-500 hover:text-cyan-600 transition-colors duration-200">
-                    View All Doctors
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
@@ -160,7 +144,6 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
     <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div class="container mx-auto px-6 lg:px-8 max-w-7xl">
             <div class="text-center mb-16">

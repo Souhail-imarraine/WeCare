@@ -128,7 +128,7 @@
                         <div class="blood-type-section">
                             <div class="blood-type-grid">
                                 @php
-                                    $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'other', 'unknown'];
+                                    $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'unknown'];
                                 @endphp
                                 @foreach($bloodTypes as $type)
                                     <button type="button" class="blood-type-btn @if(old('blood_type') == $type) active @endif" onclick="setBloodType('{{ $type }}')">

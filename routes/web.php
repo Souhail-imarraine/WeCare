@@ -23,14 +23,9 @@ use App\Http\Controllers\Admin\DoctorsAdminController;
 use App\Http\Controllers\Admin\DoctorRequestsController;
 use App\Http\Controllers\Doctor\RequestController;
 use App\Http\Controllers\PatientBookFollowupContoller;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
-// Route::get('/home', function () {
-//     return view('index');
-// })->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
 Route::get('/about', function () {
     return view('about');
