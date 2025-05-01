@@ -136,13 +136,6 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($appointment->status == 'pending')
-                                    <a href="{{ route('patient.appointments.reschedule', $appointment->id) }}"
-                                       class="inline-flex items-center px-3 py-1.5 border border-cyan-600 text-cyan-600 rounded-md hover:bg-cyan-50 mr-2">
-                                        <svg class="-ml-1 mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        Reschedule
-                                    </a>
                                     <form action="{{ route('patient.appointments.cancel', $appointment->id) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit"

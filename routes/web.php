@@ -11,7 +11,6 @@ use App\Http\Controllers\PatientDashboardController;
 use App\Http\Controllers\PatientProfileController;
 use App\Http\Controllers\PatientDoctorController;
 use App\Http\Middleware\RoleMiddleware;
-use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\DoctorProfileController;
 use App\Http\Controllers\PatientDoctorProfileController;
 use App\Http\Controllers\Patient\AppointmentController;
@@ -22,6 +21,7 @@ use App\Http\Controllers\Admin\AdminPatients;
 use App\Http\Controllers\Admin\RequestAdminController;
 use App\Http\Controllers\Admin\DoctorsAdminController;
 use App\Http\Controllers\Admin\DoctorRequestsController;
+use App\Http\Controllers\Doctor\RequestController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -68,6 +68,11 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::put('/profile/update', [DoctorProfileController::class, 'updateProfile'])->name('profile.update');
     Route::put('/password/update', [DoctorProfileController::class, 'updatePassword'])->name('password.update');
     Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
+
+    // Appointment Requests
+    Route::get('/requests', [RequestController::class, 'index'])->name('requests');
+    Route::post('/requests/{id}/accept', [RequestController::class, 'accept'])->name('requests.accept');
+    Route::post('/requests/{id}/decline', [RequestController::class, 'decline'])->name('requests.decline');
 });
 
 Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
@@ -91,25 +96,8 @@ Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->g
     Route::get('/appointments', [My_appointments::class, 'index'])->name('appointments');
     Route::post('/appointments/{appointment}/cancel', [My_appointments::class, 'cancelAppointment'])->name('appointments.cancel');
     Route::delete('/appointments/{appointment}/delete', [My_appointments::class, 'deleteAppointment'])->name('appointments.delete');
-    Route::get('/appointments/{appointment}/reschedule', [My_appointments::class, 'redirectToDoctorProfile'])->name('appointments.reschedule');
-    Route::post('/appointments/{appointment}/reschedule', [My_appointments::class, 'reschedule'])->name('appointments.reschedule.submit');
-    Route::post('/doctors/{doctor}/book-appointment', [AppointmentController::class, 'store'])
-    ->name('patient.book_appointment');
+    Route::post('/doctors/{doctor}/book-appointment', [AppointmentController::class, 'store'])->name('patient.book_appointment');
 });
-
-
-// Route::prefix('specialties')->name('specialties.')->group(function () {
-//     Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
-//     Route::get('/telehealth', [SpecialtyController::class, 'telehealth'])->name('telehealth');
-//     Route::get('/physiotherapist', [SpecialtyController::class, 'physiotherapist'])->name('physiotherapist');
-//     Route::get('/dentist', [SpecialtyController::class, 'dentist'])->name('dentist');
-//     Route::get('/psychologist', [SpecialtyController::class, 'psychologist'])->name('psychologist');
-//     Route::get('/optometrist', [SpecialtyController::class, 'optometrist'])->name('optometrist');
-//     Route::get('/chiropractor', [SpecialtyController::class, 'chiropractor'])->name('chiropractor');
-//     Route::get('/podiatrist', [SpecialtyController::class, 'podiatrist'])->name('podiatrist');
-//     Route::get('/general-practitioner', [SpecialtyController::class, 'generalPractitioner'])->name('general-practitioner');
-// });
-
 
 // admin controllers *******************************************************************************
 Route::get('/admin/login', [LoginControllerAdmin::class, 'showLoginForm'])->name('admin.login');

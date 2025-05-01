@@ -43,7 +43,7 @@
                                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 8 8">
                                         <circle cx="4" cy="4" r="3" />
                                     </svg>
-                                    Active
+                                    {{$patient->status}}
                                 </span>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                 <div class="mt-6 bg-white rounded-lg shadow-sm overflow-hidden">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 mb-6">Medical Information</h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-3 sm:grid-cols-3 gap-4">
                             <div class="bg-cyan-50 p-4 rounded-lg">
                                 <label class="block text-xs font-medium text-cyan-600 mb-1">Blood Type</label>
                                 <p class="text-sm font-medium text-gray-900">{{ $patient->blood_type ?? 'Not provided' }}</p>
@@ -93,10 +93,6 @@
                             <div class="bg-cyan-50 p-4 rounded-lg">
                                 <label class="block text-xs font-medium text-cyan-600 mb-1">Weight</label>
                                 <p class="text-sm font-medium text-gray-900">{{ $patient->weight ? $patient->weight . ' kg' : 'Not provided' }}</p>
-                            </div>
-                            <div class="bg-cyan-50 p-4 rounded-lg">
-                                <label class="block text-xs font-medium text-cyan-600 mb-1">BMI</label>
-                                <p class="text-sm font-medium text-gray-900">{{ $patient->bmi ?? 'Not provided' }}</p>
                             </div>
                         </div>
                     </div>
