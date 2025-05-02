@@ -30,19 +30,15 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Mobile Menu Button -->
     <button id="mobile-menu-button" class="fixed top-4 left-4 z-50 p-2 rounded-md text-gray-500 hover:bg-gray-100 lg:hidden">
         <i class="fas fa-bars text-xl"></i>
     </button>
 
-    <!-- Sidebar -->
     <aside class="fixed top-0 left-0 h-full w-64 bg-cyan-800 text-white sidebar z-40">
-        <!-- Logo -->
         <div class="p-4 border-b border-cyan-700">
             <h1 class="text-xl font-bold">WeCare Admin</h1>
         </div>
 
-        <!-- Navigation -->
         <nav class="p-4">
             <ul class="space-y-2">
                 <li>
@@ -76,12 +72,11 @@
             </ul>
         </nav>
 
-        <!-- User Menu -->
         <div class="absolute bottom-0 left-0 right-0 p-4 bg-cyan-900 border-t border-cyan-800">
             <div class="flex items-center justify-center">
                 <div class="flex items-center space-x-2">
                     <div class="text-sm text-gray-300">
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                        <form method="POST" action="{{ route('admin.logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="flex items-center space-x-2 hover:text-white transition-colors duration-200">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -94,16 +89,13 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="lg:ml-64 min-h-screen">
-        <!-- Top Bar -->
         <header class="bg-white shadow-sm sticky top-0 z-30">
             <div class="px-4 py-4">
                 <h1 class="text-xl font-semibold text-gray-800">@yield('title', 'Dashboard')</h1>
             </div>
         </header>
 
-        <!-- Page Content -->
         <div class="p-4">
             @if(session('error'))
                 <div class="mb-4 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center">
@@ -115,7 +107,6 @@
         </div>
     </main>
 
-    <!-- Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
     <script>

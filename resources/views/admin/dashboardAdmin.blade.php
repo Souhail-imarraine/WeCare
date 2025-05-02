@@ -5,15 +5,12 @@
 @section('content')
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Welcome Section -->
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-gray-900">Welcome to Admin Dashboard</h1>
             <p class="mt-1 text-sm text-gray-600">Here's what's happening with your medical platform today.</p>
         </div>
 
-        <!-- Stats Grid -->
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-            <!-- Total Doctors Card -->
             <div class="bg-white overflow-hidden shadow-lg rounded-lg transform transition duration-500 hover:scale-105">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -34,7 +31,6 @@
                 </div>
             </div>
 
-            <!-- Total Patients Card -->
             <div class="bg-white overflow-hidden shadow-lg rounded-lg transform transition duration-500 hover:scale-105">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -55,7 +51,6 @@
                 </div>
             </div>
 
-            <!-- Total Appointments Card -->
             <div class="bg-white overflow-hidden shadow-lg rounded-lg transform transition duration-500 hover:scale-105">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -75,8 +70,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Pending Approvals Card -->
+            
             <div class="bg-white overflow-hidden shadow-lg rounded-lg transform transition duration-500 hover:scale-105">
                 <div class="p-5">
                     <div class="flex items-center">
@@ -98,17 +92,13 @@
             </div>
         </div>
 
-        <!-- Charts Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <!-- Users Distribution Chart -->
             <div class="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Users Distribution</h3>
                 <div class="h-80">
                     <canvas id="usersChart"></canvas>
                 </div>
             </div>
-
-            <!-- Appointments Chart -->
             <div class="bg-white rounded-lg shadow-lg p-6 transform transition duration-500 hover:scale-105">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Appointments Overview</h3>
                 <div class="h-80">
@@ -132,8 +122,8 @@
             datasets: [{
                 data: [{{ $totalDoctors }}, {{ $totalPatients }}],
                 backgroundColor: [
-                    'rgba(34, 197, 94, 0.8)',  // Green for doctors
-                    'rgba(59, 130, 246, 0.8)'  // Blue for patients
+                    'rgba(34, 197, 94, 0.8)',
+                    'rgba(59, 130, 246, 0.8)'
                 ],
                 borderColor: [
                     'rgba(34, 197, 94, 1)',
@@ -189,9 +179,9 @@
                     {{ $cancelledAppointments ?? 0 }}
                 ],
                 backgroundColor: [
-                    'rgba(34, 197, 94, 0.8)',  // Green for completed
-                    'rgba(234, 179, 8, 0.8)',  // Yellow for pending
-                    'rgba(239, 68, 68, 0.8)'   // Red for cancelled
+                    'rgba(34, 197, 94, 0.8)',
+                    'rgba(234, 179, 8, 0.8)',
+                    'rgba(239, 68, 68, 0.8)'
                 ],
                 borderColor: [
                     'rgba(34, 197, 94, 1)',

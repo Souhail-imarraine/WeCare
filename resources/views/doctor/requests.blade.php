@@ -44,7 +44,6 @@
             </div>
         @endif
 
-        <!-- Requests Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($requests as $request)
             <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">

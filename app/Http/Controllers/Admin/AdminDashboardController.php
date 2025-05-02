@@ -16,19 +16,12 @@ class AdminDashboardController extends Controller
         $totalPatients = User::where('role', 'patient')->count();
         $totalDoctors = User::where('role', 'doctor')->count();
         $totalAppointments = AppointmentRequest::count();
-        // $totalRevenue = AppointmentRequest::where('status', 'completed')->sum('price');
-
-        // Get appointment status counts
         $completedAppointments = AppointmentRequest::where('status', 'completed')->count();
         $pendingAppointments = AppointmentRequest::where('status', 'pending')->count();
         $cancelledAppointments = AppointmentRequest::where('status', 'cancelled')->count();
 
-        // Get doctor status counts
         $rejectedDoctors = Doctor::where('status', 'rejected')->count();
 
-
-
-        // Get recent doctors with their specialties
         $recentDoctors = User::where('role', 'doctor')
             ->with('doctor')
             ->latest()
@@ -36,10 +29,10 @@ class AdminDashboardController extends Controller
             ->get()
             ->map(function ($user) {
                 return [
-                    'name' => $user->first_name . ' ' . $user->last_name,
-                    'specialty' => $user->doctor->specialty,
-                    'status' => $user->doctor->status,
-                    'profile_image' => $user->profile_image
+                    'name' => $user->first_name ? $user->first_name . ' ' . $user->last_name : 'Unknown',
+                    'specialty' => $user->doctor ? $user->doctor->specialty : 'Not specified',
+                    'status' => $user->doctor ? $user->doctor->status : 'unknown',
+                    'profile_image' => $user->profile_image ?? 'default.jpg'
                 ];
             });
 
@@ -50,8 +43,12 @@ class AdminDashboardController extends Controller
             ->map(function ($appointment) {
                 return [
                     'id' => $appointment->id,
-                    'patient_name' => $appointment->patient->first_name . ' ' . $appointment->patient->last_name,
-                    'doctor_name' => 'Dr. ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name,
+                    'patient_name' => $appointment->patient ?
+                        ($appointment->patient->first_name . ' ' . $appointment->patient->last_name) :
+                        'Unknown Patient',
+                    'doctor_name' => $appointment->doctor && $appointment->doctor->user ?
+                        ('Dr. ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name) :
+                        'Unknown Doctor',
                     'date' => $appointment->appointment_date,
                     'time' => $appointment->appointment_time,
                     'status' => $appointment->status,
@@ -68,6 +65,7 @@ class AdminDashboardController extends Controller
             'cancelledAppointments',
             'recentDoctors',
             'rejectedDoctors',
+            'recentAppointments'
         ));
     }
 

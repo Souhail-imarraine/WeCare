@@ -62,7 +62,7 @@
 
     <!-- Sidebar footer -->
     <div class="mt-auto px-2 py-4 border-t border-gray-200">
-        <form method="POST" action="{{ route('logout') }}" class="w-full" id="logout-form">
+        <form method="POST" action="{{ route('doctor.logout') }}" class="w-full" id="logout-form">
             @csrf
             <button type="submit" class="flex items-center w-full px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 group">
                 <svg class="w-6 h-6 mr-3 text-gray-400 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

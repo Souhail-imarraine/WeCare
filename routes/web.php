@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\DoctorRequestsController;
 use App\Http\Controllers\Doctor\RequestController;
 use App\Http\Controllers\PatientBookFollowupContoller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DoctorAppointementController;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
@@ -43,7 +44,6 @@ Route::get('/chose', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::get('/register_patient', function(){
     return view('auth.patient_register');
@@ -64,12 +64,14 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::get('/settings', [DoctorProfileController::class, 'settings'])->name('settings');
     Route::put('/profile/update', [DoctorProfileController::class, 'updateProfile'])->name('profile.update');
     Route::put('/password/update', [DoctorProfileController::class, 'updatePassword'])->name('password.update');
-    Route::get('/appointments', [DoctorDashboardController::class, 'showAppointments'])->name('appointments');
+    Route::get('/appointments', [DoctorAppointementController::class, 'index'])->name('appointments');
 
     // Appointment Requests
     Route::get('/requests', [RequestController::class, 'index'])->name('requests');
     Route::post('/requests/{id}/accept', [RequestController::class, 'accept'])->name('requests.accept');
     Route::post('/requests/{id}/decline', [RequestController::class, 'decline'])->name('requests.decline');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
 });
 
 Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
@@ -94,6 +96,8 @@ Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->g
     Route::post('/appointments/{appointment}/cancel', [My_appointments::class, 'cancelAppointment'])->name('appointments.cancel');
     Route::delete('/appointments/{appointment}/delete', [My_appointments::class, 'deleteAppointment'])->name('appointments.delete');
     Route::post('/doctors/{doctor}/book-appointment', [AppointmentController::class, 'store'])->name('patient.book_appointment');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
 });
 
 // admin controllers *******************************************************************************
@@ -122,5 +126,5 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/doctor-requests', [DoctorRequestsController::class, 'index'])->name('doctor.requests');
     Route::post('/doctor/{doctor}/approve', [DoctorRequestsController::class, 'approve'])->name('doctor.approve');
     Route::post('/doctor/{doctor}/reject', [DoctorRequestsController::class, 'reject'])->name('doctor.reject');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
-

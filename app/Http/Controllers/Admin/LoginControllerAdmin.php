@@ -28,11 +28,10 @@ class LoginControllerAdmin extends Controller
         }
 
         $credentials = $request->only('email', 'password');
-
+        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // Check if the user is an admin
             if ($user->role !== 'admin') {
                 Auth::logout();
                 return redirect()->back()

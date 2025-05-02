@@ -32,7 +32,7 @@ class RequestController extends Controller
             return redirect()->back()->with('error', 'Invalid appointment request.');
         }
 
-        $request->status = 'accepted';
+        $request->status = 'confirmed';
         $request->save();
 
         return redirect()->back()->with('success', 'Appointment request accepted successfully.');
@@ -48,9 +48,9 @@ class RequestController extends Controller
             return redirect()->back()->with('error', 'Invalid appointment request.');
         }
 
-        $request->status = 'declined';
+        $request->status = 'cancelled';
         $request->save();
 
-        return redirect()->back()->with('success', 'Appointment request declined successfully.');
+        return redirect()->back()->with('success', 'Appointment request cancelled successfully.');
     }
 }
