@@ -137,13 +137,9 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 rounded-full overflow-hidden">
-                                        <img src="{{ asset('patient_profile/' . ($appointment->patient->profile_image ?? 'default-avatar.png')) }}"
+                                        <img src="{{ asset('images/default-avatar.png') }}"
                                              alt="{{ $appointment->patient->name }}"
                                              class="h-full w-full object-cover">
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">{{ $appointment->patient->name }}</div>
-                                        <div class="text-sm text-gray-500">{{ $appointment->patient->gender }}, {{ $appointment->patient->age }} years</div>
                                     </div>
                                 </div>
                             </td>
@@ -169,11 +165,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 @if($appointment->status == 'pending')
-                                    <button class="text-cyan-600 hover:text-cyan-900 mr-3">Confirm</button>
-                                    <button class="text-red-600 hover:text-red-900">Cancel</button>
+                                    <button class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Confirm</button>
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Cancel</button>
                                 @elseif($appointment->status == 'confirmed')
-                                    <button class="text-cyan-600 hover:text-cyan-900 mr-3">Start Session</button>
-                                    <button class="text-gray-600 hover:text-gray-900">Reschedule</button>
+                                    <button class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Start Session</button>
+                                    <button class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Reschedule</button>
+                                @elseif ($appointment->status == 'cancelled')
+                                <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Delete</button>
                                 @endif
                             </td>
                         </tr>
