@@ -49,4 +49,16 @@ class DoctorAppointementController extends Controller
             'appointments'
         ));
     }
+
+
+
+    public function destroy($id){
+        $appointments = AppointmentRequest::find($id);
+        if ($appointments && $appointments->status == 'cancelled') {
+            $appointments->delete();
+            return redirect()->back()->with('success', 'Appointment deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Appointment not found.');
+        }
+    }
 }

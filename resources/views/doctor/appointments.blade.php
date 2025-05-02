@@ -171,7 +171,11 @@
                                     <button class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Start Session</button>
                                     <button class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Reschedule</button>
                                 @elseif ($appointment->status == 'cancelled')
-                                <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Delete</button>
+                                <form action="{{ route('doctor.appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Delete</button>
+                                </form>
                                 @endif
                             </td>
                         </tr>

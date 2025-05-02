@@ -66,6 +66,9 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::put('/password/update', [DoctorProfileController::class, 'updatePassword'])->name('password.update');
     Route::get('/appointments', [DoctorAppointementController::class, 'index'])->name('appointments');
 
+    // apointment routes
+    Route::delete('/appointments/{appointment}', [DoctorAppointementController::class, 'destroy'])->name('appointments.destroy');
+
     // Appointment Requests
     Route::get('/requests', [RequestController::class, 'index'])->name('requests');
     Route::post('/requests/{id}/accept', [RequestController::class, 'accept'])->name('requests.accept');
