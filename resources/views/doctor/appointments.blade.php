@@ -36,6 +36,15 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div id="success-message" class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-sm">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <p class="font-medium">{{ session('success') }}</p>
+                </div>
+            </div>
+        @endif
+
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow duration-200">
@@ -275,3 +284,15 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.classList.add('opacity-0');
+                setTimeout(() => successMessage.remove(), 500);
+            }, 3000);
+        }
+    });
+</script>
+
