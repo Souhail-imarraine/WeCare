@@ -3,7 +3,6 @@
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <!-- Header Section -->
         <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
             <div class="p-6">
                 <div class="flex items-center justify-between">
@@ -24,14 +23,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            New Appointment
-                        </button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -45,7 +37,6 @@
             </div>
         @endif
 
-        <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow duration-200">
                 <div class="flex items-center">
@@ -88,41 +79,56 @@
             </div>
         </div>
 
-        <!-- Filters -->
         <div class="bg-white rounded-lg shadow-sm mb-6">
             <div class="p-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
-                            <option>Today</option>
-                            <option>This Week</option>
-                            <option>This Month</option>
-                            <option>Custom Range</option>
-                        </select>
+                        <form action="{{ route('doctor.appointments') }}" method="GET" class="w-full">
+                            @csrf
+                            <select name="filter" onchange="this.form.submit()" class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
+                                <option value="all" {{ $dateFilter === 'all' ? 'selected' : '' }}>All Appointments</option>
+                                <option value="today" {{ $dateFilter === 'today' ? 'selected' : '' }}>Today</option>
+                                <option value="tomorrow" {{ $dateFilter === 'tomorrow' ? 'selected' : '' }}>Tomorrow</option>
+                            </select>
+                        </form>
                     </div>
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
-                            <option>All Status</option>
-                            <option>Pending</option>
-                            <option>Confirmed</option>
-                            <option>Cancelled</option>
-                        </select>
+                        <form action="{{ route('doctor.appointments') }}" method="GET" class="w-full">
+                            <input type="hidden" name="filter" value="{{ $dateFilter }}">
+                            <select name="status" onchange="this.form.submit()" class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
+                                <option value="all" {{ $statusFilter === 'all' ? 'selected' : '' }}>All Status</option>
+                                <option value="pending" {{ $statusFilter === 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="confirmed" {{ $statusFilter === 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                <option value="cancelled" {{ $statusFilter === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            </select>
+                        </form>
                     </div>
-                    <div class="col-span-1">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
-                            <option>All Types</option>
-                            <option>Person Visit</option>
-                            <option>Online Consultation</option>
-                        </select>
-                    </div>
-                    <div class="col-span-1">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">&nbsp;</label>
-                        <button type="button" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                            Apply Filters
-                        </button>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                        <form action="{{ route('doctor.appointments') }}" method="GET" class="w-full">
+                            <input type="hidden" name="filter" value="{{ $dateFilter }}">
+                            <input type="hidden" name="status" value="{{ $statusFilter }}">
+                            <div class="flex gap-2">
+                                <div class="relative flex-1">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <input type="text"
+                                           name="search"
+                                           value="{{ request('search') }}"
+                                           class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
+                                           placeholder="Search appointments...">
+                                </div>
+                                <button type="submit"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -147,7 +153,6 @@
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 rounded-full overflow-hidden">
                                         <img src="{{ asset('images/default-avatar.png') }}"
-                                             alt="{{ $appointment->patient->name }}"
                                              class="h-full w-full object-cover">
                                     </div>
                                 </div>

@@ -3,7 +3,6 @@
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <!-- Top Bar with Dashboard Title and User Info -->
         <div class="flex items-center justify-between mb-6 lg:mb-8">
             <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
             <div class="flex items-center">
@@ -23,9 +22,7 @@
             </div>
         @endif
 
-        <!-- Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Card 1: Consultation Today -->
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -40,7 +37,6 @@
                 </div>
             </div>
 
-            <!-- Card 2: Pending -->
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -55,7 +51,6 @@
                 </div>
             </div>
 
-            <!-- Card 3: Total Consultation -->
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -70,7 +65,6 @@
                 </div>
             </div>
 
-            <!-- Card 4: Total Patients -->
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -86,9 +80,7 @@
             </div>
         </div>
 
-        <!-- Main Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Today's Appointments (Left Side) -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                     <div class="p-6">

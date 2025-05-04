@@ -3,7 +3,6 @@
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <!-- Header Section -->
         <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
             <div class="p-6">
                 <div class="flex items-center justify-between">

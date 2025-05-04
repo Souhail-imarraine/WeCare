@@ -15,7 +15,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
-            <!-- Left Column - Profile Info -->
             <div class="md:col-span-4">
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                     <div class="p-6 lg:p-8">
@@ -35,7 +34,6 @@
                             <p class="mt-2 text-gray-500 text-sm">{{ $doctor->city }}</p>
                         </div>
 
-                        <!-- Social Links -->
                         <div class="mt-8 pt-8 border-t border-gray-100">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Connect</h3>
                             <div class="flex justify-center gap-6">
@@ -66,9 +64,7 @@
                 </div>
             </div>
 
-            <!-- Right Column -->
             <div class="md:col-span-8">
-                <!-- General Information -->
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
                     <div class="p-6 lg:p-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-6">About Me</h3>
@@ -96,7 +92,6 @@
                     </div>
                 </div>
 
-                <!-- Contact Information -->
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                     <div class="p-6 lg:p-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-6">Contact Information</h3>

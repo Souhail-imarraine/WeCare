@@ -9,10 +9,29 @@ use Carbon\Carbon;
 
 class DoctorAppointementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $doctor = Auth::user();
-        $today = Carbon::today()->format('Y-m-d');
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+
+        $dateFilter = $request->get('filter', 'all');
+        $statusFilter = $request->get('status', 'all');
+
+        $query = AppointmentRequest::where('doctor_id', $doctor->id);
+
+        switch ($dateFilter) {
+            case 'today':
+                $query->whereDate('date_appointment', $today);
+                break;
+            case 'tomorrow':
+                $query->whereDate('date_appointment', $tomorrow);
+                break;
+        }
+
+        if ($statusFilter !== 'all') {
+            $query->where('status', $statusFilter);
+        }
 
         $todayAppointments = AppointmentRequest::where('doctor_id', $doctor->id)
             ->whereDate('date_appointment', $today)
@@ -34,8 +53,7 @@ class DoctorAppointementController extends Controller
             ->where('status', 'cancelled')
             ->count();
 
-        $appointments = AppointmentRequest::where('doctor_id', $doctor->id)
-            ->with('patient')
+        $appointments = $query->with('patient')
             ->orderBy('date_appointment', 'desc')
             ->orderBy('time_appointment', 'desc')
             ->paginate(10);
@@ -46,11 +64,11 @@ class DoctorAppointementController extends Controller
             'confirmedAppointments',
             'pendingAppointments',
             'cancelledAppointments',
-            'appointments'
+            'appointments',
+            'dateFilter',
+            'statusFilter'
         ));
     }
-
-
 
     public function destroy($id){
         $appointments = AppointmentRequest::find($id);
