@@ -155,6 +155,14 @@
                                         <img src="{{ asset('images/default-avatar.png') }}"
                                              class="h-full w-full object-cover">
                                     </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ $appointment->patient->phone_number ?? 'No phone number' }}
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

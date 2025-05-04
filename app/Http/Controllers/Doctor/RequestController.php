@@ -13,8 +13,8 @@ class RequestController extends Controller
     {
         $doctor = Auth::user()->doctor;
 
-        $requests = AppointmentRequest::with(['patient.user'])
-            ->where('doctor_id', $doctor->id)
+        $requests = AppointmentRequest::with(['patientUser', 'patientUser.patient'])
+        ->where('doctor_id', $doctor->id)
             ->where('status', 'pending')
             ->latest()
             ->get();
@@ -24,12 +24,12 @@ class RequestController extends Controller
 
     public function accept($id)
     {
-        $request = AppointmentRequest::with(['patient.user'])
+        $request = AppointmentRequest::with(['patientUser'])
             ->where('doctor_id', Auth::user()->doctor->id)
             ->findOrFail($id);
 
-        if (!$request->patient || !$request->patient->user) {
-            return redirect()->back()->with('error', 'Invalid appointment request.');
+        if (!$request->patientUser) {
+            return redirect()->back()->with('error', 'Invalid appointment request: Patient not found.');
         }
 
         $request->status = 'confirmed';
@@ -40,12 +40,12 @@ class RequestController extends Controller
 
     public function decline($id)
     {
-        $request = AppointmentRequest::with(['patient.user'])
+        $request = AppointmentRequest::with(['patientUser'])
             ->where('doctor_id', Auth::user()->doctor->id)
             ->findOrFail($id);
 
-        if (!$request->patient || !$request->patient->user) {
-            return redirect()->back()->with('error', 'Invalid appointment request.');
+        if (!$request->patientUser) {
+            return redirect()->back()->with('error', 'Invalid appointment request: Patient not found.');
         }
 
         $request->status = 'cancelled';

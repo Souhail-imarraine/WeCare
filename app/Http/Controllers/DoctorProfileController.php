@@ -21,7 +21,7 @@ class DoctorProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
-        // Check if this is a general information update
+        // Check if this is a general  update
         if ($request->has(['first_name', 'last_name', 'email'])) {
             $user = Auth::user();
             $doctor = Doctor::where('user_id', $user->id)->first();
@@ -43,14 +43,12 @@ class DoctorProfileController extends Controller
 
             $validated = $validator->validated();
 
-            // Update user information
             User::where('id', $user->id)->update([
                 'first_name' => $validated['first_name'],
                 'last_name' => $validated['last_name'],
                 'email' => $validated['email'],
             ]);
 
-            // Update doctor information
             Doctor::where('id', $doctor->id)->update([
                 'phone_number' => $validated['phone_number'],
                 'city' => $validated['city'],
@@ -60,11 +58,9 @@ class DoctorProfileController extends Controller
             return redirect()->back()->with('success', 'Profile updated successfully');
         }
 
-        // Handle profile photo deletion
         if ($request->input('action') === 'delete_photo') {
             $doctor = Doctor::where('user_id', Auth::id())->first();
 
-            // Delete the physical file if it exists and is not the default image
             if ($doctor->profile_image && $doctor->profile_image !== 'doctor_profile/default-avatar.png') {
                 $imagePath = public_path($doctor->profile_image);
                 if (file_exists($imagePath)) {
@@ -72,7 +68,6 @@ class DoctorProfileController extends Controller
                 }
             }
 
-            // Reset the profile_image field to null in database
             $doctor->update([
                 'profile_image' => null
             ]);
@@ -80,18 +75,15 @@ class DoctorProfileController extends Controller
             return redirect()->back()->with('success', 'Profile photo deleted successfully');
         }
 
-        // Handle social media update
         if ($request->has(['facebook', 'linkedin', 'instagram'])) {
             $doctor = Doctor::where('user_id', Auth::id())->first();
 
-            // Validate social media URLs (all optional)
             $validated = $request->validate([
                 'facebook' => 'nullable|url|max:255',
                 'linkedin' => 'nullable|url|max:255',
                 'instagram' => 'nullable|url|max:255',
             ]);
 
-            // Update only the social media fields
             $doctor->update([
                 'facebook' => $validated['facebook'] ?: null,
                 'linkedin' => $validated['linkedin'] ?: null,
@@ -101,7 +93,6 @@ class DoctorProfileController extends Controller
             return redirect()->back()->with('success', 'Social media links updated successfully');
         }
 
-        // Check if this is only a profile photo update
         if ($request->hasFile('profile_photo') && count($request->all()) === 3) {
             $request->validate([
                 'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048'
@@ -109,12 +100,10 @@ class DoctorProfileController extends Controller
 
             $doctor = Doctor::where('user_id', Auth::id())->first();
 
-            // Handle the image upload
             if ($request->hasFile('profile_photo')) {
                 $image = $request->file('profile_photo');
                 $filename = time() . '.' . $image->getClientOriginalExtension();
 
-                // Delete old image if it exists and is not the default image
                 if ($doctor->profile_image && $doctor->profile_image !== 'doctor_profile/default-avatar.png') {
                     $oldImagePath = public_path($doctor->profile_image);
                     if (file_exists($oldImagePath)) {
@@ -122,10 +111,8 @@ class DoctorProfileController extends Controller
                     }
                 }
 
-                // Store the new image
                 $image->move(public_path('doctor_profile'), $filename);
 
-                // Update the profile_image column in database
                 $doctor->update([
                     'profile_image' => 'doctor_profile/' . $filename
                 ]);
@@ -163,7 +150,7 @@ class DoctorProfileController extends Controller
 
         $validated = $validator->validated();
 
-        // Update user password
+        // Update user password *********8
         User::where('id', Auth::id())->update([
             'password' => Hash::make($validated['new_password'])
         ]);

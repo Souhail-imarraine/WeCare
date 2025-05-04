@@ -8,10 +8,8 @@
 </head>
 <body class="bg-gray-50">
     <div class="min-h-screen flex">
-        <!-- Left Side - Form -->
         <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             <div class="max-w-md w-full space-y-8">
-                <!-- Logo -->
                 <div class="text-center">
                     <h1 class="text-4xl font-bold tracking-tight">
                         <span class="text-gray-900">W</span><span class="text-cyan-600">e</span>
@@ -26,7 +24,6 @@
                     </p>
                 </div>
 
-                <!-- Alert Messages -->
                 @if(session('error'))
                     <div class="rounded-md bg-red-50 p-4">
                         <div class="flex">
@@ -57,10 +54,8 @@
                     </div>
                 @endif
 
-                <!-- Login Form -->
                 <form class="mt-8 space-y-6" action="{{ route('login') }}" method="POST">
                     @csrf
-                    <!-- Role Selection -->
                     <div>
                         <label for="role" class="block text-sm font-medium text-gray-700 mb-1.5">I am a</label>
                         <select id="role" name="role" required
@@ -74,7 +69,6 @@
                         @enderror
                     </div>
 
-                    <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
                         <input type="email" id="email" name="email" required
@@ -85,7 +79,6 @@
                         @enderror
                     </div>
 
-                    <!-- Password -->
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
                         <input type="password" id="password" name="password" required
@@ -96,7 +89,6 @@
                         @enderror
                     </div>
 
-                    <!-- Remember Me -->
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember"
@@ -105,7 +97,6 @@
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
                     <div>
                         <button type="submit"
                             class="group relative flex w-full justify-center rounded-lg border border-transparent bg-cyan-600 py-3 px-4 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-colors duration-200">
@@ -121,7 +112,6 @@
             </div>
         </div>
 
-        <!-- Right Side - Image -->
         <div class="hidden lg:block relative w-0 flex-1">
             <img class="absolute inset-0 h-full w-full object-cover" src="{{ asset('img/register.svg') }}" alt="Medical illustration">
         </div>

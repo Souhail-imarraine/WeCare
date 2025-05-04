@@ -11,7 +11,7 @@ class PatientDoctorController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Doctor::query();
+        $query = Doctor::query()->where('status', 'approved');
 
         if ($request->has('search')) {
             $search = $request->search;

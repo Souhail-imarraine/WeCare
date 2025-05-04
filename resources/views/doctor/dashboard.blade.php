@@ -6,9 +6,9 @@
         <div class="flex items-center justify-between mb-6 lg:mb-8">
             <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
             <div class="flex items-center">
-                <span class="text-sm font-medium text-gray-700 mr-2">{{ Auth::user()->first_name ?? 'Doctor' }} {{ Auth::user()->last_name ?? '' }}</span>
-                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ Auth::user()->doctor->status === 'approved' ? 'bg-green-100 text-green-800' : (Auth::user()->doctor->status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
-                    {{ ucfirst(Auth::user()->doctor->status) }}
+                <span class="text-sm font-medium text-gray-700 mr-2">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
+                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $doctor->status === 'approved' ? 'bg-green-100 text-green-800' : ($doctor->status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
+                    {{ ucfirst($doctor->status) }}
                 </span>
             </div>
         </div>
@@ -26,8 +26,8 @@
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-bold text-gray-800">{{ $consultationsToday ?? '0' }}</div>
-                        <div class="text-sm text-gray-500">Consultation Today</div>
+                        <div class="text-3xl font-bold text-gray-800">{{ $consultationsToday }}</div>
+                        <div class="text-sm text-gray-500">Consultations Today</div>
                     </div>
                     <div class="text-cyan-500">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-bold text-gray-800">{{ $pendingRequests ?? '0' }}</div>
+                        <div class="text-3xl font-bold text-gray-800">{{ $pendingRequests }}</div>
                         <div class="text-sm text-gray-500">Pending Requests</div>
                     </div>
                     <div class="text-cyan-500">
@@ -54,7 +54,7 @@
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-bold text-gray-800">{{ $totalConsultations ?? '0' }}</div>
+                        <div class="text-3xl font-bold text-gray-800">{{ $totalConsultations }}</div>
                         <div class="text-sm text-gray-500">Total Consultations</div>
                     </div>
                     <div class="text-cyan-500">
@@ -68,7 +68,7 @@
             <div class="bg-white p-6 rounded-xl shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-bold text-gray-800">{{ $totalPatients ?? '0' }}</div>
+                        <div class="text-3xl font-bold text-gray-800">{{ $totalPatients }}</div>
                         <div class="text-sm text-gray-500">Total Patients</div>
                     </div>
                     <div class="text-cyan-500">
@@ -90,29 +90,29 @@
                                 <thead>
                                     <tr class="border-b">
                                         <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Patient</th>
-                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Start Time</th>
-                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">End Time</th>
-                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Action</th>
+                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Time</th>
+                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Type</th>
+                                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-700">
-                                    @forelse($todayAppointments ?? [] as $appointment)
+                                    @forelse($todayAppointments as $appointment)
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="py-3 px-4">
                                             <div class="flex items-center">
-                                                <img class="h-8 w-8 rounded-full object-cover mr-3" src="{{ $appointment->patient->profile_image ?? 'https://ui-avatars.com/api/?name=' . urlencode($appointment->patient->name) }}" alt="Patient Avatar">
-                                                <span>{{ $appointment->patient->name }}</span>
+                                                <img class="h-8 w-8 rounded-full object-cover mr-3" src="{{ asset('images/default-avatar.png') }}" alt="Patient Avatar">
+                                                <span>{{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}</span>
                                             </div>
                                         </td>
-                                        <td class="py-3 px-4">{{ $appointment->start_time }}</td>
-                                        <td class="py-3 px-4">{{ $appointment->end_time }}</td>
+                                        <td class="py-3 px-4">{{ $appointment->time_appointment }}</td>
+                                        <td class="py-3 px-4">{{ str_replace('_', ' ', $appointment->appointment_type) }}</td>
                                         <td class="py-3 px-4">
-                                            <button class="bg-cyan-500 text-white py-1 px-4 rounded-md text-sm font-medium hover:bg-cyan-600 transition duration-200 flex items-center">
-                                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
-                                                </svg>
-                                                Start
-                                            </button>
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full
+                                                {{ $appointment->status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                                                   ($appointment->status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                   'bg-yellow-100 text-yellow-800') }}">
+                                                {{ ucfirst($appointment->status) }}
+                                            </span>
                                         </td>
                                     </tr>
                                     @empty
@@ -127,7 +127,6 @@
                 </div>
             </div>
 
-            <!-- Patients Gender Chart (Right Side) -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900 mb-4">Patients Gender</h2>
@@ -138,12 +137,12 @@
                         <div class="flex items-center">
                             <span class="w-3 h-3 bg-cyan-500 rounded-full mr-2"></span>
                             <span>Male</span>
-                            <span class="ml-2 font-medium text-gray-800">{{ $malePercentage ?? '0' }}%</span>
+                            <span class="ml-2 font-medium text-gray-800">{{ $malePercentage }}%</span>
                         </div>
                         <div class="flex items-center">
                             <span class="w-3 h-3 bg-pink-500 rounded-full mr-2"></span>
                             <span>Female</span>
-                            <span class="ml-2 font-medium text-gray-800">{{ $femalePercentage ?? '0' }}%</span>
+                            <span class="ml-2 font-medium text-gray-800">{{ $femalePercentage }}%</span>
                         </div>
                     </div>
                 </div>
@@ -160,7 +159,7 @@
         type: 'doughnut',
         data: {
             datasets: [{
-                data: [{{ $malePercentage ?? 0 }}, {{ $femalePercentage ?? 0 }}],
+                data: [{{ $malePercentage }}, {{ $femalePercentage }}],
                 backgroundColor: [
                     '#06b6d4',
                     '#ec4899'

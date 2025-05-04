@@ -33,6 +33,15 @@ class DoctorAppointementController extends Controller
             $query->where('status', $statusFilter);
         }
 
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->whereHas('patient', function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
         $todayAppointments = AppointmentRequest::where('doctor_id', $doctor->id)
             ->whereDate('date_appointment', $today)
             ->count();
@@ -56,7 +65,8 @@ class DoctorAppointementController extends Controller
         $appointments = $query->with('patient')
             ->orderBy('date_appointment', 'desc')
             ->orderBy('time_appointment', 'desc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('doctor.appointments', compact(
             'todayAppointments',
