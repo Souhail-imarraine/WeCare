@@ -35,7 +35,7 @@ class DoctorAppointementController extends Controller
 
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
-            $query->whereHas('patient', function($q) use ($search) {
+            $query->whereHas('patientUser', function($q) use ($search) {
                 $q->where('first_name', 'like', "%{$search}%")
                   ->orWhere('last_name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%");
@@ -62,7 +62,11 @@ class DoctorAppointementController extends Controller
             ->where('status', 'cancelled')
             ->count();
 
-        $appointments = $query->with('patient')
+        $completedAppointments = AppointmentRequest::where('doctor_id', $doctor->id)
+            ->where('status', 'completed')
+            ->count();
+
+        $appointments = $query->with(['patientUser'])
             ->orderBy('date_appointment', 'desc')
             ->orderBy('time_appointment', 'desc')
             ->paginate(10)
@@ -74,10 +78,26 @@ class DoctorAppointementController extends Controller
             'confirmedAppointments',
             'pendingAppointments',
             'cancelledAppointments',
+            'completedAppointments',
             'appointments',
             'dateFilter',
             'statusFilter'
         ));
+    }
+
+    public function complete($id)
+    {
+        $appointment = AppointmentRequest::where('doctor_id', Auth::user()->id)
+            ->findOrFail($id);
+
+        if ($appointment->status !== 'confirmed') {
+            return redirect()->back()->with('error', 'Only confirmed appointments can be marked as completed.');
+        }
+
+        $appointment->status = 'completed';
+        $appointment->save();
+
+        return redirect()->back()->with('success', 'Appointment marked as completed successfully.');
     }
 
     public function destroy($id){

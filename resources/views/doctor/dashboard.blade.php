@@ -101,7 +101,13 @@
                                         <td class="py-3 px-4">
                                             <div class="flex items-center">
                                                 <img class="h-8 w-8 rounded-full object-cover mr-3" src="{{ asset('images/default-avatar.png') }}" alt="Patient Avatar">
-                                                <span>{{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}</span>
+                                                <span>
+                                                    @if($appointment->patientUser)
+                                                        {{ $appointment->patientUser->first_name }} {{ $appointment->patientUser->last_name }}
+                                                    @else
+                                                        <span class="text-gray-500">Patient not found</span>
+                                                    @endif
+                                                </span>
                                             </div>
                                         </td>
                                         <td class="py-3 px-4">{{ $appointment->time_appointment }}</td>

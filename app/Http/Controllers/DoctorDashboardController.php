@@ -91,7 +91,7 @@ class DoctorDashboardController extends Controller
     {
         $requests = AppointmentRequest::where('doctor_id', Auth::user()->doctor->id)
                                     ->where('status', 'pending')
-                                    ->with('patient.user')
+                                    ->with('patientUser')
                                     ->orderBy('created_at', 'desc')
                                     ->get();
 

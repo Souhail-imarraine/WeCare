@@ -13,7 +13,7 @@ class RequestController extends Controller
     {
         $doctor = Auth::user()->doctor;
 
-        $requests = AppointmentRequest::with(['patientUser', 'patientUser.patient'])
+        $requests = AppointmentRequest::with(['patientUser'])
         ->where('doctor_id', $doctor->id)
             ->where('status', 'pending')
             ->latest()

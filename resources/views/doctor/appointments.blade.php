@@ -59,8 +59,8 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-500">Confirmed</p>
-                        <h3 class="text-lg font-semibold text-gray-900">{{ $confirmedAppointments }}</h3>
+                        <p class="text-sm font-medium text-gray-500">Completed</p>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ $completedAppointments }}</h3>
                     </div>
                 </div>
             </div>
@@ -99,6 +99,7 @@
                             <input type="hidden" name="filter" value="{{ $dateFilter }}">
                             <select name="status" onchange="this.form.submit()" class="w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:text-sm">
                                 <option value="all" {{ $statusFilter === 'all' ? 'selected' : '' }}>All Status</option>
+                                <option value="completed" {{ $statusFilter === 'completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="pending" {{ $statusFilter === 'pending' ? 'selected' : '' }}>Pending</option>
                                 <option value="confirmed" {{ $statusFilter === 'confirmed' ? 'selected' : '' }}>Confirmed</option>
                                 <option value="cancelled" {{ $statusFilter === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
@@ -157,16 +158,20 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            {{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}
+                                            {{ $appointment->patientUser->first_name }} {{ $appointment->patientUser->last_name }}
                                         </div>
                                         <div class="text-sm text-gray-500">
-                                            {{ $appointment->patient->phone_number ?? 'No phone number' }}
+                                            @if($appointment->patientUser->patient)
+                                                {{ $appointment->patientUser->patient->phone_number ?? 'No phone number' }}
+                                            @else
+                                                No patient details
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($appointment->date_appointment)->format('M d, Y') }}, {{ $appointment->time_appointment }}</div>
+                                <div class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($appointment->date_appointment)->format('M d, Y') }}, {{ $appointment->time_appointment->format('g:i A') }}</div>
                                 <div class="text-sm text-gray-500">{{ $appointment->consult_duration }} minutes</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -177,7 +182,8 @@
                                     $statusColors = [
                                         'pending' => 'bg-yellow-100 text-yellow-800',
                                         'confirmed' => 'bg-green-100 text-green-800',
-                                        'cancelled' => 'bg-red-100 text-red-800'
+                                        'cancelled' => 'bg-red-100 text-red-800',
+                                        'completed' => 'bg-blue-100 text-blue-800'
                                     ];
                                     $statusColor = $statusColors[$appointment->status] ?? 'bg-gray-100 text-gray-800';
                                 @endphp
@@ -190,14 +196,16 @@
                                     <button class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Confirm</button>
                                     <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Cancel</button>
                                 @elseif($appointment->status == 'confirmed')
-                                    <button class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Start Session</button>
-                                    <button class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Reschedule</button>
-                                @elseif ($appointment->status == 'cancelled')
-                                <form action="{{ route('doctor.appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Delete</button>
-                                </form>
+                                    <form action="{{ route('doctor.appointments.complete', $appointment->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mr-3 transition duration-300 ease-in-out">Complete</button>
+                                    </form>
+                                @elseif($appointment->status == 'cancelled')
+                                    <form action="{{ route('doctor.appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Delete</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

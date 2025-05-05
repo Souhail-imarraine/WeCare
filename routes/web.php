@@ -75,6 +75,8 @@ Route::middleware(['auth', 'isDoctor'])->prefix('doctor')->name('doctor.')->grou
     Route::post('/requests/{id}/decline', [RequestController::class, 'decline'])->name('requests.decline');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+    Route::post('/appointments/{id}/complete', [DoctorAppointementController::class, 'complete'])->name('appointments.complete');
+
 });
 
 Route::middleware(['auth', 'isPatient'])->prefix('patient')->name('patient.')->group(function () {
