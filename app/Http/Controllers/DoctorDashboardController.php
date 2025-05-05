@@ -16,27 +16,22 @@ class DoctorDashboardController extends Controller
         $doctor = Doctor::where('user_id', Auth::id())->first();
         $today = Carbon::today();
 
-        // Today's consultations
         $consultationsToday = AppointmentRequest::where('doctor_id', $doctor->id)
             ->whereDate('date_appointment', $today)
             ->count();
 
-        // Pending requests
         $pendingRequests = AppointmentRequest::where('doctor_id', $doctor->id)
             ->where('status', 'pending')
             ->count();
 
-        // Total consultations
         $totalConsultations = AppointmentRequest::where('doctor_id', $doctor->id)
             ->where('status', 'confirmed')
             ->count();
 
-        // Total unique patients
         $totalPatients = AppointmentRequest::where('doctor_id', $doctor->id)
             ->distinct('patient_id')
             ->count('patient_id');
 
-        // Today's appointments with patient details
         $todayAppointments = AppointmentRequest::where('doctor_id', $doctor->id)
             ->whereDate('date_appointment', $today)
             ->with('patientUser')
@@ -94,7 +89,6 @@ class DoctorDashboardController extends Controller
                                     ->with('patientUser')
                                     ->orderBy('created_at', 'desc')
                                     ->get();
-
         return view('doctor.requests', compact('requests'));
     }
 }

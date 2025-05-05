@@ -53,7 +53,6 @@ class PatientController extends Controller
                 ->withInput();
         }
 
-        // Create the user
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -62,7 +61,6 @@ class PatientController extends Controller
             'role' => 'patient',
         ]);
 
-        // Create the patient profile
         $patient = Patient::create([
             'user_id' => $user->id,
             'gender' => $request->gender,
@@ -73,11 +71,8 @@ class PatientController extends Controller
             'phone_number' => $request->phone_number,
         ]);
 
-        // Log the user in
         Auth::login($user);
-
-        // Redirect to dashboard
-        // return "souhail success";
+        
         return redirect()->route('patient.dashboard')->with('success', 'Registration successful!');
     }
 }

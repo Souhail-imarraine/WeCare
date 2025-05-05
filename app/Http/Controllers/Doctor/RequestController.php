@@ -41,7 +41,7 @@ class RequestController extends Controller
     public function decline($id)
     {
         $request = AppointmentRequest::with(['patientUser'])
-            ->where('doctor_id', Auth::user()->doctor->id)
+        ->where('doctor_id', Auth::user()->doctor->id)
             ->findOrFail($id);
 
         if (!$request->patientUser) {

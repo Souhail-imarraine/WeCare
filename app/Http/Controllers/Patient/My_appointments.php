@@ -33,7 +33,6 @@ class My_appointments extends Controller
         }
 
         $availableSlots = $this->generateTimeSlots();
-
         return view('patient.appointments.reschedule', compact('appointment', 'availableSlots'));
     }
 
@@ -48,7 +47,6 @@ class My_appointments extends Controller
         }
 
         try {
-            // Update the appointment status to cancelled
             $appointment->update([
                 'status' => 'cancelled',
                 'updated_at' => now(),
