@@ -36,23 +36,23 @@ class AdminDashboardController extends Controller
                 ];
             });
 
-        $recentAppointments = AppointmentRequest::with(['patient', 'doctor.user'])
+        $recentAppointments = AppointmentRequest::with(['patientUser', 'doctor.user'])
             ->latest()
             ->take(5)
             ->get()
             ->map(function ($appointment) {
                 return [
                     'id' => $appointment->id,
-                    'patient_name' => $appointment->patient ?
-                        ($appointment->patient->first_name . ' ' . $appointment->patient->last_name) :
+                    'patient_name' => $appointment->patientUser ?
+                        ($appointment->patientUser->first_name . ' ' . $appointment->patientUser->last_name) :
                         'Unknown Patient',
                     'doctor_name' => $appointment->doctor && $appointment->doctor->user ?
                         ('Dr. ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name) :
                         'Unknown Doctor',
-                    'date' => $appointment->appointment_date,
-                    'time' => $appointment->appointment_time,
+                    'date' => $appointment->date_appointment,
+                    'time' => $appointment->time_appointment,
                     'status' => $appointment->status,
-                    'price' => $appointment->price
+                    'price' => $appointment->price ?? 0
                 ];
             });
 
@@ -72,7 +72,7 @@ class AdminDashboardController extends Controller
 
     public function appointments()
     {
-        $appointments = AppointmentRequest::with(['doctor.user', 'patient.user'])
+        $appointments = AppointmentRequest::with(['doctor.user', 'patientUser'])
             ->latest()
             ->paginate(10);
 
