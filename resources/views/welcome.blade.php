@@ -62,7 +62,7 @@
                     <div class="flex-none w-[300px] md:w-[320px] snap-start">
                         <div class="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
                             <div class="relative mb-6">
-                                <img src="{{ asset('storage/' . $doctor->profile_image) }}" alt="Doctor"
+                                <img src="{{ $doctor->profile_image ? asset($doctor->profile_image) : asset('images/default-avatar.png') }}" alt="Doctor"
                                     class="w-full h-[220px] object-cover rounded-xl">
                                 <div class="absolute top-4 right-4 bg-green-500 text-white text-sm px-3 py-1 rounded-full">Available</div>
                             </div>
@@ -80,7 +80,7 @@
                                     <span class="text-gray-600">({{ $doctor->city }})</span>
                                 </div>
                                 <div class="pt-4">
-                                    <a href="{{ route('doctor.profile', $doctor->id) }}" class="w-full py-3 text-white bg-cyan-500 rounded-xl hover:bg-cyan-600 transform hover:scale-105 transition duration-300 font-semibold block text-center">
+                                    <a href="{{ route('patient.profile', $doctor->id) }}" class="w-full py-3 text-white bg-cyan-500 rounded-xl hover:bg-cyan-600 transform hover:scale-105 transition duration-300 font-semibold block text-center">
                                         Book Consultation
                                     </a>
                                 </div>
