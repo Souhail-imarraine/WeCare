@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class My_appointments extends Controller
+class My_appointments
 {
     public function index()
     {

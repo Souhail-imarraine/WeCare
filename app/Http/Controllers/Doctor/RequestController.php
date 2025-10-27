@@ -7,7 +7,7 @@ use App\Models\AppointmentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RequestController extends Controller
+class RequestController 
 {
     public function index()
     {

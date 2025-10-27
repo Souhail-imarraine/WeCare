@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\User;
 
-class DoctorsAdminController extends Controller
+class DoctorsAdminController 
 {
     public function doctors(Request $request)
     {

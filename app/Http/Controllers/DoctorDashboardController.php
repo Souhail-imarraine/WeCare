@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class DoctorDashboardController extends Controller
+class DoctorDashboardController
 {
     public function index()
     {

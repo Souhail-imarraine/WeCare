@@ -6,7 +6,7 @@ use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class SpecialtyController extends Controller
+class SpecialtyController
 {
     public function generalPractitioner()
     {

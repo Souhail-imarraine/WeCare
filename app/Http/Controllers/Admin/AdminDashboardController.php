@@ -9,7 +9,7 @@ use App\Models\AppointmentRequest;
 use App\Models\User;
 use App\Models\Doctor;
 
-class AdminDashboardController extends Controller
+class AdminDashboardController
 {
     public function index()
     {

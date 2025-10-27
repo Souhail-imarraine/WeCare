@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class DoctorRegisterController extends Controller
+class DoctorRegisterController
 {
     public function showRegistrationForm()
     {

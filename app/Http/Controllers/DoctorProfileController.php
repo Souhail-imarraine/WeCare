@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class DoctorProfileController extends Controller
+class DoctorProfileController
 {
     public function settings()
     {

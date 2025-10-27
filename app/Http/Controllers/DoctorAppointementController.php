@@ -7,7 +7,7 @@ use App\Models\AppointmentRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class DoctorAppointementController extends Controller
+class DoctorAppointementController
 {
     public function index(Request $request)
     {

@@ -8,7 +8,7 @@ use App\Mail\DoctorApprovalMail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DoctorRejectionMail;
 
-class RequestAdminController extends Controller
+class RequestAdminController
 {
     public function index()
     {

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class PatientController extends Controller
+class PatientController 
 {
     public function showRegistrationForm()
     {
@@ -72,7 +72,7 @@ class PatientController extends Controller
         ]);
 
         Auth::login($user);
-        
+
         return redirect()->route('patient.dashboard')->with('success', 'Registration successful!');
     }
 }

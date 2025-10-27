@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AppointmentRequest;
 use Carbon\Carbon;
 
-class PatientBookFollowupContoller extends Controller
+class PatientBookFollowupContoller
 {
     public function bookFollowUp(Doctor $doctor)
     {

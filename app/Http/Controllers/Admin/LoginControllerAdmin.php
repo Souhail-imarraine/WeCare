@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class LoginControllerAdmin extends Controller
+class LoginControllerAdmin 
 {
     public function showLoginForm()
     {
@@ -28,7 +28,7 @@ class LoginControllerAdmin extends Controller
         }
 
         $credentials = $request->only('email', 'password');
-        
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 

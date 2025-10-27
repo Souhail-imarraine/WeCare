@@ -7,7 +7,7 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class DoctorRequestsController extends Controller
+class DoctorRequestsController 
 {
     public function index()
     {

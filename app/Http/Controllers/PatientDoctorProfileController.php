@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class PatientDoctorProfileController extends Controller
+class PatientDoctorProfileController
 {
     /**
      * Display the doctor's profile.

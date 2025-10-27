@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
-class AdminPatients extends Controller
+class AdminPatients 
 {
     public function patients()
     {
